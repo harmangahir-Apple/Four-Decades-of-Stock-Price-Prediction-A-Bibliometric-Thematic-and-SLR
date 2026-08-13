@@ -1,0 +1,12 @@
+﻿Leakage_Signal,Studies,Share_of_493
+Global scaling,17,3.4
+Full-dataset feature selection,6,1.2
+Random or shuffled splitting,5,1.0
+Test-set tuning,2,0.4
+Overlapping windows,1,0.2
+Label look-ahead,1,0.2
+Text-timing problem,1,0.2
+Future-aware imputation,1,0.2
+Test-set-fitted transformation,1,0.2
+No explicit passage-verified signal identified,7,1.4
+Specific leakage mechanism not classifiable,455,92.3

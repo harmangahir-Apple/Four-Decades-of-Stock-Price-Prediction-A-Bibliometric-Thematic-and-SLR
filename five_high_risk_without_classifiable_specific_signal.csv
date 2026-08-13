@@ -1,0 +1,6 @@
+﻿Paper_ID,Leakage_Signals,Leakage_Risk,Validation_Design,Preprocessing_Boundary,Chronological_Split
+P00022,Unclear,High,Chronological_Holdout,Full_Dataset,Yes
+P00321,Unclear,High,Rolling_Window,Unclear,Yes
+P00509,Unclear,High,Random_Shuffled,Unclear,No
+P00601,Unclear,High,Unclear,Unclear,Unclear
+P02642,Unclear,High,Random_Shuffled,Unclear,No

@@ -1,0 +1,30 @@
+﻿Paper_ID,Field,Previous_Value,Corrected_Value
+P00022,Preprocessing_Boundary,Full_Dataset,Unclear
+P00022,Leakage_Signals,Unclear,Unclear
+P00022,Leakage_Risk,High,Unclear
+P00022,Final_Leakage_Rationale,,"Min-Max normalization was reported, but the available passage did not establish that it was fitted before splitting or on the complete dataset. Global scaling and full-dataset preprocessing were therefore not confirmed."
+P00321,Validation_Design,Rolling_Window,Rolling_Window
+P00321,Chronological_Split,Yes,Yes
+P00321,Preprocessing_Boundary,Unclear,Unclear
+P00321,Leakage_Signals,Unclear,Future_Aware_Imputation
+P00321,Leakage_Risk,High,High
+P00321,Final_Leakage_Rationale,,"Missing-value imputation used information from preceding and subsequent periods. This creates a future-aware input-construction mechanism, although it is not label look-ahead."
+P00509,Validation_Design,Random_Shuffled,Rolling_Window
+P00509,Chronological_Split,No,Yes
+P00509,Preprocessing_Boundary,Unclear,Unclear
+P00509,Leakage_Signals,Unclear,Unclear
+P00509,Leakage_Risk,High,Unclear
+P00509,Final_Leakage_Rationale,,The article explicitly described a rolling-window design used instead of random splitting and stated that past observations were used to predict future values. No specific leakage mechanism remained established.
+P00601,Validation_Design,Unclear,Unclear
+P00601,Chronological_Split,Unclear,Unclear
+P00601,Preprocessing_Boundary,Unclear,Unclear
+P00601,Decomposition_FS_Timing,Mixed_Boundaries,Mixed_Boundaries
+P00601,Leakage_Signals,Unclear,Test_Set_Fitted_Transformation
+P00601,Leakage_Risk,High,High
+P00601,Final_Leakage_Rationale,,Standardization and PCA were fitted separately on the test set. The resulting test representation therefore used test-distribution information rather than an unchanged training-fitted transformation.
+P02642,Validation_Design,Random_Shuffled,Random_Shuffled
+P02642,Chronological_Split,No,No
+P02642,Preprocessing_Boundary,Unclear,Unclear
+P02642,Leakage_Signals,Unclear,Random_Split
+P02642,Leakage_Risk,High,High
+P02642,Final_Leakage_Rationale,,"The article explicitly stated that training observations were divided randomly into ten subsets and evaluated using tenfold cross-validation, which is temporally invalid for stock-market forecasting."
