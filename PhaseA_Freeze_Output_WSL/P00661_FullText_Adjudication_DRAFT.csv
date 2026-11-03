@@ -1,0 +1,13 @@
+﻿Study_ID,Excel_Column,Field,Existing_Value,Proposed_Value,Adjudication_Status,Evidence_Location
+P00661,G,DOI,10.1109/itc-cscc66376.2025.11137719,10.1109/ITC-CSCC66376.2025.11137719,SOURCE_VERIFIED,PDF p.1
+P00661,I,Evidence_Scope,Abstract_Only,Full_Text,SOURCE_VERIFIED,PDF pp.1-4
+P00661,J,Principal_Method_Family,Hybrid deep-learning models,Deep-learning models,SOURCE_VERIFIED_PROPOSED,PDF pp.1-3
+P00661,K,Target_Primary,Price,Price,SOURCE_VERIFIED,"PDF pp.1,3-4"
+P00661,L,Learning_Formulation,Regression,Regression,SOURCE_VERIFIED,PDF p.3
+P00661,M,Forecast_Horizon,Not_Reported,Not_Reported,RETAIN_OR_CORRECT_IF_NEEDED,PDF pp.1-4
+P00661,N,Asset_Scope,Multiple_Stocks,Single_Stock,SOURCE_VERIFIED,"PDF pp.1,4"
+P00661,O,Market_Country,"Chinese stocks 600,719.SS and 000679.SZ (Yahoo Finance)",United States; NVIDIA (NVDA),SOURCE_VERIFIED_PROPOSED,"PDF pp.1,4"
+P00661,P,Dataset_Source,"Chinese stocks 600,719.SS and 000679.SZ (Yahoo Finance)",NVIDIA historical stock data; Kaggle dataset cited in reference [9],SOURCE_SUPPORTED_WITH_PROVENANCE_LIMITATION,PDF p.4
+P00661,Q,Sampling_Frequency,Not_Reported,Monthly,SOURCE_VERIFIED,"PDF pp.1,4"
+P00661,R,Raw_Input_Features,"Technical indicators (e.g., MACD, RSI) and fundamental data (e.g., P/E ratio, profitability)",Historical NVIDIA monthly closing prices; univariate price series,SOURCE_VERIFIED,PDF pp.1-3
+P00661,AU,Evidence_Location,Abstract_Only,"Original IEEE full text, P00661.pdf, pp.1-4",DRAFT_PROVENANCE_UPDATE,PDF pp.1-4

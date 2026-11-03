@@ -1,0 +1,25 @@
+﻿Principal_Method_Family,Validation_Status,Count
+ANN/neuro-fuzzy models,Temporally ordered,1
+Deep-learning models,Random/shuffled,1
+Deep-learning models,Temporally ordered,12
+Deep-learning models,Unclear,102
+Ensemble/tree-based machine learning,Random/shuffled,1
+Ensemble/tree-based machine learning,Temporally ordered,8
+Ensemble/tree-based machine learning,Unclear,24
+Graph-based models,Temporally ordered,4
+Graph-based models,Unclear,12
+Hybrid deep-learning models,Random/shuffled,1
+Hybrid deep-learning models,Temporally ordered,14
+Hybrid deep-learning models,Unclear,94
+Metaheuristic-optimized models,Temporally ordered,8
+Metaheuristic-optimized models,Unclear,43
+Multimodal-fusion models,Unclear,12
+Other/unclear,Temporally ordered,1
+Other/unclear,Unclear,1
+Sentiment/NLP-driven models,Random/shuffled,1
+Sentiment/NLP-driven models,Temporally ordered,15
+Sentiment/NLP-driven models,Unclear,61
+Statistical/econometric models,Unclear,1
+Transformer/attention-based models,Random/shuffled,2
+Transformer/attention-based models,Temporally ordered,18
+Transformer/attention-based models,Unclear,48

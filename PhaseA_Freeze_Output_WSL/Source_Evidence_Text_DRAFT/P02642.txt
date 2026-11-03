@@ -1,0 +1,552 @@
+     Predicting Stock Market Movements with Social Media and Machine
+                                Learning
+
+                                                                        a                                                      b
+                                 Paraskevas Koukaras                        , Vasiliki Tsichli and Christos Tjortjis
+                                     School of Science and Technology, International Hellenic University,
+                                   14th km Thessaloniki–N. Moudania, Thermi, 57001, Thessaloniki, Greece
+
+
+
+
+Keywords:            Social Media, Prediction, Machine Learning, Data Science, Stocks.
+
+Abstract:            Microblogging data analysis and sentiment extraction has become a popular approach for market prediction.
+                     However, this kind of data contain noise and it is difficult to distinguish truly valid information. In this work
+                     we collected 782.459 tweets starting from 2018/11/01 until 2019/31/07. For each day, we create a graph
+                     (271 graphs in total) describing users and their followers. We utilize each graph to obtain a PageRank score
+                     which is multiplied with sentiment data. Findings indicate that using an importance-based measure, such
+                     as PageRank, can improve the scoring ability of the applied prediction models. This approach is validated
+                     utilizing three datasets (PageRank, economic and sentiment). On average, the PageRank dataset achieved a
+                     lower mean squared error than the economic dataset and the sentiment dataset. Finally, we tested multiple
+                     machine learning models, showing that XGBoost is the best model, with the random forest being the second
+                     best and LSTM being the worst.
+
+
+
+1       INTRODUCTION                                                                        1964) who built on top of Markowitz’s diversifica-
+                                                                                            tion theory. The model is fairly simple and is based
+Stock market forecasting is an important academic                                           on stock return sensitivity exhibited over the systemic
+topic, which has attracted academic interest since the                                      risk (or market risk). It is quantitatively expressed
+early 1960’s (Fama, 1965). Although a lot of effort                                         with a beta (β) factor.
+and time has been spent on predicting financial time                                            CAPM measures the return of a stock in accor-
+series, the results of the research are not robust. In re-                                  dance with the market risk. Every other risk that
+cent years a lot of researchers have shifted their focus                                    stems from the stock itself can be diversified as
+from classical econometric approaches to machine                                            Markowitz proved in the portfolio theory. Thus, there
+learning approaches. With the rise of microblogging                                         is no point in measuring it. Although CAPM has been
+platforms, such as Twitter, StockTwits and others, in-                                      a fundamental decision making tool for asset man-
+formation is more available than ever. Given that                                           agers, it has been criticized by academics due to its
+emotions can have a significant effect on economic                                          nature. It has been proven that the model is not robust
+decisions (Bollen et al., 2011), alongside with herding                                     and that it fails to give accurate results consistently.
+phenomena (Devenow and Welch, 1996), one can as-                                            Fama and French (Fama and French, 1993) stated that
+sume that mining information through microblogging                                          the model is not robust and that a model that takes
+platforms might be the key to achieve better results in                                     into account the size and the ratio of accounting over
+predicting stock market movements.                                                          stock market value is more accurate. Their research
+    Stock market forecasting has drawn a lot of aca-                                        prompted others to start looking for factors that may
+demic attention since the 1960’s. The first model                                           be affecting the returns of a stock. This gave birth
+that revolutionized how the stock was evaluated is the                                      to a whole new way of evaluating a stock, which is
+Capital Asset Pricing Model (or CAPM for short).                                            called technical analysis. Technical analysis is based
+CAPM was developed1 by William Sharpe (Sharpe,                                              on ratios and indicators that capture the momentum of
+                                                                                            the stock market. Although technical analysis is not
+    a   https://orcid.org/0000-0002-1183-9878                                               based purely on academic research, it is extensively
+    b   https://orcid.org/0000-0001-8263-9024                                               used and it is a common practice.
+    1 There is a dispute on who deserves credit about CAPM,
+for more information check (Treynor, 1962)
+
+
+436
+Koukaras, P., Tsichli, V. and Tjortjis, C.
+Predicting Stock Market Movements with Social Media and Machine Learning.
+DOI: 10.5220/0010712600003058
+In Proceedings of the 17th International Conference on Web Information Systems and Technologies (WEBIST 2021), pages 436-443
+ISBN: 978-989-758-536-4; ISSN: 2184-3252
+Copyright c 2021 by SCITEPRESS – Science and Technology Publications, Lda. All rights reserved
+                                                     Predicting Stock Market Movements with Social Media and Machine Learning
+
+
+
+
+    In recent years there has been a lot of effort to con-      2.1.1   Twitter Data
+struct indicators or ratios based on the information of
+the microblogging community. Essentially, those in-             We are interested in two categories of data, the tweets
+dicators provide an overall sentiment over the mar-             and the users that wrote those tweets. The main prob-
+ket or a particular stock. Thus, the trader can have            lem reported in the literature is the noisy nature of
+a more objective metric about the ”feelings”. More-             Twitter data (Rousidis et al., 2019; Koukaras et al.,
+over, this data might contain useful information that           2019; Koukaras and Tjortjis, 2019; Beleveslis et al.,
+otherwise would be unavailable. On the other hand,              2019; Oikonomou and Tjortjis, 2018). To overcome
+this approach contradicts with one of the most funda-           this problem, we used the ”cashtag” or ”$” in the
+mental economic theories, the Efficient Market Hy-              tweets, which as (Chakraborty et al., 2017) notes, is
+pothesis. As Fama (Fama, 1965) suggested, the price             more suited for gathering stock related data.
+of a given stock embodies all the prior available infor-            In total 782.459 tweets were downloaded starting
+mation and it is impossible to forecast future values           from December, 1st of 2018 until July, 31st of 2019.
+since the current ones reflect everything. Moreover,            Form these, we take all the tweets authors’ usernames
+in efficient-market hypothesis (EMH), it is believed            and gather metrics for them. These metrics are used
+that the market adjusts the prices instantly as the news        when we are checking the validity of our data. We
+spread. Fama (Fama, 1965) also noted that the most              also gather all users’ followers, a metric that is going
+probable future price is the current price. Neverthe-           to be used in the graph module. The module for gath-
+less, recent empirical research provided evidence that          ering Twitter data is built upon a library called Twint.
+sentiment plays an important role and can act as a de-          This library can provide tweets, users’ statistics (fol-
+termining factor of the stock market returns.                   lowers, following, likes, etc.) and also, it can gather
+    One of the biggest problems encountered by the              users’ followers. Moreover, it also has a built-in func-
+researchers that used data from Twitter of other rele-          tion for storing those data directly to a database.
+vant sources is that they are noisy (See-To and Yang,
+2017; Alshahrani Hasan and Fong, 2018), thus yield-             2.1.2   Economic Variables
+ing spurious results. To deal with that problem, the
+authors either choose a specific news source, such              Economic variables can act as predictors. These vari-
+as MarketWatch (Hájek, 2018) or Thomson Reuters                ables may vary from a fundamental analysis of a com-
+(Mittermayer and Knolmayer, 2006) but this approach             pany’s balance sheet to technical indicators specially
+might lead to overlooking important information. An-            designed to capture specific events. In this work,
+other issue is that they use a lot of data which might          we chose to use technical indicators for multiple rea-
+hinder their research in terms of efficiency and statis-        sons. First, technical analysis is based on examining
+tical robustness (Antweiler and Frank, 2004).                   a stock’s trend and constitutes a more robust tool for
+    Our objective is to provide a more efficient way            prediction. Moreover, one of the core principles of
+of handling those massive data, by looking for and              technical analysis is that a stock’s price reflects all the
+distinguishing those data that matter the most. To              available information. Thus, it is focused more on
+achieve that, we use graphs that are constructed based          past behavior of the market. Although technical anal-
+on users and their data accordingly. We believe that            ysis has been dismissed by academics (Malkiel and
+our approach solves the problem of noisy microblog-             Fama, 1970), many of the leading trading companies
+ging data, without disregarding any useful informa-             use technical indicators to identify signals and trends
+tion that might exist. Given our hypothesis we ex-              on time. On the same line, we concluded that techni-
+pect that the dataset which accounts for the noise in           cal indicators are more suited for our research. Since
+the data have a better score than the simple sentiment          they do not focus on news events, our final dataset will
+dataset.                                                        be more balanced with features that capture different
+                                                                aspects of trading. From all the available technical in-
+                                                                dicators, we opted for five of the most common ones:
+2     METHODOLOGY                                               1. The Aroon Oscillator is a trend indicator that mea-
+                                                                   sures the power of an ongoing trend and the prob-
+                                                                   ability to proceed by using elements of the Aroon
+2.1    Data
+                                                                   Indicator (Aroon Up and Aroon Down). Readings
+                                                                   above zero show an upward trend, while readings
+In this section we present how we gathered Twitter
+                                                                   below zero show a downward trend. To signal
+data. Then, we provide an overview of the utilized
+                                                                   prospective trend changes, traders watch for zero
+economic variables and the reasoning behind these
+                                                                   line crossovers (Mitchell, 2019).
+choices.
+
+
+                                                                                                                        437
+WEBIST 2021 - 17th International Conference on Web Information Systems and Technologies
+
+
+
+
+2. The CCI was created to determine the rates of                   HITS algorithms are implemented in the NetworkX
+   over-bought and over-sold stocks. This is done                  library (Hagberg et al., 2008).
+   by evaluating the price-to-moving average (MA)                       PageRank and HITS are two algorithms that are
+   relationship or by evaluating ordinary deviations               often used to measure the importance of nodes on di-
+   from that median (Kuepper, 2019).                               rected graphs. Both of the algorithms were designed
+3. On-balance volume (OBV) is a momentum indi-                     to rank websites. The PageRank algorithm is a recur-
+   cator that measures positive and negative volume                sive algorithm. An internet page is important if and
+   flows (Staff, 2019).                                            only if other important pages are linked with it. As
+                                                                   it is usually described, a website’s score is the proba-
+4. The RSI is a momentum index measuring the                       bility of any random person browsing the web ending
+   magnitude of the latest price modifications that                up on this website. This is by definition a Markov
+   is used to assess which stocks are over-bought or               Process. Markov Processes model recursive phenom-
+   over-sold. The RSI is an oscillator. Traditionally,             ena, such as the weather. The PageRank algorithm
+   traders interpret a score of 70 or higher as a sign             starts with a set of websites (denoting the number of
+   that a stock is overbought or overestimated, lead-              those websites with N). On each website, we assign a
+   ing to a trend reversal. An RSI of 30 or lower sig-             score of 1/N. Afterwards, we sequentially update the
+   nals that a stock is undervalued (Blystone, 2019).              score of each website by adding up the weight of ev-
+5. The Stochastic Oscillator attempts to predict price             ery other website that links to it divided by the number
+   turning points by comparing the last closing price              of links emanating from the referring website. But if
+   of a security to its price range. It takes values from          the website does not reference any other website, we
+   0 up to 100. A value of 70 or higher signals an                 distribute its score to the remaining websites. This
+   overbought security.                                            process is executed until the scores are stable.
+                                                                        The Hypertext-Induced Topic Search (HITS) al-
+    These indicators were chosen for two main rea-
+                                                                   gorithm provides two scores, the ”Authority” and the
+sons. i) They are very robust and are extensively used
+                                                                   ”Hub”. We tried to compute the HITS algorithm, but
+in the industry and ii) they belong to the special cat-
+                                                                   the algorithm never achieved convergence. Since we
+egory of ”Oscillators”. These are indicators that fluc-
+                                                                   wanted to compute the hubs and the authorities for
+tuate within a range, commonly used to capture short
+                                                                   each day in our sample, the recursiveness of the al-
+term trends. Our sample period ranges from Decem-
+                                                                   gorithm poses a significant barrier. On the computing
+ber, 1st of 2018 to July, 31st of 2019. This period is
+                                                                   part, for each date, we needed to create a graph that
+characterized by high fluctuations and small but pow-
+                                                                   references the follower relationships of the users. We
+erful shocks (Trade War, No Deal Brexit, etc.). Thus,
+                                                                   are also interested in tweets posted between Decem-
+we believe that by using such variables will provide
+                                                                   ber, 1st of 2018 and July, 31st of 2019, thus creating
+more accurate results instead of using fundamental
+                                                                   242 graphs.
+analysis. Finally, to collect the economic variables,
+we used the API of Alpha Vantage.                                  2.2.2    Sentiment Analysis
+
+2.2     Research Design                                            Lexicon analysis outperforms other methodologies
+                                                                   (Sohangir et al., 2018). In our approach, we used
+This section summarizes the main processes for con-                VADER (Valence Aware Dictionary and sEntiment
+ducting this research. At first, we designed a users               Reasoner) (Hutto and Gilbert, 2014) and TextBlob.
+Graph to obtain their importance incorporating the                 Both of these tools are part of the nltk library. VADER
+PageRank algorithm (Page et al., 1999). Afterwards,                analyzer returns four scores, the negative, the positive,
+we analyzed the obtained tweets using two different                the neutral and the compound score. TextBlob returns
+lexicons. Lastly, we estimated five different machine              two scores, the polarity (which should be very close to
+learning models.                                                   the compound score) and the subjectivity. We decided
+                                                                   to use all of these variables as features in our models
+2.2.1   Identifying Influential Users
+                                                                   allowing us to compare those two analyzers. Further-
+                                                                   more, to achieve better accuracy on the scores, the
+To identify influential users we generated a graph, we             tweets must be stripped from any special characters.
+computed the PageRank score for each edge as well                  More specifically, tweets often contain Unicode char-
+as the hub and authority scores. The Graph class is                acters such as the non-breaking space. These char-
+fairly simple and is based on the NetworkX library                 acters should be normalized so as not to negatively
+(Hagberg et al., 2008). Moreover, the PageRank and                 affect the scoring of the analyzers.
+
+
+
+438
+                                                    Predicting Stock Market Movements with Social Media and Machine Learning
+
+
+
+
+2.2.3   Machine Learning Models                                make any assumptions about the distribution of the
+                                                               data. k-NN is a fairly simple model that calculates
+Decision Tree. The Decision Tree (DT) builds re-               similarities based on the distances between the data
+gression or classification models in the form of a             points. When a new entry needs to be classified, the
+tree structure. This means that the model breaks the           algorithm measures the distances between the new
+dataset into smaller subsets by asking different ques-         data and the already classified data. Then, the new en-
+tions each time. The final result is a tree with deci-         try is assigned to the class that has the minimum dis-
+sion nodes and leaf nodes. A decision node has two             tance to the new data point. There are multiple meth-
+or more branches (Decisions), each one representing            ods to measure the distance, such as the Euclidean or
+values for the attribute that was tested. Leaf nodes           the Manhattan distance.
+(Terminal Nodes) represent decisions on the numer-
+ical targets. The questions and their order is deter-          LSTM. Simple neural networks cannot understand
+mined by the model itself using Information Gain (for          the context and the order of data. For that, we need
+classification) or ID3 (for regression) (Tzirakis and          some sort of memory. Recurrent neural networks are
+Tjortjis, 2017; Tjortjis and Keane, 2002). For each            a special form of neural networks where their units
+question, the model must make a strategic split using          are inter-connected creating various output value de-
+a criterion. Decision trees are not affected by miss-          pendencies (Hochreiter, 1991). RNNs are extremely
+ing values or outliers. They can handle both numer-            important and have been successfully used in a lot of
+ical and categorical values and they are very easy to          applications, such as speech recognition. But, RNNs
+understand. Also, trees can capture non-linear rela-           suffer from the vanishing gradients problem. This
+tionships. There are some disadvantages though. The            problem refers to the hidden neuron activation func-
+most important one is that they tend to overfit to the         tions. If those functions are saturating non-linearities,
+training sample. A small difference in data might pro-         like the tanh function, then the derivatives can be very
+duce a completely different tree. Lastly, there is no          small, even close to zero. Multiplying many such
+guarantee that the tree will be the global optimal.            derivatives leads to zero meaning that the neural net-
+                                                               work cannot propagate back for too many instances.
+Random Forest. Random Forest (RF) is another                       Hochreiter & Schmidhuber (Hochreiter and
+method that uses a tree structure to solve a regression        Schmidhuber, 1997) introduced another kind of re-
+or a classification problem. A random forest is a col-         current neural networks, the long short term memory
+lection of decision trees, with each tree voting on the        (LSTM). Those models have the same ”chain-like”
+final decision. In the training phase, each tree on the        structure, but the module responsible for the ”repeti-
+forest considers only a random sample of the data. In          tion” part has a different structure. In a classic RNN,
+the prediction phase, each tree makes a prediction and         the repetition module is a neural network with a hid-
+the average of all of the trees will be considered as the      den layer, usually with tanh as the activation function.
+final value.                                                   On an LSTM, instead of having a single hidden layer,
+                                                               there are four. On the first stage or gate, the neural
+XGBoost. Boosting and bagging are two methods                  network decides which information to discard from
+commonly used in weak prediction trees, such as de-            the cell state. On the second stage, the model incor-
+cision trees, to improve their performance. Those two          porates the new information and decides what to keep
+methods work sequentially, meaning that a new model            and what to discard. The model updates the old cell
+is added to correct the error of the existing models un-       state into the new cell state. In the third stage, the
+til no further improvements can be made. XGBoost               model discards the old information and adds new in-
+(eXtreme Gradient Boosting) is a method where new              formation. In this stage, the candidate values are es-
+models are created, predicting the residuals or errors         timated. Lastly, the output values depend on the state
+of existing models and then, they are added together           of the first and the third layer.
+to make the final prediction. Its name comes from the
+algorithm used to minimize the loss function, which
+is called gradient descent.                                    3    RESULTS & EVALUATION
+K-Nearest Neighbors. k-Nearest Neighbors (k-                   This section presents the results of this research. We
+NN) is one of the most basic and essential machine             present the feature selection and the summary of the
+learning algorithms. Like the trees, it belongs to             results per dataset (Sentiment, Economic and PageR-
+the supervised machine learning algorithms. k-NN               ank) and per model (DT, k-NN, LSTM, RF and XG-
+is a non-parametric method, meaning that it does not           Boost).
+
+
+                                                                                                                       439
+WEBIST 2021 - 17th International Conference on Web Information Systems and Technologies
+
+
+
+
+                                                                    1. At the end of each day we sell the stocks that are
+                                                                       predicted to have a loss in the next day.
+                                                                    2. We buy the stocks that are predicted to have a pos-
+                                                                       itive return.
+                                                                    3. We choose to buy the one that maximizes the re-
+                                                                       turn and we do not take into account variance, es-
+                                                                       timated error or diversification effects.
+                                                                    4. In the next day we first update the prices and then
+                                                                       we calculate gains or losses.
+
+                                                                   3.2 Feature Selection
+Figure 1: Average Mean Squared Error per Model per
+Dataset.                                                           This section describes the created features, as well as
+                                                                   the descriptive statistics of those features per ticker.
+    All of the scores refer to the mean squared error,             It is noted that all of the variables are not available
+thus the best score is the lowest (Figure 1). We evalu-            for the day we want to predict, thus all the created
+ate our results using a naive trading strategy and com-            features are values of previous days. Since there is no
+paring it across all datasets regarding our stocks port-           consensus on the literature on which time lag is the
+folio (Table 1).                                                   most important, for every variable we created the lags
+                                                                   from 1 to 3 days prior (Bollen et al., 2011).
+                  Table 1: Initial Portfolio.                           One major aspect of this paper is to determine if
+                                                                   the sentiment data are noisy and how this can be re-
+         Ticker     Quantity      Price     Amount
+         AAPL          1          204,5      204,5                 deemed. Therefore, we decided to create three differ-
+          CAT          1         139,09     139,09                 ent datasets. The first dataset contains the lagged eco-
+           HD          1         217,26     217,26                 nomic variables and the lags of closing prices from
+         UNH           1         264,66     264,66                 previous days. The second dataset contains all the
+         XOM           1          75,93      75,93                 features of the economic dataset as well as the sen-
+          IBM          1         143,53     143,53                 timent data. Lastly, the PageRank dataset contains all
+          TRV          1         154,59     154,59
+                                                                   of the features from the sentiment dataset, but the sen-
+            V          1         179,31     179,31
+           BA          1         362,75     362,75                 timent variables are multiplied by the PageRank value
+         INTC          1          49,17      49,17                 for each user.
+           GS          1         215,52     215,52                      One major drawback of calculating daily PageR-
+           JNJ         1          132,5      132,5                 ank values for each user is that the algorithm does not
+         WBA           1          55,81      55,81                 always estimate the importance for all of the users.
+         DOW           1          52,32      52,32                 Thus, we decided to fill all those dates with the mean
+           VZ          1          57,41      57,41
+          JPM          1         115,12     115,12
+                                                                   value for each user. After that process, we fill all the
+           PG          1         115,89     115,89                 residual non-estimated PageRank values with 0. This
+           KO          1          52,14      52,14                 is done since the aim is to have a timely importance
+         MSFT          1         137,08     137,08                 measure for the user. In cases where this was not fea-
+         CVX           1         124,76     124,76                 sible, we theorized that the number of the user follow-
+         MRK           1          81,59      81,59                 ers does not significantly alter from day to day. There-
+         CSCO          1          57,62      57,62                 fore, we considered logical to proceed with filling any
+         UTX           1         133,19     133,19
+         MMM           1         176,49     176,49                 missing values with their respective mean. Lastly, if
+         WMT           1         114,76     114,76                 there was no mean, the PageRank algorithm did not
+         MCD           1         213,72     213,72                 find any importance in the user for any day. Thus we
+          PFE          1          42,85      42,85                 filled the residual empty values with 0 marking them
+          AXP          1         128,06     128,06                 as noisy and not important.
+          DIS          1          144,3      144,3
+                                                                   3.3 Economic Dataset Evaluation
+3.1    The Trading Strategy
+                                                                   We began with the evaluation of results for the eco-
+For evaluating results we utilize a naive trading strat-           nomic dataset and the XGBoost model. Our pre-
+egy comprising the following points:                               dictions suggested that we should sell MRK, MCD,
+
+
+440
+                                                    Predicting Stock Market Movements with Social Media and Machine Learning
+
+
+
+
+MSFT, V, PFE, DOW, JNJ, WMT, DIS, BA, HD,                      every day. We ended up having two stocks, that of
+AXP, CAT, IBM, TRV, MMM, JPM, AAPL, NKE,                       XOM’s and Intel’s on 25/7/19. From this point and
+KO, CSCO, GS, and PG and buy four shares of In-                afterwards, the predictions showed that Intel’s stock
+tel’s stock. Our predictions proved correct and Intel’s        would have a positive return, so we held on to our
+stock recorded a gain, so our portfolio had a total eval-      stocks. This never happened, and our overall return
+uation of 4.041, 61$. Our decisions for 2019/7/18              was negative, resulting in a loss of −122$ or −3, 03%.
+also proved correct and, again, we recorded a gain of              Table 2 aggregates daily transactions to top
+0, 30%. On the contrary, for 2019/7/19 our decisions           daily losses and gains for the investigated period
+lead to a negative return of −0, 47%. The biggest gain         (2018/11/01 until 2019/31/07) as well as the cumu-
+was observed on 2019/7/30 with a daily return of               lative returns per dataset. Positive values stand for
+1, 87%. Our worst day was the next day, where we               gains and negative values for losses.
+lost most of our gains (-75, 99$). Finally, our cumula-
+tive return for the whole period was positive, 0, 75%.         Table 2: Top daily Losses & Gains and Cumulative Returns
+                                                               per dataset.
+3.4    Sentiment Dataset Evaluation                                 Dataset     Loss (%)      Gain (%)      Return (%)
+                                                                   Economic      -1,83          1,87           0,75
+In the sentiment’s dataset we began by selling most                Sentiment     -1,91          1,39          -3,05
+of our portfolios’ stocks and buying only one. More                PageRank      -1,87          0,86          -3,01
+specifically, we sold 23 stocks and bought WBA’s
+stock. This decision was wrong, as we sold Intel’s
+stock, which as we have seen in the previous dataset
+leads to a significant gain. These decisions naturally         4     CONCLUSIONS
+lead to a significant loss of −1, 91%. Although the
+next day (2019/7/18) our predictions resulted in a             4.1 Summary
+daily positive return of 0, 26%, although it was not
+enough to overturn the cumulative negative return.             This work addresses the problem of predicting stock
+Our best return was on 2019/7/29 with 1, 39%. Even             market movements. The main contribution resides
+that return could not reverse our overall losses for this      to the fact that it considers social media as a data
+dataset resulting in a cumulative loss of −3, 05%.             source for improving predictions. More specifically it
+                                                               utilizes Twitter data to extract sentiment and investi-
+3.5    PageRank Dataset Evaluation                             gates whether online sentiment can have a significant
+                                                               positive impact on the forecasting ability of various
+For the PageRank dataset in the first day, we sold             prediction models. However, these data may intro-
+the following stocks, V, MRK, PFE, JNJ, HD, AXP,               duce biases to the process of result validation due to
+WMT, MCD, NKE, CAT, TRV, CVX, JPM, MMM,                        their noisy nature. To address that, we proposed a
+CSCO, INTC, IBM, KO, PG, DIS, and GS. This de-                 new methodology incorporating graphs and obtaining
+creased the value of bought stocks to 1.343, 65$ and           a daily importance measure for all of the users as well
+increased the available funds to 2.686, 87$. At this           as weighting their tweets.
+point, 10 units of ticker UNH were bought at 264, 66               Table 3 summarizes the results for the computed
+per unit. This updated the value of bought stocks to           errors of all of the stocks. The PageRank dataset per-
+3.990, 25$ and the available funds to 40, 27$. Since           formed better than both the economic and the simple
+we were still on the same day, the evaluation of the           sentiment dataset. Moreover, we were able to con-
+portfolio had not changed, because we had not up-              firm that the most important feature, on the sentiment
+dated the prices yet. On the next day, after updat-            data, is the negative score of the tweet. However, we
+ing the prices, we saw that our portfolio had a value          were not able to confirm which time lag is the most
+of 4.051, 48$ meaning that our approach resulted in a          important, since results are highly dependant on the
+positive return of 1, 5%.                                      feature.
+    On the second day, we decided to sell the stocks               Five different models were tested. For each stock
+of VZ, AAPL, and UTX and buy three units of Nike’s             and for each dataset, we estimated a Decision Tree,
+stock. This decision resulted in a loss of 75, 88$ and         a Random Forest, an XGBoost, an LSTM, and a
+a total return of −1, 3%. The decision was based on            k-Nearest Neighbors. For 15 out of 30 stocks the
+the prediction that Nike’s stock would have a posi-            PageRank dataset performed better than the other
+tive return. On the contrary, the actual result was a          datasets. The most important feature of the sentiment
+loss of −1, 07%. We followed the same strategy for             data was the negative score. For 13 out of 30 stocks
+
+
+
+                                                                                                                       441
+WEBIST 2021 - 17th International Conference on Web Information Systems and Technologies
+
+
+
+
+               Table 3: Best Dataset Per Ticker.                     Table 4: Best Dataset Per Model on PageRank Dataset.
+      Ticker     PageRank      Sentiment    Economic                   Ticker    DT       k-NN   LSTM   RF    XGBoost
+      AAPL                                     X                       AAPL      X
+       AXP                         X                                    AXP                             X
+        BA                         X                                     BA                                      X
+       CAT           X                                                  CAT       X        X
+      CSCO                         X                                   CSCO                             X
+      CVX            X                                                 CVX                                       X
+       DIS           X                                                  DIS                X
+      DOW            X                                                 DOW        X
+        GS                                         X                     GS                             X
+        HD           X                                                   HD                       X
+       IBM                         X                                    IBM                       X
+      INTC                                         X                   INTC                X
+        JNJ                                        X                     JNJ                                     X
+       JPM                         X                                    JPM                             X
+        KO           X                                                   KO       X
+      MCD                                          X                   MCD                                       X
+      MMM            X                                                 MMM                                       X
+      MRK            X                                                 MRK                                       X
+      MSFT                                         X                   MSFT                                      X
+      NKE            X                                                 NKE                        X
+       PFE                         X                                    PFE                                      X
+        PG           X                                                   PG                       X
+       TRV           X                                                  TRV                                      X
+      UNH                                          X                   UNH                                       X
+      UTX                                          X                   UTX                                       X
+         V           X                                                    V                                      X
+        VZ                                         X                     VZ                             X
+      WBA            X                                                 WBA                              X
+      WMT            X                                                 WMT                                       X
+      XOM            X                                                 XOM                        X
+the XGBoost performed better than the other models.                    Since all of our data come from the Twint library,
+We could not confirm which time lag is the most im-                and not from the official Twitter API, we could collect
+portant, as this feature was highly depend and on the              a specific amount of tweets. Moreover, this library is
+stock.                                                             significantly slower than the official, thus it was very
+    Table 4 presents a summarized version of the re-               difficult to obtain data for a longer period. We be-
+sults in the PageRank dataset. The best model was                  lieve that if we had two years worth of data and all
+XGBoost achieving the lowest scores at 13 stocks.                  the tweets per day, then our results would be signifi-
+Furthermore, it was the most robust model, having                  cantly better.
+the lowest average error and the lowest standard devi-                 Lastly, on the evaluation part, we choose a greedy
+ation.                                                             strategy and not an optimal one. The optimal solu-
+    Although PageRank’s dataset provided the best                  tion would require an extra module that would imple-
+scores for most of the stocks, during evaluation the               ment diversification according to Markowitz’s Portfo-
+only profitable dataset was proved to be the economic              lio Theorem (Markowitz, 1991) and the extraction of
+(0, 75%). The other two datasets, Sentiment and                    optimal weights per stock. Moreover, every transac-
+PageRank recorded losses of −3, 05% and −3, 01%,                   tion should incrementally position us to more efficient
+respectively.                                                      decisions.
+
+4.2    Limitations                                                 4.3 Further Research
+This study acts like a proof of concept that microblog-            There are a lot of aspects in our research that we
+ging data can be a powerful feature in predicting stock            want to explore in the future. First, we could uti-
+market data, if we can determine and distinguish the               lize more models, such as SVM which is commonly
+important ones. This is feasible but the required data             used in the literature. Also, we would like to explore
+pose an obstacle.                                                  other economic variables. There are other such vari-
+                                                                   ables that we could embed in our research. Moreover,
+
+
+
+442
+                                                         Predicting Stock Market Movements with Social Media and Machine Learning
+
+
+
+
+we could expand our methodology to other financial                  Hochreiter, S. and Schmidhuber, J. (1997). Long short-term
+instruments to explore the possibility that sentiment                     memory. Neural computation, 9(8):1735–1780.
+data can act as features on government and corporate                Hutto, C. J. and Gilbert, E. (2014). Vader: A parsimonious
+bonds, or even on derivatives. Lastly, as we observed                     rule-based model for sentiment analysis of social me-
+in some models, there were cases where the mean                           dia text. In Eighth international AAAI conference on
+                                                                          weblogs and social media.
+squared error was low, but the fit between the actual
+                                                                    Koukaras, P. and Tjortjis, C. (2019). Social media ana-
+and the predicted price was not good. Thus, it would                      lytics, types and methodology. In Machine Learning
+be very helpful if we could define a new measure that                     Paradigms, pages 401–427. Springer.
+can improve the fit capturing.                                      Koukaras, P., Tjortjis, C., and Rousidis, D. (2019). So-
+                                                                          cial media types: introducing a data driven taxonomy.
+                                                                          Computing, pages 1–46.
+                                                                    Kuepper, J. (2019). Timing trades with the commodity
+REFERENCES                                                                channel index.
+                                                                    Malkiel, B. G. and Fama, E. F. (1970). Efficient capital
+Alshahrani Hasan, A. and Fong, A. C. (2018). Sentiment
+                                                                          markets: A review of theory and empirical work. The
+      Analysis Based Fuzzy Decision Platform for the Saudi
+                                                                          journal of Finance, 25(2):383–417.
+      Stock Market. In 2018 IEEE International Confer-
+      ence on Electro/Information Technology (EIT), pages           Markowitz, H. M. (1991). Foundations of portfolio theory.
+      0023–0029, Rochester, MI. IEEE.                                     The journal of finance, 46(2):469–477.
+Antweiler, W. and Frank, M. Z. (2004). Is all that talk             Mitchell, C. (2019). Aroon oscillator definition and tactics.
+      just noise? the information content of internet stock         Mittermayer, M.-a. and Knolmayer, G. (2006). News-
+      message boards. The Journal of finance, 59(3):1259–                 CATS: A News Categorization and Trading System.
+      1294.                                                               In Sixth International Conference on Data Mining
+Beleveslis, D., Tjortjis, C., Psaradelis, D., and Nikoglou,               (ICDM’06), pages 1002–1007, Hong Kong, China.
+      D. (2019). A hybrid method for sentiment analy-                     IEEE.
+      sis of election related tweets. In 2019 4th South-            Oikonomou, L. and Tjortjis, C. (2018). A method for pre-
+      East Europe Design Automation, Computer Engineer-                   dicting the winner of the usa presidential elections us-
+      ing, Computer Networks and Social Media Confer-                     ing data extracted from twitter. In 2018 South-Eastern
+      ence (SEEDA-CECNSM), pages 1–6. IEEE.                               European Design Automation, Computer Engineer-
+                                                                          ing, Computer Networks and Society Media Confer-
+Blystone, D. (2019). Overbought or oversold? use the rela-
+                                                                          ence (SEEDA CECNSM), pages 1–8. IEEE.
+      tive strength index to find out.
+                                                                    Page, L., Brin, S., Motwani, R., and Winograd, T. (1999).
+Bollen, J., Mao, H., and Zeng, X.-J. (2011). Twitter mood
+                                                                          The pagerank citation ranking: Bringing order to the
+      predicts the stock market. Journal of Computational
+                                                                          web. Technical report, Stanford InfoLab.
+      Science, 2(1):1–8. arXiv: 1010.3003.
+                                                                    Rousidis, D., Koukaras, P., and Tjortjis, C. (2019). So-
+Chakraborty, P., Pria, U. S., Rony, M. R. A. H., and Majum-
+                                                                          cial media prediction: A literature review. Multimedia
+      dar, M. A. (2017). Predicting stock movement using
+                                                                          Tools and Applications.
+      sentiment analysis of twitter feed. In 2017 6th Inter-
+      national Conference on Informatics, Electronics and           See-To, E. W. K. and Yang, Y. (2017). Market sentiment
+      Vision & 2017 7th International Symposium in Com-                   dispersion and its effects on stock return and volatility.
+      putational Medical and Health Technology (ICIEV-                    Electronic Markets, 27(3):283–296.
+      ISCMHT), pages 1–6. IEEE.                                     Sharpe, W. F. (1964). Capital asset prices: A theory of mar-
+Devenow, A. and Welch, I. (1996). Rational herding in                     ket equilibrium under conditions of risk. The journal
+      financial economics. European Economic Review,                      of finance, 19(3):425–442.
+      40(3-5):603–615.                                              Sohangir, S., Petty, N., and Wang, D. (2018). Financial Sen-
+                                                                          timent Lexicon Analysis. In 2018 IEEE 12th Inter-
+Fama, E. F. (1965). The behavior of stock-market prices.
+                                                                          national Conference on Semantic Computing (ICSC),
+      The journal of Business, 38(1):34–105.
+                                                                          pages 286–289, Laguna Hills, CA, USA. IEEE.
+Fama, E. F. and French, K. R. (1993). Common risk factors
+                                                                    Staff, I. (2019). On-balance volume: The way to smart
+      in the returns on stocks and bonds. Journal of financial
+                                                                          money.
+      economics, 33(1):3–56.
+                                                                    Tjortjis, C. and Keane, J. (2002). T3: a classification algo-
+Hagberg, A., Swart, P., and S Chult, D. (2008). Explor-
+                                                                          rithm for data mining. In International Conference on
+      ing network structure, dynamics, and function using
+                                                                          Intelligent Data Engineering and Automated Learn-
+      networkx. Technical report, Los Alamos National
+                                                                          ing, pages 50–55. Springer.
+      Lab.(LANL), Los Alamos, NM (United States).
+                                                                    Treynor, J. L. (1962). Jack treynor’s’ toward a theory
+Hájek, P. (2018). Combining bag-of-words and senti-                      of market value of risky assets’. Available at SSRN
+      ment features of annual reports to predict abnormal                 628187.
+      stock returns. Neural Computing and Applications,
+      29(7):343–358.                                                Tzirakis, P. and Tjortjis, C. (2017). T3c: improving a de-
+                                                                          cision tree classification algorithm’s interval splits on
+Hochreiter, S. (1991). Investigations on dynamic neural net-              continuous attributes. Advances in Data Analysis and
+      works. Diploma, Technical University, 91(1).                        Classification, 11(2):353–370.
+
+
+                                                                                                                               443
+

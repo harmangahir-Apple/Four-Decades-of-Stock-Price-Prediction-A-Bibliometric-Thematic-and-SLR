@@ -1,0 +1,21 @@
+PHASE A — AUTHOR-APPROVED ELIGIBILITY COHORT
+Approval date: 2026-10-14
+Original studies: 492
+Approved exclusions: 7
+Retained studies: 485
+Approved retain IDs: P00401, P00620
+Excluded IDs: P00332, P00384, P00567, P00681, P00814, P00928, P01181
+Column AD formulas verified: 492/492
+Column AD cached results verified: 492/492
+CSV exports contain verified calculated AD values
+Original AD expressions preserved separately as JSONL
+All remaining fields copied at value level
+Original source and draft preserved
+Methodological corrections applied: 0
+Figures and tables regenerated: No
+Final corpus freeze: Pending
+
+Retained Validation_Status distribution:
+Random/shuffled: 6
+Temporally ordered: 81
+Unclear: 398

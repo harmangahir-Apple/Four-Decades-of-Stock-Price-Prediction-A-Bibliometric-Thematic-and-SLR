@@ -1,0 +1,28 @@
+﻿Evidence_Scope,Principal_Method_Family,Frozen_Stratum_Size,Selected_Studies,FullText_Predefined_Quota
+Full_Text,ANN/neuro-fuzzy models,1,1,1
+Full_Text,Deep-learning models,88,7,7
+Full_Text,Ensemble/tree-based machine learning,28,1,1
+Full_Text,Graph-based models,14,1,1
+Full_Text,Hybrid deep-learning models,80,6,6
+Full_Text,Metaheuristic-optimized models,37,3,3
+Full_Text,Multimodal-fusion models,10,1,1
+Full_Text,Other/unclear,2,1,1
+Full_Text,Sentiment/NLP-driven models,57,4,4
+Full_Text,Statistical/econometric models,1,1,1
+Full_Text,Transformer/attention-based models,57,4,4
+Abstract_Only,ANN/neuro-fuzzy models,1,0,
+Abstract_Only,Deep-learning models,24,4,
+Abstract_Only,Ensemble/tree-based machine learning,4,0,
+Abstract_Only,Graph-based models,1,0,
+Abstract_Only,Hybrid deep-learning models,19,0,
+Abstract_Only,Metaheuristic-optimized models,9,0,
+Abstract_Only,Multimodal-fusion models,2,0,
+Abstract_Only,Other/unclear,1,0,
+Abstract_Only,Sentiment/NLP-driven models,18,2,
+Abstract_Only,Transformer/attention-based models,6,0,
+Metadata_Only,Deep-learning models,2,0,
+Metadata_Only,Graph-based models,1,0,
+Metadata_Only,Hybrid deep-learning models,10,3,
+Metadata_Only,Metaheuristic-optimized models,5,1,
+Metadata_Only,Sentiment/NLP-driven models,2,0,
+Metadata_Only,Transformer/attention-based models,5,0,

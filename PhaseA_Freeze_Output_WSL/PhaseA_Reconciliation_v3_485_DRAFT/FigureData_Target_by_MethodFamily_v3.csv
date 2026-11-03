@@ -1,0 +1,40 @@
+﻿Target_Primary,Principal_Method_Family,Count
+Direction,Deep-learning models,12
+Direction,Ensemble/tree-based machine learning,4
+Direction,Graph-based models,3
+Direction,Hybrid deep-learning models,6
+Direction,Metaheuristic-optimized models,4
+Direction,Multimodal-fusion models,2
+Direction,Other/unclear,1
+Direction,Sentiment/NLP-driven models,13
+Direction,Transformer/attention-based models,4
+Multi_Target,ANN/neuro-fuzzy models,1
+Multi_Target,Deep-learning models,10
+Multi_Target,Ensemble/tree-based machine learning,2
+Multi_Target,Graph-based models,1
+Multi_Target,Hybrid deep-learning models,6
+Multi_Target,Metaheuristic-optimized models,1
+Multi_Target,Multimodal-fusion models,2
+Multi_Target,Sentiment/NLP-driven models,7
+Multi_Target,Transformer/attention-based models,2
+Price,Deep-learning models,90
+Price,Ensemble/tree-based machine learning,22
+Price,Graph-based models,12
+Price,Hybrid deep-learning models,94
+Price,Metaheuristic-optimized models,45
+Price,Multimodal-fusion models,8
+Price,Sentiment/NLP-driven models,49
+Price,Statistical/econometric models,1
+Price,Transformer/attention-based models,57
+Return,Deep-learning models,1
+Return,Ensemble/tree-based machine learning,4
+Return,Hybrid deep-learning models,1
+Return,Metaheuristic-optimized models,1
+Return,Sentiment/NLP-driven models,6
+Return,Transformer/attention-based models,4
+Trend_Regime,Deep-learning models,2
+Trend_Regime,Ensemble/tree-based machine learning,1
+Trend_Regime,Hybrid deep-learning models,2
+Trend_Regime,Sentiment/NLP-driven models,2
+Trend_Regime,Transformer/attention-based models,1
+Volatility,Other/unclear,1

@@ -1,0 +1,12 @@
+﻿Method_Family,Original_B1_FullText_Quota,Frozen_B3_Selected_FullText,Affected_FullText_Positions,Other_Selected_FullText_Positions,Unselected_Nonexception_Candidate_Count,Affected_Paper_IDs,Frozen_Quota_Deviation,Scientific_Review_Status,Evidence_Required,Proposed_Revised_Quota,Proposed_Replacement_Paper_IDs,Author_Adjudication,Approval_Status
+Deep-learning models,7,7,2,5,75,P00649;P02642,0,REQUIRES_SCIENTIFIC_ADJUDICATION,P00649 and P02642 require original-publication identity and methodology reconciliation.,,,,PENDING_AUTHOR_APPROVAL
+Hybrid deep-learning models,6,6,1,5,72,P00752,0,REQUIRES_SCIENTIFIC_ADJUDICATION,P00752 is publisher-confirmed retracted. Replacement requires author-approved eligibility and source verification.,,,,PENDING_AUTHOR_APPROVAL
+Sentiment/NLP-driven models,4,4,0,4,51,,0,NO_CURRENTLY_FLAGGED_POSITION,Standard primary-source verification; no currently flagged B3 position.,,,,PENDING_AUTHOR_APPROVAL
+Transformer/attention-based models,4,4,0,4,52,,0,NO_CURRENTLY_FLAGGED_POSITION,Standard primary-source verification; no currently flagged B3 position.,,,,PENDING_AUTHOR_APPROVAL
+Metaheuristic-optimized models,3,3,0,3,33,,0,NO_CURRENTLY_FLAGGED_POSITION,Standard primary-source verification; no currently flagged B3 position.,,,,PENDING_AUTHOR_APPROVAL
+Ensemble/tree-based machine learning,1,1,0,1,27,,0,NO_CURRENTLY_FLAGGED_POSITION,Standard primary-source verification; no currently flagged B3 position.,,,,PENDING_AUTHOR_APPROVAL
+Graph-based models,1,1,0,1,13,,0,NO_CURRENTLY_FLAGGED_POSITION,Standard primary-source verification; no currently flagged B3 position.,,,,PENDING_AUTHOR_APPROVAL
+Multimodal-fusion models,1,1,0,1,9,,0,NO_CURRENTLY_FLAGGED_POSITION,Standard primary-source verification; no currently flagged B3 position.,,,,PENDING_AUTHOR_APPROVAL
+Other/unclear,1,1,1,0,1,P03446,0,REQUIRES_SCIENTIFIC_ADJUDICATION,P03446 requires original-identity and eligibility verification. P00620 is a review article; primary technical-study eligibility is unverified.,,,,PENDING_AUTHOR_APPROVAL
+ANN/neuro-fuzzy models,1,1,1,0,0,P01112,0,REQUIRES_SCIENTIFIC_ADJUDICATION,P01112 historical methodology indicates a hybrid deep-learning architecture. No alternative frozen full-text candidate in this family.,,,,PENDING_AUTHOR_APPROVAL
+Statistical/econometric models,1,1,1,0,0,P00211,0,REQUIRES_SCIENTIFIC_ADJUDICATION,P00211 frozen ARIMA identity differs from original 1D-CNN study. No alternative frozen full-text candidate in this family.,,,,PENDING_AUTHOR_APPROVAL

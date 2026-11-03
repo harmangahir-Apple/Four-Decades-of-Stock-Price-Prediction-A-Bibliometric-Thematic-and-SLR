@@ -1,0 +1,7 @@
+﻿Register,Rows,Unique_Paper_IDs,Missing_vs_final_492,Extra_vs_final_492,Identity_match_final_492
+Supplement legacy,493,493,,P04845,False
+Method legacy,493,493,,P04845,False
+Audit legacy,493,493,,P04845,False
+Modality legacy,492,492,P00814,P04845,False
+Explicit modality,492,492,P00814,P04845,False
+Final method,492,492,,,True

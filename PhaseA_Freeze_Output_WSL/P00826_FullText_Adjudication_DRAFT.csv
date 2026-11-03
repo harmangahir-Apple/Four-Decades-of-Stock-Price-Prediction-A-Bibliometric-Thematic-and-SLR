@@ -1,0 +1,10 @@
+﻿Study_ID,Excel_Column,Field,Existing_Value,Proposed_Value,Adjudication_Status,PDF_Evidence
+P00826,G,DOI,10.1109/cises66934.2025.11265263,10.1109/WCCEST66994.2025.11389979,Verified,PDF p.1
+P00826,J,Principal_Method_Family,Deep-learning models,ML/NLP fusion: NB sentiment + KNN prediction,Pending controlled-taxonomy mapping,PDF pp.2-4
+P00826,K,Prediction_Target,Price,Direction,Verified,PDF pp.2-5
+P00826,L,Prediction_Task,Regression,Binary classification,Verified,PDF pp.3-5
+P00826,N,Asset_Scope,Cross_Market,Multi_Stock; US market,Verified with company-name inconsistency,PDF pp.3-5
+P00826,O/P,Data_Source_Fields,Yahoo Finance stated,Historical stock data; multiple financial-news sources,Exact column meanings pending,PDF p.3
+P00826,R,Input_Features,OHLC plus RSI/SMA/EMA/MACD/Bollinger,OHLC plus financial-news sentiment,Verified,PDF pp.2-4
+P00826,Audit,Temporal_Leakage,Unclear,Potential same-date closing-price target leakage,Requires timeline verification,PDF pp.3-4
+P00826,Audit,Overall_Reliability,Unclear,Unclear; high-priority review,Provisional,PDF pp.3-5

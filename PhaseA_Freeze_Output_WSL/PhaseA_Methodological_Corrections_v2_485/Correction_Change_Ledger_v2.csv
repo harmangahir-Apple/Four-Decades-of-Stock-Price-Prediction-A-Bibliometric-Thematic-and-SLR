@@ -1,0 +1,47 @@
+﻿Study_ID,Field,Original_Value,Proposed_Value,Action,Evidence_Source,Original_Adjudication_Status,Resolution_Note
+P00401,Evidence_Scope,Abstract_Only,Full_Text,APPLIED,P00401_FullText_Adjudication_DRAFT.csv,SOURCE_VERIFIED,Verified correction or explicit coding rule
+P00401,Principal_Method_Family,Deep-learning models,Hybrid deep-learning models,APPLIED,P00401_FullText_Adjudication_DRAFT.csv,SOURCE_VERIFIED_PROPOSED,Consolidated controlled-taxonomy decision
+P00401,Forecast_Horizon,Not_Reported,Not_Reported,HOLD,P00401_FullText_Adjudication_DRAFT.csv,HOLD: next-day target and 30-day outputs; evaluation lead not established,Evaluation horizon not established
+P00401,Asset_Scope,Multiple_Stocks,Not_Reported,APPLIED,P00401_FullText_Adjudication_DRAFT.csv,PROPOSED: evaluated asset universe unspecified,Consolidated controlled-taxonomy decision
+P00401,Market_Country,"HDFC Bank and ICICI Bank; National Stock Exchange (NSE), India",Not stated,APPLIED,P00401_FullText_Adjudication_DRAFT.csv,SOURCE_VERIFIED_PROPOSED,Consolidated controlled-taxonomy decision
+P00401,Dataset_Source,"HDFC Bank and ICICI Bank; National Stock Exchange (NSE), India",Yahoo Finance via yfinance; evaluated tickers unspecified,APPLIED,P00401_FullText_Adjudication_DRAFT.csv,SOURCE_VERIFIED_PROPOSED,Verified correction or explicit coding rule
+P00401,Sampling_Frequency,Not_Reported,Daily,APPLIED,P00401_FullText_Adjudication_DRAFT.csv,SOURCE_VERIFIED_PROPOSED,Consolidated controlled-taxonomy decision
+P00401,Raw_Input_Features,Not stated,Historical closing prices; 60-day input windows; technical indicators mentioned but implementation not demonstrated,HOLD,P00401_FullText_Adjudication_DRAFT.csv,SOURCE_SUPPORTED_WITH_LIMITATIONS,Retain until raw-feature coding is standardized
+P00401,Technical_Indicators,No,Unclear,HOLD,P00401_FullText_Adjudication_DRAFT.csv,HOLD: stated as inputs; actual use not demonstrated,Binary domain; implementation not established
+P00401,Chronological_Split,Unclear,,HOLD,P00401_FullText_Adjudication_DRAFT.csv,RETAIN: ordering not demonstrated,No usable proposed value
+P00401,Preprocessing_Boundary,Unclear,,HOLD,P00401_FullText_Adjudication_DRAFT.csv,RETAIN: training-only scaler fitting not established,No usable proposed value
+P00401,Evidence_Location,Abstract_Only; page/section: Abstract,"Full_Text; SCITEPRESS publication 139424, pp.1-7; DOI 10.5220/0013942400004919",APPLIED,P00401_FullText_Adjudication_DRAFT.csv,SOURCE_VERIFIED_PROPOSED,Verified correction or explicit coding rule
+P00401,Manual_Review_Required,No,Yes,HOLD,P00401_FullText_Adjudication_DRAFT.csv,SOURCE_VERIFIED_PROPOSED,Controlled value not established
+P00211,Principal_Method_Family,Deep-learning models,Statistical/econometric models,APPLIED,P00211_FullText_Adjudication_DRAFT.csv,HOLD_ELIGIBILITY_AND_TAXONOMY,Consolidated controlled-taxonomy decision
+P00211,Forecast_Horizon,Multiple_Horizons,Not_Reported,HOLD,P00211_FullText_Adjudication_DRAFT.csv,HOLD_HORIZON_DEFINITION_REVIEW,Horizon definition requires reconciliation
+P00211,Asset_Scope,Single_Stock,Multiple_Stocks,APPLIED,P00211_FullText_Adjudication_DRAFT.csv,SOURCE_VERIFIED_PROPOSED,Consolidated controlled-taxonomy decision
+P00211,Market_Country,Apple Inc. (AAPL) stock,United States; Apple (AAPL) and Amazon (AMZN),APPLIED,P00211_FullText_Adjudication_DRAFT.csv,SOURCE_VERIFIED_PROPOSED,Verified correction or explicit coding rule
+P00211,Dataset_Source,Apple Inc. (AAPL) stock,Yahoo Finance,APPLIED,P00211_FullText_Adjudication_DRAFT.csv,SOURCE_VERIFIED_PROPOSED,Verified correction or explicit coding rule
+P00211,Sampling_Frequency,Not_Reported,,HOLD,P00211_FullText_Adjudication_DRAFT.csv,PROPOSED_CONFIRM_CODING_RULE,No usable proposed value
+P00211,Raw_Input_Features,Historical price data (not stated further),Historical adjusted closing prices of AAPL and AMZN,APPLIED,P00211_FullText_Adjudication_DRAFT.csv,SOURCE_VERIFIED_PROPOSED,Verified correction or explicit coding rule
+P00211,Validation_Design,Unclear,,HOLD,P00211_FullText_Adjudication_DRAFT.csv,HOLD_CONTROLLED_VALUE_MAPPING,Protected or formula-derived field
+P00211,Chronological_Split,Unclear,Yes,APPLIED,P00211_FullText_Adjudication_DRAFT.csv,SOURCE_VERIFIED_PROPOSED,Verified correction or explicit coding rule
+P00211,Nonstationarity_Acknowledged,Unclear,Yes,APPLIED,P00211_FullText_Adjudication_DRAFT.csv,SOURCE_VERIFIED_PROPOSED,Verified correction or explicit coding rule
+P00661,DOI,10.1109/itc-cscc66376.2025.11137719,10.1109/ITC-CSCC66376.2025.11137719,APPLIED,P00661_FullText_Adjudication_DRAFT.csv,SOURCE_VERIFIED,Verified correction or explicit coding rule
+P00661,Evidence_Scope,Abstract_Only,Full_Text,APPLIED,P00661_FullText_Adjudication_DRAFT.csv,SOURCE_VERIFIED,Verified correction or explicit coding rule
+P00661,Principal_Method_Family,Hybrid deep-learning models,Deep-learning models,APPLIED,P00661_FullText_Adjudication_DRAFT.csv,SOURCE_VERIFIED_PROPOSED,Consolidated controlled-taxonomy decision
+P00661,Target_Primary,Price,Price,UNCHANGED,P00661_FullText_Adjudication_DRAFT.csv,SOURCE_VERIFIED,Already matches proposed coding
+P00661,Learning_Formulation,Regression,Regression,UNCHANGED,P00661_FullText_Adjudication_DRAFT.csv,SOURCE_VERIFIED,Already matches proposed coding
+P00661,Forecast_Horizon,Not_Reported,,HOLD,P00661_FullText_Adjudication_DRAFT.csv,RETAIN_OR_CORRECT_IF_NEEDED,No usable proposed value
+P00661,Asset_Scope,Multiple_Stocks,Single_Stock,APPLIED,P00661_FullText_Adjudication_DRAFT.csv,SOURCE_VERIFIED,Verified correction or explicit coding rule
+P00661,Market_Country,"Chinese stocks 600,719.SS and 000679.SZ (Yahoo Finance)",United States; NVIDIA (NVDA),APPLIED,P00661_FullText_Adjudication_DRAFT.csv,SOURCE_VERIFIED_PROPOSED,Verified correction or explicit coding rule
+P00661,Dataset_Source,"Chinese stocks 600,719.SS and 000679.SZ (Yahoo Finance)",,HOLD,P00661_FullText_Adjudication_DRAFT.csv,SOURCE_SUPPORTED_WITH_PROVENANCE_LIMITATION,No usable proposed value
+P00661,Sampling_Frequency,Not_Reported,Monthly,HOLD,P00661_FullText_Adjudication_DRAFT.csv,SOURCE_VERIFIED,Controlled value not established
+P00661,Raw_Input_Features,"Technical indicators (e.g., MACD, RSI) and fundamental data (e.g., P/E ratio, profitability)",Historical NVIDIA monthly closing prices; univariate price series,APPLIED,P00661_FullText_Adjudication_DRAFT.csv,SOURCE_VERIFIED,Verified correction or explicit coding rule
+P00661,Evidence_Location,Abstract_Only,,HOLD,P00661_FullText_Adjudication_DRAFT.csv,DRAFT_PROVENANCE_UPDATE,No usable proposed value
+P00826,DOI,10.1109/cises66934.2025.11265263,10.1109/WCCEST66994.2025.11389979,APPLIED,P00826_Taxonomy_Mapped_Correction_DRAFT.csv,Source verified,Verified correction or explicit coding rule
+P00826,Principal_Method_Family,Deep-learning models,Sentiment/NLP-driven models,APPLIED,P00826_Taxonomy_Mapped_Correction_DRAFT.csv,Proposed; confirm taxonomy precedence,Consolidated controlled-taxonomy decision
+P00826,Target_Primary,Price,Direction,APPLIED,P00826_Taxonomy_Mapped_Correction_DRAFT.csv,Source verified,Verified correction or explicit coding rule
+P00826,Learning_Formulation,Regression,Binary_Classification,APPLIED,P00826_Taxonomy_Mapped_Correction_DRAFT.csv,Source verified,Verified correction or explicit coding rule
+P00826,Forecast_Horizon,Not_Reported,,HOLD,P00826_Taxonomy_Mapped_Correction_DRAFT.csv,Retain; horizon not established,No usable proposed value
+P00826,Asset_Scope,Cross_Market,Multiple_Stocks,APPLIED,P00826_Taxonomy_Mapped_Correction_DRAFT.csv,Source verified,Consolidated controlled-taxonomy decision
+P00826,Market_Country,Yahoo Finance (not stated which stocks/market),,HOLD,P00826_Taxonomy_Mapped_Correction_DRAFT.csv,Proposed with qualification,No usable proposed value
+P00826,Dataset_Source,Yahoo Finance (not stated which stocks/market),,HOLD,P00826_Taxonomy_Mapped_Correction_DRAFT.csv,Source supported; provider incomplete,No usable proposed value
+P00826,Sampling_Frequency,Mixed,,HOLD,P00826_Taxonomy_Mapped_Correction_DRAFT.csv,Provisional; verify reporting granularity,No usable proposed value
+P00826,Raw_Input_Features,"Historical stock data augmented with technical indicators (RSI, SMA, EMA, MACD, Bollinger Bands)",Daily OHLC prices; financial-news text and NB-derived sentiment polarity; NLP n-gram and term-weighting features,APPLIED,P00826_Taxonomy_Mapped_Correction_DRAFT.csv,Source verified,Verified correction or explicit coding rule
+P00425,Principal_Method_Family,Hybrid deep-learning models,Deep-learning models,APPLIED,P00425_Method_Family_Adjudication_DRAFT.csv,HYBRID_CLASSIFICATION_UNSUPPORTED_PENDING_RECODE,"Comparative ARIMA/LSTM; provisional DL family, not hybrid"

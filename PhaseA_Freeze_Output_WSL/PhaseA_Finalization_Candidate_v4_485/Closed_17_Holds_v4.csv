@@ -1,0 +1,18 @@
+﻿Study_ID,Field,Disposition,Outcome,Final_Value,Reason
+P00401,Forecast_Horizon,PRESERVE_EVIDENCE_LIMITATION,RETAINED_UNCHANGED,Not_Reported,Evaluated forecast lead not established
+P00401,Raw_Input_Features,APPLY_SOURCE_SUPPORTED,APPLIED,Historical closing prices; 60-day input windows; technical indicators mentioned but implementation not demonstrated,Full-text-supported input description
+P00401,Technical_Indicators,PRESERVE_EVIDENCE_LIMITATION,RETAINED_UNCHANGED,No,Binary domain cannot represent uncertainty
+P00401,Chronological_Split,PRESERVE_EVIDENCE_LIMITATION,RETAINED_UNCHANGED,Unclear,Ordering not established
+P00401,Preprocessing_Boundary,PRESERVE_EVIDENCE_LIMITATION,RETAINED_UNCHANGED,Unclear,Training-only scaling not established
+P00401,Manual_Review_Required,APPLY_SOURCE_SUPPORTED,APPLIED,Yes,Source-based methodological ambiguity
+P00211,Forecast_Horizon,APPLY_SOURCE_SUPPORTED,APPLIED,Not_Reported,Exact evaluated lead not established
+P00211,Sampling_Frequency,PRESERVE_EVIDENCE_LIMITATION,RETAINED_UNCHANGED,Not_Reported,No supported replacement
+P00211,Validation_Design,PRESERVE_EVIDENCE_LIMITATION,RETAINED_UNCHANGED,Unclear,Validation scheme not established
+P00661,Forecast_Horizon,PRESERVE_EVIDENCE_LIMITATION,RETAINED_UNCHANGED,Not_Reported,Monthly frequency does not prove monthly horizon
+P00661,Dataset_Source,APPLY_SOURCE_SUPPORTED,APPLIED,"Kaggle NVIDIA Stock Data (Latest and Updated); NVIDIA monthly closing prices, 2000–2025","Original P00661 full text, pp. 1–4"
+P00661,Sampling_Frequency,APPLY_SOURCE_SUPPORTED,APPLIED,Monthly,Original paper explicitly uses monthly data
+P00661,Evidence_Location,APPLY_SOURCE_SUPPORTED,APPLIED,"Full text, pp. 1–4",Original source methodology and results verified
+P00826,Forecast_Horizon,PRESERVE_EVIDENCE_LIMITATION,RETAINED_UNCHANGED,Not_Reported,Horizon not demonstrated
+P00826,Market_Country,APPLY_SOURCE_SUPPORTED,APPLIED,Not stated,Yahoo Finance is not a market country
+P00826,Dataset_Source,PRESERVE_EVIDENCE_LIMITATION,RETAINED_UNCHANGED,Yahoo Finance (not stated which stocks/market),"Provider known, specific stock universe unclear"
+P00826,Sampling_Frequency,APPLY_SOURCE_SUPPORTED,APPLIED,Not_Reported,Mixed-frequency implementation not established

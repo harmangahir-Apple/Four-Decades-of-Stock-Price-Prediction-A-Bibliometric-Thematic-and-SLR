@@ -1,0 +1,12 @@
+PHASE A FINALIZATION CANDIDATE v4
+STATUS: NOT FROZEN
+Retained studies: 485
+Author-approved exclusions: 7
+Previous field corrections: 27
+Additional field corrections: 9
+Held proposals dispositioned: 17/17
+Residual source-contamination warnings: 0
+Identity-verified primary metrics: 485/485
+Sankey denominator: verified subset only
+Legacy identity conflicts: separate closure required
+Final independent QA: pending

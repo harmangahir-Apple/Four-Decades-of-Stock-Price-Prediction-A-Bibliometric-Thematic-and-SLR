@@ -1,0 +1,23 @@
+\begin{table*}[!t]
+\centering
+\caption{Distribution of explicitly documented input-data and feature-representation modalities in the 492-study input-modality-applicable subset.}
+\label{tab:section6-input-modalities}
+\small
+\begin{tabularx}{\textwidth}{@{}p{4.1cm}rrX@{}}
+\toprule
+Input or representation modality & Studies & Share (\%) & Interpretive scope \\
+\midrule
+Historical market data & 293 & 59.6 & Prices, returns, OHLCV observations, trading volume, market time series, and transaction-related variables. \\
+Technical indicators & 118 & 24.0 & Trend, momentum, volatility, liquidity, and volume-based indicators derived from market data. \\
+Financial news and textual information & 93 & 18.9 & Financial news, headlines, corporate disclosures, announcements, analyst text, and NLP representations. \\
+Decomposition or transformed representations & 62 & 12.6 & Wavelet, empirical-mode, variational-mode, PCA, denoising, TF-IDF, and comparable transformed inputs. \\
+Social media or public-opinion information & 42 & 8.5 & Social-media posts, microblogs, investor forums, public sentiment, and crowd-opinion signals. \\
+Index, sectoral, relational, or cross-market context & 27 & 5.5 & Market and sector indices, peer assets, inter-stock relationships, commodities, currencies, and international-market variables. \\
+Macroeconomic or systemic variables & 21 & 4.3 & Interest rates, inflation, exchange rates, commodity prices, volatility indices, policy variables, and economic indicators. \\
+Fundamental or accounting information & 18 & 3.7 & Earnings, financial statements, valuation ratios, revenue, cash flow, leverage, and dividends. \\
+Alternative or attention-related information & 6 & 1.2 & Search activity, investor-attention measures, ESG information, and other nonstandard data sources. \\
+Input modality not recoverable & 34 & 6.9 & The available full text, abstract, or metadata did not permit a defensible classification. \\
+\bottomrule
+\end{tabularx}
+\begin{minipage}{\textwidth}\footnotesize \textit{Note:} Input modalities are non-mutually exclusive; percentages use 492 applicable studies as the denominator and should not be summed. The non-recoverable row is an evidence-status category, not an input modality.\end{minipage}
+\end{table*}

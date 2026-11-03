@@ -1,0 +1,52 @@
+﻿PhaseA_Column,PhaseB_Use,Distinct_Values,PhaseA_Distribution
+Paper_ID,Immutable study metadata,485,HIGH_CARDINALITY / historical metadata
+BibTeX_Key,Immutable study metadata,485,HIGH_CARDINALITY / historical metadata
+Title,Immutable study metadata,485,HIGH_CARDINALITY / historical metadata
+Authors,Immutable study metadata,481,HIGH_CARDINALITY / historical metadata
+Year,Immutable study metadata,11,2025:260 | 2026:115 | 2024:33 | 2021:21 | 2022:15 | 2023:14 | 2020:9 | 2018:7 | 2019:5 | 2017:3 | 2016:3
+Source_Title,Immutable study metadata,334,HIGH_CARDINALITY / historical metadata
+DOI,Immutable study metadata,485,HIGH_CARDINALITY / historical metadata
+Document_Type,Immutable study metadata,3,Conference Paper:237 | Article:185 | Book Chapter:63
+Evidence_Scope,Immutable study metadata,3,Full_Text:375 | Abstract_Only:85 | Metadata_Only:25
+Principal_Method_Family,Immutable study metadata,11,Deep-learning models:114 | Hybrid deep-learning models:109 | Sentiment/NLP-driven models:77 | Transformer/attention-based models:68 | Metaheuristic-optimized models:51 | Ensemble/tree-based machine learning:32 | Graph-based models:16 | Multimodal-fusion models:12 | Other/unclear:3 | ANN/neuro-fuzzy models:2 | Statistical/econometric models:1
+Target_Primary,Immutable study metadata,7,Price:378 | Direction:47 | Multi_Target:32 | Return:17 | Trend_Regime:8 | Not_Reported:2 | Volatility:1
+Learning_Formulation,Immutable study metadata,7,Regression:393 | Binary_Classification:43 | Multi_Task:28 | Hybrid_Other:7 | Multiclass_Classification:6 | Probabilistic:5 | Not_Reported:3
+Forecast_Horizon,Historical classification / covariate; never auto-accept as Phase B result,8,Not_Reported:317 | One_Day:79 | Multiple_Horizons:44 | Intraday:17 | Weekly_6_10:11 | Longer_Than_Monthly:9 | Short_Multiday_2_5:4 | Monthly_11_22:4
+Asset_Scope,Immutable study metadata,7,Multiple_Stocks:153 | Not_Reported:135 | Single_Stock:103 | Stock_Index:62 | Multiple_Indices:19 | Cross_Market:12 | Portfolio:1
+Market_Country,IMMUTABLE_CONTEXT | may be referenced; not a proposed Phase B decision,413,Source category inventory (not a recoded Phase B outcome)
+Dataset_Source,IMMUTABLE_CONTEXT | may be referenced; not a proposed Phase B decision,415,Source category inventory (not a recoded Phase B outcome)
+Sampling_Frequency,IMMUTABLE_CONTEXT | may be referenced; not a proposed Phase B decision,5,Source category inventory (not a recoded Phase B outcome)
+Raw_Input_Features,IMMUTABLE_CONTEXT | may be referenced; not a proposed Phase B decision,470,Source category inventory (not a recoded Phase B outcome)
+Historical_Market_Data,IMMUTABLE_CONTEXT | may be referenced; not a proposed Phase B decision,2,Source category inventory (not a recoded Phase B outcome)
+Technical_Indicators,IMMUTABLE_CONTEXT | may be referenced; not a proposed Phase B decision,2,Source category inventory (not a recoded Phase B outcome)
+Financial_News_Text,IMMUTABLE_CONTEXT | may be referenced; not a proposed Phase B decision,2,Source category inventory (not a recoded Phase B outcome)
+Social_Media_Public_Opinion,IMMUTABLE_CONTEXT | may be referenced; not a proposed Phase B decision,2,Source category inventory (not a recoded Phase B outcome)
+Macroeconomic_Systemic,IMMUTABLE_CONTEXT | may be referenced; not a proposed Phase B decision,2,Source category inventory (not a recoded Phase B outcome)
+Fundamental_Accounting,IMMUTABLE_CONTEXT | may be referenced; not a proposed Phase B decision,2,Source category inventory (not a recoded Phase B outcome)
+Relational_Cross_Market,IMMUTABLE_CONTEXT | may be referenced; not a proposed Phase B decision,2,Source category inventory (not a recoded Phase B outcome)
+Alternative_Attention,IMMUTABLE_CONTEXT | may be referenced; not a proposed Phase B decision,2,Source category inventory (not a recoded Phase B outcome)
+Decomposition_Transformation,IMMUTABLE_CONTEXT | may be referenced; not a proposed Phase B decision,2,Source category inventory (not a recoded Phase B outcome)
+Input_Modality_Recoverable,IMMUTABLE_CONTEXT | may be referenced; not a proposed Phase B decision,2,Source category inventory (not a recoded Phase B outcome)
+Validation_Design,Historical classification / covariate; never auto-accept as Phase B result,7,Unclear:398 | Chronological_Holdout:61 | Walk_Forward:11 | Rolling_Window:6 | Random_Shuffled:6 | Expanding_Window:2 | Blocked_CV:1
+Validation_Status,Historical classification / covariate; never auto-accept as Phase B result,3,Unclear:398 | Temporally ordered:81 | Random/shuffled:6
+Chronological_Split,Historical classification / covariate; never auto-accept as Phase B result,3,Unclear:370 | Yes:110 | No:5
+Preprocessing_Boundary,Historical classification / covariate; never auto-accept as Phase B result,3,Unclear:447 | Training_Only:21 | Full_Dataset:17
+Leakage_Risk,Historical classification / covariate; never auto-accept as Phase B result,3,Unclear:446 | High:32 | Low:7
+Leakage_Signal_Status,Historical classification / covariate; never auto-accept as Phase B result,3,Specific leakage mechanism not classifiable:446 | At least one passage-verified signal:32 | No explicit passage-verified signal identified:7
+Nonstationarity_Acknowledged,Historical classification / covariate; never auto-accept as Phase B result,2,Unclear:410 | Yes:75
+Shock_Context_Mentioned,Historical classification / covariate; never auto-accept as Phase B result,2,Unclear:427 | Yes:58
+Statistical_Testing,Historical classification / covariate; never auto-accept as Phase B result,2,Unclear:437 | Yes:48
+Economic_Evaluation,Historical classification / covariate; never auto-accept as Phase B result,2,Unclear:448 | Yes:37
+Transaction_Costs,Historical classification / covariate; never auto-accept as Phase B result,2,Unclear:471 | Yes:14
+Regime_Specific_Evaluation,Historical classification / covariate; never auto-accept as Phase B result,2,Unclear:477 | Yes:8
+Shock_Period_Evaluation,Historical classification / covariate; never auto-accept as Phase B result,2,Unclear:470 | Yes:15
+Code_Available,Historical classification / covariate; never auto-accept as Phase B result,2,Unclear:478 | Yes:7
+Data_Available,Historical classification / covariate; never auto-accept as Phase B result,3,Unclear:479 | Yes:4 | No:2
+BibTeX_Entry_Present,IMMUTABLE_CONTEXT | may be referenced; not a proposed Phase B decision,1,Source category inventory (not a recoded Phase B outcome)
+Cited_in_Supplementary_Information,IMMUTABLE_CONTEXT | may be referenced; not a proposed Phase B decision,1,Source category inventory (not a recoded Phase B outcome)
+Duplicate_Status,IMMUTABLE_CONTEXT | may be referenced; not a proposed Phase B decision,1,Source category inventory (not a recoded Phase B outcome)
+Evidence_Location,"Archived source pointer, not sufficient as independently verified passage",84,HIGH_CARDINALITY / historical metadata
+Coding_Notes,"Archived source pointer, not sufficient as independently verified passage",87,HIGH_CARDINALITY / historical metadata
+Finalization_Status,"Archived source pointer, not sufficient as independently verified passage",1,Finalized:485
+Manual_Review_Required,"Archived source pointer, not sufficient as independently verified passage",2,No:484 | Yes:1
+Resolution_Method,"Archived source pointer, not sufficient as independently verified passage",3,Rule_Standardized:327 | Prior_Verified:91 | Manual_Adjudicated:67

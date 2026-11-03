@@ -1,0 +1,16 @@
+ARCO Revision-I | B4 P00037 AI-assisted author-review prefill (DRAFT)
+
+Source: ARCO_B4_P00037_45_Field_Coding_v1_DRAFT.csv
+Source CSV SHA256: 488d8a79671701a984454d8457bec9d874dff46fb7acc5ece43ffedb07092641
+Uploaded paper PDF SHA256: 1022188a7721135a00042b112629f1d5039920e33d377c37c7a552fed173c3fa
+Locked B1 v1.2 codebook SHA256: a1d5778ee8bfcbf8ac314e6f1e70934039434bc9e7e164f0ff915141b7f5a814
+Output: ARCO_B4_P00037_45_Field_Coding_v2_AI_PREFILLED_DRAFT.csv
+Output CSV SHA256: 75813b0bf0ebd36693e6c0dd2a0a84ad5f4a0fb8d0e24e6aa7a366d544f18a02
+
+Rows: 45 of 45, unique B1 field IDs verified.
+Modification scope: ONLY Author_Decision and Author_Adjudication_Notes columns in a NEW v2 CSV.
+All five user-named fields present; RP01 and RP02 technical indicator values preserved.
+Author_Decision: PENDING_AUTHOR_REVIEW (45 rows) — no author approval or finalization claimed.
+Author_Adjudication_Notes: populated with field-specific AI review proposals and source-page evidence (45 rows).
+Important RP01 caveat: Code_Artifact_Verified=PARTIAL is a draft observation. If reporting schema requires an affirmative binary artifact-verification flag, resolve its final mapping explicitly before aggregation.
+Source preservation: original P00037 PDF, codebook and v1 CSV not modified.

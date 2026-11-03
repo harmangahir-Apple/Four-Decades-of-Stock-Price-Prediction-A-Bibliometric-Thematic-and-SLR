@@ -1,0 +1,438 @@
+                                                                                                                                                            Sentiment Analysis of Financial News Using NLP
+                                                                                                                                                                 and Machine Learning for Stock Market
+
+                                                                                                                                                                            Radhakrishnan P1                                   Dr.V.Ramesh Naik2                               Dr. Pravin D Sawant3
+                                                                                                                                                                   1School of CS & AI, SR University,              2Assistant Professor, Department of MBA,            3Associate Professor, Department of
+
+                                                                                                                                                                     Warangal, India. 506371, India                 CMR Technical Campus (Autonomous),                 Commerce, Narayan zantye College
+                                                                                                                                                                         rksiva13@gmail.com                            Medchal, Telangana- 501401                               of Commerce
+                                                                                                                                                                                                                           drvrnaik@gmail.com                                   Bicholim Goa
+                                                                                                                                                                                                                                                                        Itsmesawantpravind@gmail.com
+
+
+
+
+2025 World Conference on Cutting-Edge Science and Technology (WCCEST) | 979-8-3315-6705-7/25/$31.00 ©2025 IEEE | DOI: 10.1109/WCCEST66994.2025.11389979
+                                                                                                                                                                          Siddhesh S. Narvekar4                                Dr. Deepesh Tiwari5                               Kuldeep Chouhan6
+                                                                                                                                                                  4Assistant Professor, Department of                  5Associate Professor, Management,                   6Sharda School of Computing
+
+                                                                                                                                                                   Commerce, DCT’s Srinivassa Sinai                            Invertis University,                      Science and Engineering, Sharda
+                                                                                                                                                                    Dempo College (Autonomous),                       Bareilly-Lucknow Highway, Bareilly                            University,
+                                                                                                                                                                            Cujira – Goa                                 deepeshtiwari709@gmail.com                        Greater Noida 201310, India
+                                                                                                                                                                       siddeshsn@gmail.com                                                                                   kuldeep0009@gmail.com
+
+
+
+
+                                                                                                                                                              Abstract: Traders rely heavily on stock market forecasting
+                                                                                                                                                          when making financial decisions. When deciding whether to                                                 I. INTRODUCTION
+                                                                                                                                                          purchase or trade shares, investors base their choices on                           Given its volatile character and complicated conduct,
+                                                                                                                                                          financial news releases. Nevertheless, given the complicated
+                                                                                                                                                                                                                                          making decisions in the stock market is a crucial and
+                                                                                                                                                          nature and uncertainty of the natural languages utilized,
+                                                                                                                                                          accurately modeling stock price patterns through financial news                 challenging responsibility [1]. It is crucial to investigate the
+                                                                                                                                                          releases is a difficult undertaking. In contrast to other study in              vast quantity of useful information produced by the stock
+                                                                                                                                                          this area, which usually uses bag-of-terms for gathering millions               market. Developing a more accurate method to forecast
+                                                                                                                                                          of characteristics to construct a prediction framework, this                    future stock price movements is typically a pressing
+                                                                                                                                                          study suggests a sentiment analysis-based method for predicting                 necessity for every shareholder, as it will enable them to
+                                                                                                                                                          stock markets employing financial news releases. In particular,                 choose when to purchase or trade companies to maximize
+                                                                                                                                                          sentiment evaluation is used to gather sentiment-                               their returns [2]. There are two ways to trade in the stock
+                                                                                                                                                          based information from financial news during the pre-processing                 marketplace: tangibly and digitally. When a business sells
+                                                                                                                                                          stage. Another input component is past stock marketplace
+                                                                                                                                                                                                                                          shares to a shareholder, the investor gains an interest in the
+                                                                                                                                                          information viewed through the lens of time series investigation.
+                                                                                                                                                          The goal of this research is to develop a predictive system that                business based on their share of its stock [3]. This grants
+                                                                                                                                                          can accurately forecast future stock market patterns while                      shareholders the authority to receive dividends from the
+                                                                                                                                                          maintaining a low error proportion. This forecasting algorithm                  business. Because share market financial information is
+                                                                                                                                                          depends on past stock market values and sentiment evaluation of                 complicated, it is challenging to foresee or indicate the way
+                                                                                                                                                          financial news. By combining historic share values with various                 the stock market will behave [4]. The vast and intricate
+                                                                                                                                                          forms of marketplace and corporate information, this algorithm                  amount of financial information may be analyzed via data
+                                                                                                                                                          outperforms all prior research in terms of accuracy. The share                  mining, improving the accuracy of stock market prediction.
+                                                                                                                                                          values of three different firms are included in the database. The               Due to its significance in economics, better prices translate
+                                                                                                                                                          naïve Bayes technique is used to evaluate financial news
+                                                                                                                                                                                                                                          into higher national incomes [5]. Using data mining tools to
+                                                                                                                                                          sentiment to determine the textual polarization. Forecast
+                                                                                                                                                          accuracy values from this phase ranged from 72.74% to 86.22%.                   examine the marketplace is a rich area of study. Analytical
+                                                                                                                                                          To forecast future share values, the subsequent phase integrates                and predictive activities are the two main groups into which
+                                                                                                                                                          previous share values with financial news sources. As a result,                 data mining activities fall [6].
+                                                                                                                                                          the     forecast     accuracy     increased    to  89.81%.    The                   By giving them valuable information on the share
+                                                                                                                                                          findings, depending on the financial news database under                        market conduct, estimation assists investors in making
+                                                                                                                                                          evaluation, are the most promising available in research as of                  informed investments and avoiding potential hazards. It was
+                                                                                                                                                          right now. The sentiment evaluation carried out in the pre-                     discovered that news affects how stock prices behave [7].
+                                                                                                                                                          processing phase is responsible for this outstanding efficiency                 Financial news mining-based forecasting of stocks is an
+                                                                                                                                                          since it drastically lowers the feature sizes.
+                                                                                                                                                                                                                                          intriguing area of study, but it faces several difficulties due
+                                                                                                                                                             Keywords: Stock market, Financial news, Sentiment analysis,                  to the unorganized character of news [8]. The practice of
+                                                                                                                                                          Natural language processing, and Machine learning.                              discovering concealed, valuable, and maybe undiscovered
+                                                                                                                                                                                                                                          trends in news information to gain knowledge is referred to
+                                                                                                                                                                                                                                          as news mining. One method for working with unorganized
+
+
+
+
+                                                                                                                                                                 Authorized licensed use limited to: Galgotias University. Downloaded on October 13,2026 at 09:37:04 UTC from IEEE Xplore. Restrictions apply.
+information is text mining. It is sometimes referred to as the                 categorization, the suggested framework integrates historical
+Knowledge Acquisition in Textual (KAT) stage [9].                              price data with financial news assessment. To identify the
+    Sentiment assessment is the procedure of identifying                       financial news pieces' polarity, the study suggests
+individuals' beliefs, views, assessments, appraisals, and                      conducting a textual evaluation on stock market
+feelings about things like goods, assistance, businesses,                      financial news. In addition, the launch, high, low, and final
+individuals, problems, occasions, subjects, and their                          values (LHLF) of the share marketplace are examined to
+characteristics. Sentiment assessment is a subfield of data                    forecast future patterns.
+mining that divides textual information into sentiment                             The share's large and minimal costs are its maximum
+categories: unfavorable, adverse, and positive [10].                           and minimum data for the day; accordingly, the share's final
+    Numerous investigations offered quantitative support for                   price is its closing data for the present day, and the opening
+the link between market responses and various news                             cost is the share's opening data for the day. As illustrated in
+categories, including company administration, ecological,                      Fig. 1, the subsequent activities are used to reach the
+macroeconomic, and financial news. Natural language                            intended objective:
+processing (NLP) in stock market and financial news has                            In the sentiment evaluation element, the company's
+lately improved the capacity to examine the way news                           financial news releases are subjected to sentiment
+affects stock values [11].                                                     evaluation. The NB method is used in this stage to identify
+    Hence, this study aims to investigate sentiment analysis                   the sentiment of every finance news update or firm's
+of financial news using NLP and machine learning (ML)                          financial reporting after the pre-processing processes.
+methods for the stock market.
+                   II. LITERATURE REVIEW
+    One of the most crucial and significant tasks in text
+mining, NLP, and data retrieval is text preprocessing [12].
+Unorganized information is prepared for information
+extraction using this method. Text preparation involves a
+wide range of activities; some of the most popular methods
+include stemming, tokenization, and stop-word reduction.
+    A study [13] suggested a strategy for predicting the
+Indonesian share market using sentiment evaluation in
+tweets. The approach aims to forecast price fluctuations,
+margin percentages, and share value movements. Tweet
+estimations were made using five supervised categorization
+methods: SVM, NB, DT, RF, and NN. The investigation
+found that RF and NB models functioned better than other
+methods, with an accuracy of 60.4% and 56.6%,
+respectively. LR is effective at predicting prices with 67.8%
+accuracy. The research's shortcoming is that the prediction
+system is solely dependent on five prior days' values.
+    The study [14] examined how financial news affected
+daily variations in index fluctuations and the forecasting of
+share values. The goal of this research is to increase forecast
+accuracy by integrating rule-based classification with
+technological evaluation. The monthly mean for the
+everyday shares and financial news are the two main
+sources of information for the forecasting system. [15]
+offered a framework that uses the analysis of non-
+quantifiable data from news stories to forecast market
+changes. This framework incorporates an NLP approach
+utilizing the numerical variable-based component and
+SentiWordNet 0.3. The model produced either favorable or
+adverse conduct and word polarity based on the share's
+fundamentals at entry and exit.                                                          Fig.1. The suggested paradigm for stock trend estimation
+
+               III. MATERIALS AND METHODS                                            •    The sentiment evaluation element does sentiment
+                                                                                          evaluation on financial news reports. In this phase,
+A. Suggested Framework                                                                    the NB method determines the sentiment of every
+    During the investing decision-making process, the                                     report or firm's financial news statements by
+suggested framework assists investors in avoiding threats                                 applying preprocessing methods.
+and financial emergencies.                                                           •    Numerical stocks undergo a preprocessing
+    The suggested framework aims to forecast the direction                                procedure as part of the statistical evaluation
+of the stock market, whether it will rise or collapse. To
+                                                                                          element. Two distinct characteristic vectors are the
+increase the accuracy of share market activity
+
+
+
+
+      Authorized licensed use limited to: Galgotias University. Downloaded on October 13,2026 at 09:37:04 UTC from IEEE Xplore. Restrictions apply.
+         result of this approach; one contains financial                       the Porter stemmer is used on the information, returning
+         news reports that have been tagged as either                          every term to its stem and eliminating suffixes like -Ed, -
+         "positive" or "negative," while the other has                         ing, -ion, etc.
+         numerical stock information. The time of every                            The act of developing a set of acronyms, like FB Inc. for
+         stock's news and numerical information is used to                     Facebook revenues or U.S., and then replacing them is
+         join the two characteristic vectors. This creates a                   known as acronym analysis.
+         single concatenated characteristic vector with                            Terms with two features or fewer are filtered using filter
+         sentiment and numerical information for every                         symbols.
+                                                                                   This study employs a term vector depiction in
+         stock. Last but not least, the KNN method is
+                                                                               document depiction to make handling textual information
+         employed to forecast future share price
+                                                                               less complicated by representing every term as a real vector.
+         movements, either rising or falling. The parts that                   N-Gram
+         precede provide specifics on the design.                                  Following the preprocessing of the data, N-Gram
+                                                                               extracting features are done. A sequence of symbols or
+B. Data Details                                                                phrases of size n is called an N-gram, and it is utilized in
+    Three NASDAQ-traded firms are employed in this                             various NLP and textual analysis activities. For financial
+research. The biggest stock-oriented equities share market in                  news records, the suggested approach generates an n-gram
+the US is called NASDAQ. These three businesses are                            to gather keyword characteristics from the news database.
+Facebook, Microsoft, and Yahoo. Financial news and                                 Using n=2 results in a two-term series being produced
+numerical information are the two categories of data that are                  for each record. The method accuracy is increased in this
+gathered.                                                                      stage due to the data or features that are obtained from two-
+Statistics for news are gathered from a variety of resources,                  term combo sequences. N-gram-based gathering has
+including Reuters, Google, Yahoo, eComomics.com, etc.                          demonstrated a strong ability to gather textual information
+Financial news regarding stock markets and businesses is                       because of many factors. Initially, the most common bases
+uploaded every day; some of them are news articles, while                      in share market statistics are automatically captured.
+others are regarded as the firms' financial statements. Every                  Secondly, utilizing a particular vocabulary is not necessary
+day, this study gathered three news stories. News about                        for offering the advantageous depiction that n-gram offers.
+share or business payouts, changes to exceptional stock,                       Thirdly, it can withstand spelling and distortion mistakes.
+firm splits, stock mergers by financial specialists,                           Term rate – inverted document rate (TR-IDR)
+and statements are all taken into consideration in this                            A characteristic grading technique called TR-IDR is
+research.                                                                      employed to demonstrate the importance of a term in a list
+    The subsequent characteristics of LHLF were taken into                     or database. The suggested approach calculates the score of
+consideration for numerical data since they directly affect                    every term in the file using TR-Idr, which is the proportion
+the forecast of the future pattern of its shares.                              of the Idr in a given record to all documentation with the
+                                                                               term's occurrence. Terms with an elevated significance
+C. Suggested Paradigm Element Details                                          indicate a close relationship to the document they occur. The
+    Every element of the suggested architecture is covered in                  tr-idr computation is represented by equation (1). This
+this part. This study starts by outlining the initial element:                 method assigns value to the word depending on its presence
+Sentiment Evaluation Elements                                                  in a document. The number of elements in the current
+    The following is the way financial news data evaluation                    dataset that include the phrase determines how much value
+is carried out in this element: The goal of news information                   IDR gives when analyzing a symbol for a component. For
+classification is to categorize stock news as either favorable                 this reason, a phrase that appears in a small number of
+or adverse attitudes. To execute this, the news text is                        documents is probably a more effective discriminating
+subjected to data preparation, and then the NB method is                       factor than one that appears in the majority of them.
+used for news categorization. The specifics of the suggested                   Equation 1 calculates Tr-Idr, where nw is the number of
+actions are covered in the part that follows.                                  records containing word w and n is the overall number of
+Text Pre-Processing                                                            records that need to be examined.
+    The following are some of the preprocessing procedures
+that are carried out:                                                                                    𝑛𝑡         𝑛
+                                                                                       𝑇𝑅 − 𝐼𝐷𝑅 =           × log 2                            (1)
+    Tokenization is the process of dividing every                                                        𝑛          𝑛𝑡
+financial news story or financial report file into relevant
+terms known as tokens.                                                         NB Method
+    Database normalization: To ensure data uniformity,                             Depending on Tr-idr scores, the financial news is
+every term in company-related publications and reports                         classified as favorable or adverse sentiment using the
+is converted to a reduced case utilizing data normalization                    NB model. The NB method is predicated on the idea that
+procedures.                                                                    a feature's impact on particular groups is autonomous of the
+    Stop-term elimination: To enhance efficiency and                           other features' scores. We refer to this presumption as class-
+minimize the amount of characteristics, terms like "the," "a,"                 reliant independent. Since the NB method is simple and
+and "of" that don't have a major significance in the files are                 rapid to employ for textual categorization, it was employed
+eliminated.                                                                    to predict every file. Every record is assigned to either the
+    Stemming: To decrease documentation complication and                       favorable or adverse category:
+analyzing duration, which enhances the model's efficiency,
+
+
+
+
+      Authorized licensed use limited to: Galgotias University. Downloaded on October 13,2026 at 09:37:04 UTC from IEEE Xplore. Restrictions apply.
+             𝐶    𝑃(𝑐)                                                         KNN is a sort of passive learning technique that only
+        𝑃𝑁𝐵 ( ) =                                         (2)                  postpones using the system on training information when
+             𝐷    𝑃(𝑑)
+                                                                               classifying test information is required. When knowledge of
+    For three distinct companies, Yahoo, Microsoft, and                        the dispersion of the training statistics is provided, the KNN
+Facebook Inc., the NB algorithm reasonably accurately                          model is regarded as a basic and adaptable categorization
+detects whether the financial news is good or negative.                        method.
+    The characteristics utilized in numerical stock prices
+                                                                                                 IV. RESULTS AND DISCUSSION
+include LHLF. All numerical properties are converted into
+separate numbers in the initial phase, which can be                                The findings of a study utilizing data processing and
+equivalent, favorable, or unfavorable. This is done by                         financial news sentiment evaluation to forecast share market
+contrasting the previous final price score with all of the                     action are presented in this part. There are two stages to the
+numerical values for every characteristic. The characteristic                  study. The initial one presents the findings of the news
+score will be changed to "positive" if it is larger compared                   sentiment evaluation element, which categorizes
+to the prior final score following assessment, and to                          financial news as favorable or adverse. The outcome of the
+"negative" if it is lower compared to the previous valuation.                  prediction framework for either favorable or adverse share
+                                                                               market action is explained in the subsequent part. Three
+D. Financial News Data Pre-Processing Elements                                 companies' information was utilized in both test rounds.
+    The characteristics utilized in numerical stock prices                     Facebook, Google, and Yahoo are the firms. The
+include LHLF. All numerical properties are converted into                      financial news information is separated into training and
+separate numbers in the initial phase, which can be                            validation collections for the sentiment examination stage.
+equivalent, favorable, or unfavorable. This is done by                         The framework is learned using the training collection and
+contrasting the previous final price score with all of the                     validated using the testing collection. To train the algorithm,
+numerical values for every characteristic. The characteristic                  financial news articles having a favorable or adverse
+score will be changed to "positive" if it is larger compared                   sentiment are included in the training set. The framework
+to the prior final score following assessment, and to                          ought to be capable of accurately categorizing the validation
+"negative" if it is lower compared to the previous valuation.                  data cases into either favorable or adverse financial news
+    Lastly, equivalent is used to substitute for the                           since the validation statistics comprises news information.
+characteristic if its significance corresponds to the final                    The study's outcomes are described in the parts that precede.
+value. In simple terms, it implies that the significance of all
+four qualities will be labeled as equivalent, unfavorable, and                 A. Outcomes of Financial News Sentiment Evaluation
+favorable depending on how they compare to the final                           Element
+value of the day before. The 2nd phase calculates a tag for                        Table I displays the financial news sentiment evaluation
+every information illustration, determining whether the                        system's findings. The findings demonstrate that the
+pattern is upward or downward depending on the distinction                     sentiment evaluation system's accuracy can reach 86.3% for
+between the present closing price and the day before. The                      Yahoo, 82.8% for Facebook, and 72.8% for Microsoft. The
+prediction framework receives this phase's data as input.                      system's significant attained accuracy when contrasted with
+                                                                               earlier studies is the result of combining the NB method
+E. Prediction Framework Elements                                               with Tr-idr and NLP approaches. The NB method works
+    The suggested prediction framework examines the                            effectively with textual information and provides
+impact of financial news announcements and statistical                         outstanding efficiency and accuracy. As can be seen from
+information on share upward and downward motions by                            the data, this study outperformed other earlier research in
+combining financial news information with quantitative                         terms of accuracy for news polarities. Because there were
+shares. The two phases that make up the prediction system                      fewer data examples gathered for Microsoft. Unlike Yahoo
+element are explained in the parts that precede.                               and Facebook, the company's accuracy findings were lower.
+Combining Feature Collection by Date
+                                                                                  TABLE I: OUTCOMES OF SENTIMENT FRAMEWORK WITH NB METHOD
+    Collectively, the two characteristic vectors from the
+earlier stage are enhanced. The subsequent characteristics                      Performance          Facebook           Microsoft            Yahoo
+                                                                                 Measures
+are produced by joining financial news sentiment and
+                                                                                  Accuracy              82.8               72.8               86.3
+numerical information by share date: daily financial news                          Kappa                0.61               0.41               0.72
+sentiment, LHLF values. It is crucial to remember that this
+study depends on several financial news sources every day,                         The findings demonstrated that our suggested model
+rather than just one, which will offer us more insight into the                outperformed earlier research in terms of accuracy for
+movement of shares.                                                            sentiment evaluation of share market news. All of the share
+KNN                                                                            market financial news sentiment research models' prior
+    Predicting the stock category using the gathered feature                   accuracy falls between 70 and 76 percent. The spectrum of
+collection is the last phase. Training and testing collections                 accuracies this study was able to achieve was 72.74% to
+of information are separated, and the K-NN algorithm is                        86.22%. The correlation coefficient between the real and
+employed to forecast whether the stock pattern will                            anticipated data tagged as favorable or unfavorable is shown
+go upward or downward. Using the nearest training samples                      in Fig. 2.
+in the characteristic area, a KNN model is a technique for
+categorizing elements. According to the training collection,
+the category tag is allocated to the closest K occurrences.
+
+
+
+
+      Authorized licensed use limited to: Galgotias University. Downloaded on October 13,2026 at 09:37:04 UTC from IEEE Xplore. Restrictions apply.
+                                                                                                      Fig.3. Findings of the Performance Accuracy
+                     The correlation of the sentiment model
+                                   classification                                         The study database is impacted by the method's
+                                                                                      efficiency. The efficiency of the other two traditional data
+             0.8                                                                      mining methods, KNN and SVM, on the experimental
+             0.7                                                                      database is shown in Fig. 3. It was discovered that the
+             0.6                                                                      various methods affected the study dataset's accuracy.
+             0.5
+                                                                                      B. Findings of Future Stock Pattern Prediction Element
+   Kappa
+             0.4
+             0.3                                                                          Table II displays the forecast accuracy when the
+                                                                                      framework is applied utilizing both sentiment evaluation
+             0.2                                                                      and numerical information, as opposed to the forecast
+             0.1                                                                      accuracy when sentiment assessment is used alone. The
+               0                                                                      outcomes found are consistent with studies showing a
+                       Facebook            Microsoft            Yahoo                 substantial correlation between financial news and
+                                                                                      fluctuations in share values. All relevant investigations rely
+                                     Company                                          on textual evaluation and compute or evaluate pattern
+                                                                                      outcomes using the final value. The associated research
+             Fig.2. The correlation of the sentiment model classification
+                                                                                      produced stock pattern forecast accuracies that fell between
+                                                                                      76% and 81%.
+   The suggested framework suggests an elevated level of
+consensus for news categorization, as seen by the                                       TABLE II OUTCOMES OF THE K-NN CLASSIFIER-BASED FUTURE STOCK
+correlation scores. Yahoo, Microsoft, and Facebook have                                                 PATTERN PREDICTION SYSTEM
+correlation scores of 0.73, 0.41, and 0.66, respectively.                              Performance         Sentiment Features         Sentiment and Numeric
+   To assess the NB method depending on sentiment                                       Measures                                            Features
+evaluation models using K-NN and SVM methods. Table II                                   Accuracy                  59.2                        89.9
+                                                                                          Kappa                   0.079                        0.80
+provides a summary of the comparison's findings. The
+outcomes of the application of two classification algorithms,
+SVM and K-NN, with the forecast accuracy of the method,
+and others, are shown in the table.                                                                                 Accuracy
+              TABLE II: FINDINGS OF THE PERFORMANCE FRAMEWORK                           100
+    Company                   KNN            SVM                 NB                      90
+     Yahoo                    75.9           58.7                86.3                    80
+    Microsoft                 69.8           66.7                72.8                    70
+    Facebook                  72.5           69.0                82.8                    60
+                                                                                         50
+    When evaluating the forecast accuracy of the suggested                               40
+framework with the NB method and the other two methods                                   30
+stated, it was shown that the NB method functions better                                 20
+with textual information than the SVM and KNN methods.                                   10
+According to the research database findings, SVM
+                                                                                          0
+additionally exhibits the least accuracy when handling
+                                                                                                    Sentiment Features           Sentiment and Numeric
+textual information.                                                                                                                   Features
+                                                                                          Fig.4. Outcomes of the K-NN Classifier-Based Future Stock Pattern
+                     Findings of the Performance Accuracy                                                         Prediction System
+             100                                                                                Although this paper concentrated on the trading
+              90                                                                      companies found on NASDAQ as realized in Facebook,
+                                                                                      Microsoft, and Yahoo, further studies can be expanded to
+              80
+                                                                                      include any number of companies in other industries other
+              70
+                                                                                      than technology. An expansion to other industries like
+              60
+                                                                                      healthcare, manufacturing and energy would offer a more
+
+  Accuracy
+              50
+                                                                                      insightful perspective on the reaction of these market
+              40                                                                      settings to finance news. Also, the possible improvements of
+              30                                                                      adapting the suggested model to diverse economic
+              20                                                                      landscape should be increased by using the broader range of
+              10                                                                      global financial news sources, i.e., Bloomberg, the Financial
+               0                                                                      Times, and popularity of non-Western but highly developed
+                           KNN                SVM                 NB                  financial outlets. This would boost the strength as well as
+                                       Methods                                        the external validity of the framework by diversifying them.
+                        Yahoo        Microsoft       Facebook
+
+
+
+
+             Authorized licensed use limited to: Galgotias University. Downloaded on October 13,2026 at 09:37:04 UTC from IEEE Xplore. Restrictions apply.
+                        V. CONCLUSION                                                [4]  Bhat R, Jain B. Stock price trend prediction using emotion
+                                                                                          analysis of financial headlines with distilled LLM model. In
+    To comprehend stock market conduct, the suggested                                     Proceedings of the 17th International Conference on Pervasive
+framework examined the concurrent impact of examining                                     Technologies Related to Assistive Environments 2024 Jun 26
+various news sources and historical numerical                                             (pp. 67-73).
+                                                                                     [5] Shiva RK, Manoharan G. Brand Equity Management and
+characteristics. The suggested framework increased the                                    Marketing in the Digital Era. In Brand Creation and
+accuracy of its forecasts for the share marketplace's future                              Management in the Phygital Era 2025 (pp. 201-224). IGI Global
+patterns by taking into account multiple daily news sources                               Scientific Publishing.
+with varying numerical characteristics throughout the day.                           [6] Mehta A, Mall S, Kothari T, Deshpande R. Hotel employees’
+                                                                                          intention to stay through psychological contract fulfillment and
+    Three types of news information were taken into                                       positive emotions in the post-lockdown era. Tourism Review.
+consideration: market-related news, corporate news, and                                   2024 Jan 18;79(1):104-18.
+financial news regarding companies written by share market                           [7] Usman M. A study of Perception and Engagement as a response
+professionals. The suggested framework comprises two                                      of Consumers towards ads on Facebook and Google search
+                                                                                          engine. Archives of Business Review–Vol. 2020 Oct 25;8(10).
+phases; the initial phase employs the NBs method to decide                           [8] Miah MD, Hasan R, Usman M. Carbon emissions and firm
+whether the news contrasts are favorable or adverse, and the                              performance: evidence from financial and non-financial firms
+subsequent phase uses the initial phase's output as input                                 from selected emerging economies. Sustainability. 2021 Nov
+along with the analyzed historical numerical statistics                                   30;13(23):13281
+                                                                                     [9] jun Gu W, hao Zhong Y, zun Li S, song Wei C, ting Dong L,
+characteristics to forecast the future share pattern employing                            yue Wang Z, Yan C. Predicting stock prices with finbert-lstm:
+the K-NN method. Utilizing the NB method, the suggested                                   Integrating news sentiment analysis. In Proceedings of the 2024
+system's sentiment evaluation findings showed an 86.22%                                   8th International Conference on Cloud and Big Data Computing
+increase in accuracy in identifying news polarity. The                                    2024 Aug 15 (pp. 67-72).
+                                                                                     [10] Srusti R. NLP-Based Sentiment Analysis of Financial News.
+significance of considering various levels of numerical                                   Journal of Financial Technologies and NLP. 2024.
+characteristics was demonstrated by the outcomes of the                              [11] Rathi C, Singh D, Bhatnagar A, Ratna S, Ojha MK. Time Series
+second phase of research. This had an outstanding accuracy                                Forecasting for Stock Price Movement: Leveraging NLP for
+compared to other earlier studies; the system for forecasting                             Stock Market Prediction. In International Conference on Data &
+                                                                                          Information Sciences 2024, May 24 (pp. 147-158). Singapore:
+the share market's future conduct had an accuracy of up to                                Springer Nature Singapore.
+89.81%.                                                                              [12] Dogra V, Verma S, Kavita, Chatterjee P, Shafi J, Choi J, Ijaz
+    Both the KNN and NB approaches produce the most                                       MF. A complete process of a text classification system using
+promising results in the suggested framework. The findings                                state‐of‐the‐art NLP models. Computational Intelligence and
+                                                                                          Neuroscience. 2022;2022(1):1883698.
+of the suggested framework align with studies that indicate a                        [13] Khan E, Ailawalia P. Sentiment Analysis of Stock Market:
+robust correlation between stock market financial news and                                Extracting and Deciphering Market Sentiments from Digital
+price fluctuations. Future updates of this framework could                                Seas. Grenze International Journal of Engineering &
+incorporate technical evaluation indicators, take into                                    Technology (GIJET). 2024 Jan 22;10.
+                                                                                     [14] Zhou Q, Jia L, Chen W. A deep learning-based model for stock
+account the impact of information on social networking                                    price prediction under consideration of financial news
+sites, and examine the identification of emotive words in                                 publishers. International Journal of General Systems. 2025 May
+assessing news poles.                                                                     19;54(4):499-539.
+    In addition to the addition of technical indicators and                          [15] Wang HC, Hsiao WC, Liou RS. Integrating technical indicators,
+                                                                                          chip factors, and stock news for enhanced stock price
+social media data proposed in this research, new research                                 predictions: A multi-kernel approach. Asia Pacific Management
+may use advanced transformer-based natural language                                       Review. 2024 Sep 1;29(3):292-305.
+processing (NLP) models. BERT, RoBERTa, and FinBERT
+are able to think more in context, and are especially
+competent in analyzing financial terms, potential sentiment,
+and even sarcasm. Such models would be probable to
+enhance the accuracy of the classification of the financial
+news, once used in the sentiment analysis stage, and the
+predictive behavior of the overall system would improve the
+overall framework. This would be a major step into
+developing more intelligent, context aware, financial
+forecasting systems.
+                           REFERENCES
+    [1]   Raja L, Manoharan G. Nurturing Green Human Resource
+          Management in Facilitating Organizational Effectiveness. In
+          2024 3rd International Conference on Computational Modelling,
+          Simulation and Optimization (ICCMSO) 2024 Jun 14 (pp. 188-
+          192). IEEE
+    [2]   Dong Z, Fan X, Peng Z. Fnspid: A comprehensive financial
+          news dataset in time series. In Proceedings of the 30th ACM
+          SIGKDD Conference on Knowledge Discovery and Data
+          Mining 2024 Aug 25 (pp. 4918-4927).
+    [3]   Mani A, Manoharan G. Innovative Strategies: How Women
+          Rural Entrepreneurs Drive Competitive Success Through
+          Creativity. In Empowering Women Through Rural Sustainable
+          Development and Entrepreneurship 2025 (pp. 233-252). IGI
+          Global Scientific Publishing.
+
+
+
+
+      Authorized licensed use limited to: Galgotias University. Downloaded on October 13,2026 at 09:37:04 UTC from IEEE Xplore. Restrictions apply.
+

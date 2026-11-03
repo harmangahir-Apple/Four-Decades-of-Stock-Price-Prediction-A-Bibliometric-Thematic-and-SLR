@@ -1,0 +1,1046 @@
+Quantum Machine Intelligence (2026) 8:55
+https://doi.org/10.1007/s42484-026-00390-9
+
+    RESEARCH ARTICLE
+
+
+
+HQNN-FSP: A hybrid classical-quantum neural network for regression-
+based financial stock market prediction
+Prashant Kumar Choudhary1 · Nouhaila Innan2,3 · Muhammad Shafique2,3 · Rajeev Singh1
+
+Received: 20 March 2025 / Accepted: 30 March 2026 / Published online: 27 April 2026
+© The Author(s), under exclusive licence to Springer Nature Switzerland AG 2026
+
+
+Abstract
+Financial time-series forecasting remains a challenging task due to complex temporal dependencies and market fluc-
+tuations. This study explores the potential of hybrid quantum-classical approaches to assist in financial trend predic-
+tion by leveraging quantum resources for improved feature representation and learning. Specifically, we introduce a
+custom-designed Quantum Neural Network (QNN) regressor based on a variational quantum circuit tailored to financial
+time-series regression under NISQ constraints. To balance expressivity and trainability, the circuit incorporates mixed
+entangling operations, feature-aware entanglement, and data re-uploading. We further investigate two hybrid optimization
+strategies: (1) a sequential approach (HybridQNN1) in which classical temporal feature extraction is followed by quan-
+tum regression, and (2) an integrated approach (HybridQNN2) that jointly optimizes classical and quantum parameters
+end-to-end under a shared loss. Systematic evaluation using TimeSeriesSplit, k-fold cross-validation, and predictive error
+analysis highlights the ability of these hybrid models to integrate quantum computing into financial forecasting workflows.
+The findings demonstrate how quantum-assisted learning can contribute to financial modeling, offering insights into the
+practical role of quantum resources in time-series analysis.
+
+Keywords Financial engineering · Stock market · Quantum machine learning · Hybrid classical-quantum models
+
+
+1 Introduction                                                              et al. 2015). However, stock price movements are inher-
+                                                                            ently complex, exhibiting high volatility, non-linearity, and
+Stock market forecasting is a critical area of financial                    dependencies on numerous macroeconomic factors, geopo-
+research due to its significant economic implications (see                  litical events, and investor sentiment dynamics (Atsalakis
+Fig. 1). Accurate predictions enable informed investment                    and Valavanis 2009; Kumar et al. 2022; Chen et al. 2015).
+decisions, mitigating risks while optimizing returns (Patel                 Traditional Machine Learning (ML) models, such as Recur-
+                                                                            rent Neural Networks (RNNs) and Long Short-Term Mem-
+                                                                            ory (LSTM) networks, have been extensively used to model
+     Prashant Kumar Choudhary                                               temporal dependencies in financial time series (Fischer and
+     prashantkchoudhary.rs.phy22@iitbhu.ac.in
+                                                                            Krauss 2017). While these methods have shown success,
+     Rajeev Singh                                                           they face several limitations, including overfitting, inad-
+     rajeevs.phy@iitbhu.ac.in
+                                                                            equate generalization in dynamic market conditions, and
+     Nouhaila Innan                                                         difficulty capturing long-range dependencies (Rather et al.
+     nouhaila.innan@nyu.edu
+                                                                            2015; Nelson et al. 2017). These challenges necessitate the
+     Muhammad Shafique                                                      exploration of alternative computational paradigms that can
+     muhammad.shafique@nyu.edu
+                                                                            better address the intricacies of financial time series (Bene-
+1
+     Department of Physics, Indian Institute of Technology                  detti et al. 2019).
+     (BHU), Varanasi 221005, India                                              Quantum Machine Learning (QML) has emerged as a
+2
+     eBRAIN Lab, Division of Engineering, New York University               promising approach that integrates Quantum Computing
+     Abu Dhabi (NYUAD), Abu Dhabi, UAE                                      (QC) principles with ML methodologies. QML leverages
+3
+     Center for Quantum and Topological Systems (CQTS),                     fundamental quantum properties such as superposition
+     NYUAD Research Institute, Abu Dhabi, UAE                               and entanglement, allowing for efficient processing of
+
+
+
+                                                                                                                               13
+55 Page 2 of 18                                                                                          Quantum Machine Intelligence (2026) 8:55
+
+
+
+
+Fig. 1 Stock price forecasting plot displaying historical prices (blue),    challenges of financial forecasting and underscores the need for robust
+a predicted trend (red) with a 95% confidence interval (shaded), and a      hybrid quantum-classical models
+clear train/test split. The observed increasing volatility highlights the
+
+
+high-dimensional and complex data (Biamonte et al. 2016;                    architectures, such as Quantum Neural Networks (QNNs)
+Schuld and Killoran 2019; Schuld et al. 2014). Superposition                through Variational Quantum Circuits (VQCs) (Cerezo et
+enables quantum systems to explore multiple computational                   al. 2021; Abbas et al. 2021), have been proposed to com-
+paths simultaneously, improving their ability to capture                    plement or replace traditional deep learning approaches.
+intricate dependencies within financial data. Entanglement                  These models employ quantum feature embedding, where
+facilitates stronger correlations between variables, leading                data is transformed into a higher-dimensional quantum Hil-
+to richer feature representations and enhanced pattern rec-                 bert space to improve separability and predictive accuracy
+ognition that classical models struggle to achieve. QML has                 (Havlíček et al. 2019). Additionally, hybrid quantum-clas-
+been actively explored across various domains, including                    sical models have emerged as a practical solution, bridging
+finance (Dutta et al. 2024; Innan et al. 2024; Pathak et al.                the gap between current quantum hardware limitations and
+2024), healthcare (Rani et al. 2023), cybersecurity (Maouaki                real-world ML applications (Benedetti et al. 2019).
+et al. 2024), natural language processing (Dave et al. 2024),                  To evaluate the potential motivations for QML, we pres-
+optimization (Dave et al. 2025), and materials science                      ent a conceptual analysis contrasting classical and quantum
+(Innan et al. 2024; Chen et al. 2024). These applications                   methodologies using a mimic-based visualization approach.
+demonstrate the potential of quantum models in address-                     This method highlights fundamental limitations in classi-
+ing computational challenges across diverse fields, further                 cal financial models while identifying areas where quan-
+motivating research into their role in financial modeling.                  tum approaches may offer improvements. As illustrated in
+   Financial markets, in particular, present a complex and                  Fig. 2, we categorize four key challenges in classical ML-
+dynamic environment where QML can offer significant                         based financial modeling:
+advantages. Challenges such as time-series forecasting,
+anomaly detection, high-frequency trading, risk manage-                     ● Overfitting in classical models: Classical regression
+ment, and fraud detection require advanced analytical tech-                   techniques, such as low-degree polynomial fits, often
+niques for handling non-stationary and high-dimensional                       capture noise instead of the underlying trend, leading
+data. QML introduces quantum-enhanced feature spaces                          to poor generalization. This motivates the exploration
+and optimization techniques, offering novel computational                     of quantum models, which, leveraging higher-dimen-
+approaches for improving predictive analytics and decision-                   sional feature spaces, may enable more robust function
+making in financial markets.                                                  approximation.
+   Extensive research has been conducted on the applica-                    ● Failure to model long-term dependencies: Classical
+tion of QML for financial modeling. Quantum-enhanced                          recurrent architectures, including LSTMs, struggle to
+
+
+
+13
+Quantum Machine Intelligence (2026) 8:55                                                                                        Page 3 of 18 55
+
+
+
+
+Fig. 2 Schematic illustrating key challenges in classical model-          where classical models show some alignment with the true trend, but
+ing, motivating the exploration of quantum approaches. (a) Overfit-       quantum predictions exhibit larger deviations, raising questions about
+ting in classical models: A low-degree polynomial fit (pink) captures     their robustness. (d) Quantum feature space: Nonlinear transforma-
+noise rather than the true trend, highlighting the limitations of clas-   tions in classical feature spaces can mimic certain quantum effects, yet
+sical curve-fitting techniques. (b) Failure to model long-term depen-     the potential for quantum-enhanced representations remains an open
+dencies: While both classical LSTM (red) and quantum RNN (blue)           question. Together, these findings highlight the need for further inves-
+models extend trends, neither fully captures complex dependencies,        tigation into whether quantum models can provide genuine advantages
+suggesting the need for improved architectures. (c) Poor generaliza-      beyond classical methods. The visualizations presented are conceptual
+tion in non-stationary markets: Forecasts struggle in volatile regimes,   representations rather than outputs from actual quantum models
+
+  maintain long-range correlations. Although both classi-                 ● Quantum feature space: Classical models can mimic
+  cal and quantum RNNs attempt to extend temporal de-                       certain quantum effects via nonlinear transformations,
+  pendencies, the potential for quantum circuits to retain                  but the possibility that quantum-enhanced representa-
+  information more effectively over extended time hori-                     tions may improve pattern recognition and decision-
+  zons motivates their study.                                               making motivates continued exploration of their role in
+● Poor generalization in non-stationary markets: Clas-                      financial forecasting.
+  sical ML models often struggle in volatile regimes,
+  exhibiting partial alignment with true trends but fail-                 Despite its theoretical promise, the practical deployment
+  ing under abrupt shifts. The hypothesis that quantum                    of QML faces significant challenges. Quantum hardware
+  approaches could enhance adaptability through their                     remains constrained by noise, limited qubit reliability, and
+  unique representational properties motivates further                    scalability issues, all impacting the feasibility of large-scale
+  investigation.                                                          QML applications (Preskill 2018; Arute et al. 2019). The
+
+
+
+                                                                                                                                     13
+55 Page 4 of 18                                                                           Quantum Machine Intelligence (2026) 8:55
+
+
+limited depth of current quantum circuits further restricts      ● Efficient parallelized model training and hyperpa-
+their ability to process high-dimensional financial data           rameter optimization: We employ systematic hyperpa-
+effectively (Zoufal et al. 2019). Given these constraints,         rameter tuning using TimeSeriesSplit, k-fold cross-vali-
+hybrid quantum-classical models have emerged as a viable           dation, RMSE analysis, and predictive error visualization
+pathway for integrating QML into financial applications,           techniques to ensure robust model evaluation.
+employing QC for specific subproblems while relying on
+classical architectures for broader computations (Schuld et      By systematically integrating QC techniques with classi-
+al. 2014).                                                       cal deep learning methodologies, this research advances
+    Recent research has explored the potential of hybrid         the state-of-the-art in financial time-series forecasting. Our
+quantum-classical models in financial forecasting and time-      findings provide valuable insights into the practical benefits
+series prediction. Studies have demonstrated that Param-         and challenges of hybrid quantum-classical models, offering
+eterized Quantum Circuits (PQCs), when integrated with           a new perspective on the role of QML in financial analytics.
+classical optimization techniques, yield promising results in       The rest of the paper is organized as follows: Section 2
+modeling complex financial patterns (Ciliberto et al. 2018;      provides an overview of the background and related work,
+Orús et al. 2019). In particular, hybrid models have shown       outlining key advancements in QML for financial forecast-
+superior capability in capturing nonlinear dependencies in       ing. Section 3 details the proposed methodology, including
+financial data compared to standalone classical approaches       the architecture of the proposed models. Section 4 presents
+(Gao and Duan 2017). However, existing research has              the results and discussion, analyzing the performance of
+largely overlooked the incorporation of domain-specific          the proposed architectures. Finally, Section 5 summarizes
+technical indicators, such as the relative Strength Index        our findings and highlights potential directions for future
+(RSI), Moving Average Convergence Divergence (MACD),             research.
+and Average Directional Index (ADX), which are widely
+used in financial analysis to enhance feature representations.
+    In this study, we introduce a hybrid quantum-classical       2 Related work
+framework for stock market prediction, integrating quan-
+tum variational circuits with classical deep learning archi-     This section reviews prior work in classical and quantum
+tectures. Our approach enhances feature engineering by           financial forecasting and identifies specific gaps that moti-
+incorporating quantum-generated representations along-           vate the proposed hybrid quantum–classical framework.
+side conventional financial indicators, enriching the input
+space for predictive modeling. The key contributions of this     2.1 Financial forecasting and ML
+research are as follows:
+                                                                 Financial forecasting relies heavily on ML models to ana-
+● Development of a hybrid quantum-classical architec-            lyze historical data and predict future market trends. Tradi-
+  ture: We propose a hybrid model that seamlessly inte-          tional methods, such as Auto Regressive Integrated Moving
+  grates custom-designed QNNs with classical deep learn-         Average (ARIMA) and Generalized Auto Regressive Con-
+  ing architectures, including RNNs, LSTMs, BiLSTMs,             ditional Heteroskedasticity (GARCH) (Kim and Won 2018),
+  and GRUs, to enhance predictive performance.                   have been widely used to capture linear dependencies and
+● Introduction of a custom QNN regressor: We design a            volatility clustering in financial time series (Atsalakis and
+  task-specific QNN regressor based on a structured varia-       Valavanis 2009). Nonetheless, these techniques often strug-
+  tional quantum circuit tailored to financial time-series       gle with the non-linearity and regime shifts observed in
+  forecasting under small-qubit Noisy Intermediate-Scale         modern financial markets. Deep learning approaches, par-
+  Quantum (NISQ) constraints. The circuit incorporates           ticularly RNNs and LSTM networks, have addressed these
+  feature-aware entanglement, alternating CZ and CNOT            challenges by capturing the complex temporal dependencies
+  entangling layers, and data re-uploading to enhance ex-        present in financial data (Mienye et al. 2024; Fischer and
+  pressivity while maintaining trainability.                     Krauss 2017; Zhang 2003). Recent work on advanced recur-
+● Dual hybrid model optimization strategies: We explore          rent neural network architectures, including LSTM and
+  two hybrid configurations: joint optimization of classical     GRU, demonstrated their effectiveness in modeling nonlin-
+  and quantum parameters and classical feature extraction        ear and dynamic patterns, with subsequent studies support-
+  followed by quantum modeling. Both approaches dem-             ing their role in improving forecasting performance (He et
+  onstrate measurable improvements in Root Mean Square           al. 2024; Emmanoulopoulos and Dimoska 2022; Vashishth
+  Error (RMSE) compared to standalone QNNs.                      et al. 2025).
+
+
+
+
+13
+Quantum Machine Intelligence (2026) 8:55                                                                     Page 5 of 18 55
+
+
+    Hybrid deep learning frameworks integrating atten-          One approach employed a quantum attention deep Q-net-
+tion mechanisms or external features, such as sentiment         work combining a variational quantum circuit with a deep
+analysis, have also contributed to enhanced predictive per-     Q-learning framework, achieving superior risk-adjusted
+formance (Wang et al. 2023). Existing work on RNN and           returns on major market indices under realistic conditions
+LSTM architectures spans a wide range of applications           (Dutta et al. 2024). Another hybrid design uses an encoder
+and modeling techniques (Al-Selwi et al. 2024), while           to convert financial time series into density matrices and a
+investigations into hybrid CNN-LSTM models indicate             deep quantum network to predict future matrices, with a
+that merging convolutional neural networks for local fea-       subsequent classical network inferring price levels; empiri-
+ture extraction with LSTMs for sequential modeling can          cal evaluations on 24 securities demonstrate both accuracy
+result in notable improvements in classification accuracy       and efficiency (Paquet and Soleymani 2022). Quantum
+(El Koufi et al. 2024). Additional studies have incorporated    methods have also been applied to high-frequency trading,
+alternative data sources, including social media sentiment,     where processing large volumes of rapidly arriving data is
+to enrich these hybrid frameworks (Saxena et al. 2023;          essential (Palaniappan et al. 2024), and quantum neural net-
+Power and Guha 2024).                                           works have been investigated for stock price prediction and
+    Past investigations have demonstrated that such encod-      financial engineering to help mitigate losses and guide trad-
+ing can boost ML model performance by aiding in the iden-       ing decisions (Iyer and Bakshi 2024).
+tification of momentum shifts and trend reversals (Wang            Interpretability remains a critical requirement in finan-
+et al. 2023; Thakkar et al. 2024; Vargas et al. 2018). Fur-     cial forecasting, as decisions must be supported by trans-
+ther work on algorithmic trading and financial time series      parent reasoning. While Shapley Additive exPlanations
+employing deep convolutional neural networks emphasizes         (SHAP) have been widely used to attribute feature con-
+the growing importance of advanced feature engineering,         tributions in classical models (Ahmad and Wishart n.d),
+with additional studies exploring the benefits of integrat-     their application in QML remains underexplored. Recent
+ing macroeconomic variables and alternative data to fur-        investigations into quantum representation learning com-
+ther enhance forecasting accuracy (Tsay 2005; Sezer and         bined with explainable artificial intelligence (Kottahach-
+Ozbayoglu 2018; Kottahachchi Kankanamge Don and                 chi Kankanamge Don and Khalil 2025) and studies on
+Khalil 2025; Chandrashekar and Sahin 2014). Despite these       feature importance in quantum frameworks (Power and
+advancements, classical ML models encounter challenges,         Guha 2024) underscore the need for more interpretable
+including overfitting, difficulty capturing long-range depen-   quantum-enhanced models. In this context, our work
+dencies, and limited adaptability in non-stationary markets     incorporates these interpretability techniques to clarify
+(Rather et al. 2015; Nelson et al. 2017).                       the decision-making process within hybrid quantum-clas-
+                                                                sical models.
+2.2 Financial forecasting and QML                                  Despite substantial progress in classical deep learning
+                                                                for financial forecasting, key challenges remain, includ-
+Recent advances in quantum-enhanced approaches have             ing non-stationarity, limited interpretability, and reduced
+sought to address the complexity and volatility inher-          robustness under shifting market regimes. In the quantum
+ent in modern financial markets. For example, embedding         and hybrid quantum–classical literature, many studies
+data in quantum circuits has improved feature separability      focus on quantum feature mappings or generic variational
+(Havlíček et al. 2019), thereby enhancing trend detection in    circuit templates, often without a systematic analysis of
+financial time series. In addition, hybrid quantum-classical    how hybrid integration choices affect predictive perfor-
+models that integrate quantum-enhanced LSTM networks            mance and computational cost under small-qubit NISQ
+have been applied to stock price prediction (Kea et al.         constraints. Interpretability has also received compara-
+2024). Prior work on QML in finance has explored its role       tively limited attention in hybrid quantum financial models.
+in time series forecasting (Doosti et al. 2024; Emmanou-        In this work, we address these gaps by explicitly compar-
+lopoulos and Dimoska 2022) and its broader implications         ing two hybrid paradigms: sequential feature extraction
+for financial modeling (Zhou 2025). Further strategies have     followed by quantum regression (HybridQNN1) and end-
+been proposed to address the challenges of adopting QML         to-end joint optimization of classical and quantum com-
+in finance, with novel designs aimed at improving financial     ponents (HybridQNN2). We further report accuracy–cost
+analysis and decision-making (Vashishth et al. 2025; Sax-       trade-offs, qubit-scaling behavior, and SHAP-based fea-
+ena et al. 2023).                                               ture attribution, positioning the study as a comparative and
+   Beyond these developments, quantum-enhanced rein-            diagnostic investigation of practical hybrid quantum–clas-
+forcement learning has been explored for financial trading.     sical modeling for financial time-series prediction.
+
+
+
+
+                                                                                                                  13
+55 Page 6 of 18                                                                                 Quantum Machine Intelligence (2026) 8:55
+
+
+3 Methodology                                                          selected features are then structured into input sequences
+                                                                       aligned with the predefined lookback period, ensuring the
+This study presents the design and implementation of a                 model captures the essential temporal dependencies within
+hybrid quantum-classical model for stock market predic-                the stock data. Since models are sensitive to feature scale
+tion, integrating classical ML with quantum circuits. The              variations, an additional normalization step is necessary to
+methodology includes data preparation, model architec-                 maintain numerical stability and facilitate efficient learning.
+tures, and evaluation metrics. A comprehensive overview of                To ensure consistent feature magnitudes and promote sta-
+the approach is illustrated in Fig. 3.                                 ble model convergence, data normalization techniques are
+                                                                       applied. Specifically, the feature data are scaled to a range
+3.1 Data preparation and preprocessing                                 between 0 and 1 using a MinMaxScaler, thereby ensuring
+                                                                       uniformity across all input features. Similarly, the target
+The dataset employed in this study comprises historical                variable is normalized to facilitate efficient learning in both
+stock prices, specifically the open, close, high, and low              the classical and quantum components of the model.
+values. To capture a more comprehensive representation
+of market behavior, the dataset is augmented with several              3.2 Model architectures
+technical indicators. In particular, the RSI is computed over
+a 14-day period to capture market momentum and identify                The proposed methodology integrates both classical and
+potential overbought or oversold conditions. Additionally,             quantum ML models to predict stock market trends. Clas-
+the MACD is calculated by combining short-term (12-day)                sical models, including RNN, LSTM, Bidirectional LSTM
+and long-term (26-day) exponential moving averages, com-               (BiLSTM), and Gated Recurrent Units (GRU), serve as
+plemented by a 9-day signal line, providing insights into              benchmark models to evaluate the effectiveness of hybrid
+trend reversals and shifts in market momentum. Finally,                quantum-classical learning. These deep learning architec-
+the ADX is determined over a 14-day period to assess the               tures are widely used for time-series forecasting due to their
+strength of prevailing trends. The integration of these tech-          ability to capture temporal dependencies. However, our
+nical indicators enriches the dataset, facilitating a more             primary focus is on quantum-enhanced methods, exploring
+robust analysis of market dynamics.                                    their potential to uncover complex correlations that classical
+   To preserve temporal integrity, the dataset is split in a           models may not efficiently capture.
+time-ordered manner into training and testing subsets.                    To achieve this, we propose three quantum-driven
+Sequential data structures are then constructed based on a             approaches: a standalone QNN, which is developed from a
+predefined lookback period, ensuring that the model learns             Hamiltonian-based PQC, and two hybrid models that inte-
+meaningful patterns from past stock price movements.                   grate classical deep learning with quantum computation.
+However, using all available features may introduce noise              The first hybrid approach, HybridQNN1, applies a classical
+and redundancy, which can degrade model performance.                   deep learning network for initial feature extraction before
+Therefore, feature selection is applied to refine the dataset          passing the transformed data to a quantum circuit for further
+by identifying the most relevant inputs.                               processing. The second approach, HybridQNN2, employs
+   To achieve this, the SelectKBest method is used to extract          an end-to-end quantum-classical framework, where the
+the most informative features that best describe the target            classical and quantum components are jointly optimized,
+variable, which, in this case, is the closing price. These             ensuring seamless interaction between the two paradigms.
+
+
+
+
+Fig. 3 Overview of the proposed hybrid quantum-classical methodology
+
+
+
+13
+Quantum Machine Intelligence (2026) 8:55                                                                      Page 7 of 18 55
+
+
+3.2.1 CustomQNN                                                             ∑ ( θi                  ϕi (i)
+                                                                                                           )
+                                                                Hsingle =                 σy(i) +     σz     .(3)
+                                                                              i
+                                                                                      2             2
+The QNN is the core computational framework, leveraging
+a PQC inspired by a Hamiltonian formulation. This design
+enables the quantum model to exploit entanglement and           To enhance expressivity and mitigate training issues such as
+quantum interference, capturing intricate dependencies in       barren plateaus, we design a customized ansatz composed
+financial data.                                                 of parameterized single-qubit rotations and entangling
+   Initially, all qubits are prepared in the ground state:      operations. The entanglement structure, introduced through
+                                                                controlled-NOT (CNOT) and controlled-Z (CZ) gates,
+|ψ(0)⟩ = |0⟩⊗n .(1)                                            establishes quantum correlations between qubits, allowing
+                                                                the model to capture non-trivial relationships in stock mar-
+Classical stock market data is mapped onto quantum states       ket trends.
+using angle encoding (see Fig. 4). Each feature xi is embed-       The Hamiltonians governing these entangling operations
+ded via single-qubit rotation gates:                            are given by:
+              (     )                        (     )                          ∑1(                  )
+                 θi                             ϕi
+RY (θi ) = exp −i Y ,          RZ (ϕi ) = exp −i Z ,(2)        HCNOT =                   1 − σz(i) σx(j) ,(4)
+                 2                              2                                     2
+                                                                              ⟨i,j⟩
+
+                                                                        (i)
+where θi = arcsin(f (xi )) and ϕi = arccos(g(xi )), ensur-      where σz is the Pauli-Z operator acting on qubit i, deter-
+ing an efficient transformation of classical information into                                                           (j)
+                                                                mining whether the control qubit is in state |1⟩, and σx is
+the quantum domain. The Hamiltonian corresponding to            the Pauli-X (bit-flip) operation applied to qubit j if qubit i
+these gates is given by:                                        is in |1⟩.
+
+Fig. 4 Angle encoding circuit,
+where each qubit qi is encoded
+using a parameterized RY gate
+with angle arcsin(f (xi )) fol-
+lowed by an RZ gate with angle
+arccos(g(xi )), mapping the classi-
+cal input xi into a quantum state
+via nonlinear transformations
+
+
+
+
+                                                                                                                   13
+55 Page 8 of 18                                                                            Quantum Machine Intelligence (2026) 8:55
+
+         ∑1(                     )(            )
+HCZ =                1 − σz(i)        1 − σz(j) .(5)              interaction blocks, including CNOT–RZ–CNOT gate
+                 4                                                 sequences, to explicitly model pairwise feature interactions
+         ⟨i,j⟩
+                                                                   prior to the main variational layers. Third, the ansatz uses
+The overall Hamiltonian governing the QNN is:                      a mixed entangling schedule that alternates CZ and CNOT
+                                                                   gates across layers with ring-closure connectivity, increas-
+H = Hsingle + HCNOT + HCZ ,(6)                                    ing correlation pathways without increasing the qubit count.
+                                                                   Finally, we incorporate data re-uploading by re-injecting
+where Hsingle encapsulates all parameterized single-qubit          input-dependent rotations inside each variational layer,
+rotations across multiple layers. The circuit architecture is      together with a learnable scaling factor that controls the
+designed to optimize the balance between expressivity and          influence of input features and improves training stability
+trainability, ensuring robust learning performance. Unlike         under NISQ constraints. These design choices collectively
+generic variational templates, the Hamiltonian decompo-            define the customized nature of the proposed ansatz and are
+sition is instantiated via indicator-aware interaction place-      summarized in Table 1.
+ment and a layer-wise mixed-entangling schedule, yielding
+a task-tailored circuit structure for financial regression.        3.2.2 HybridQNN1: Classical preprocessing with quantum
+    Once quantum transformations are applied, measure-             processing
+ments are performed in the computational basis to extract
+relevant statistical features for prediction. The probability of   The HybridQNN1 model follows a sequential classical-to-
+obtaining a measurement outcome x is given by:                     quantum pipeline, where a classical deep learning model
+                                                                   first extracts meaningful features from stock market data
+P (x) = |⟨x|ψ(t)⟩|2 .(7)                                          before passing the transformed features to a shallow quan-
+                                                                   tum circuit for further refinement. This approach ensures
+This probability distribution is then used to compute observ-      that the classical model efficiently captures temporal depen-
+ables relevant to financial modeling.                              dencies, while the quantum circuit enhances feature rep-
+   The customized quantum ansatz utilized in our QNN               resentation through entanglement and interference. The
+framework is shown in Fig. 5, illustrating its layered struc-      process starts with X , representing the input stock price
+ture with entangling operations and parameterized quantum          data, which undergoes feature extraction through a classical
+gates.                                                             model before being encoded into quantum states. The quan-
+                                                                   tum model processes the encoded data, applying variational
+What is customized about the proposed QNN ansatz The               transformations through a QNN regressor (Havlíček et al.
+proposed variational quantum circuit is custom-designed            2019). Finally, the measured quantum outputs are passed
+for low-qubit financial time-series regression and differs         to a post-processing layer before generating the final stock
+from standard template ansatz (e.g., Hardware-Efficient            price prediction.
+or TwoLocal circuits) in several concrete aspects. First,              The classical feature extraction module is implemented by
+the circuit adopts a feature-aware entanglement policy,            combining both handcrafted feature selection using SelectK-
+where qubits are mapped to specific financial indicators           Best with regression and deep learning based feature extrac-
+and entanglement is applied preferentially within indicator        tion via an LSTM network (Chandrashekar and Sahin 2014;
+groups (e.g., momentum and trend indicators) rather than           Fischer and Krauss 2017), which is well-suited for captur-
+uniformly across all qubits. Second, we employ structured          ing long-range dependencies in time-series data. Given an
+
+Fig. 5 Customized quantum
+ansatz utilized in QNN (also in
+HybridQNN2). The circuit inte-
+grates parameterized single-qubit
+rotations and entangling operations
+to enhance feature representation
+and learning capacity
+
+
+
+
+13
+Quantum Machine Intelligence (2026) 8:55                                                                            Page 9 of 18 55
+
+
+Table 1 Comparison of the proposed customized QNN ansatz with          is subsequently encoded into a quantum state for further
+commonly used variational circuit templates in quantum machine
+learning                                                               quantum processing.
+Property      Hardware-Effi- ZZFea- Generic           Proposed             Following classical feature extraction, the processed
+              cient / TwoLocal ture-      PQC         CustomQNN        data is encoded into quantum states using the same angle
+                                 Map +                                 encoding method as explained in the QNN. Once the
+                                 HEA                                   quantum state is prepared, the QNN regressor applies a
+Entangler     Single entangler Fixed      Uniform     Alternat-
+                                                                       sequence of variational transformations, consisting of
+pattern       (CNOT/CZ)          ZZ       entangle-   ing CZ
+                                 interac- ment        and CNOT         trainable single-qubit rotations and entangling operations
+                                 tions +              layers           (CNOT, CZ). These transformations introduce non-classi-
+                                 HEA                                   cal correlations, enabling the quantum circuit to capture
+Connectiv- Linear / Full         Full or Problem-     Ring +           higher-order dependencies in financial data. Following
+ity                              Linear indepen-      conditional
+                                          dent        entanglement
+                                                                       quantum processing, measurements are performed on a
+Data          No                 No       Optional    Yes(layer-       computational basis, similar to the QNN. The architecture
+re-uploading                                          wise)            of the QNN regressor, a key component of HybridQNN1,
+Feature-      No                 No       No          Yes (indi-       is illustrated in Fig. 6.
+aware                                                 cator-group
+design                                                based)
+                                                                       3.2.3 HybridQNN2: Fully integrated quantum-classical
+The proposed CustomQNN ansatz is compared to the variational
+circuit templates that are frequently employed in quantum machine      optimization
+learning. ZZFeatureMap-based designs and Hardware-Efficient/
+TwoLocal circuits are among the standard approaches that typically     Unlike HybridQNN1, which applies quantum processing
+implement uniform entanglement patterns and problem-independent        after classical feature extraction, in HybridQNN2, both the
+connectivity. Conversely, the proposed approach includes layer-wise
+data re-uploading, an alternating CZ–CNOT entangling schedule          classical and quantum components are trained in a fully
+with ring-closure connectivity, and feature-aware entanglement.        integrated manner through joint optimization. This design
+These design decisions expressly customize the circuit structure for   ensures that raw stock price features are processed concur-
+financial time-series regression under small-qubit NISQ constraints,   rently by a classical LSTM-based feature extractor and a
+thereby achieving a balance between expressivity and trainability,
+rather than pursuing generic universality                              QNN based on a Hamiltonian-derived PQC. The classical
+                                                                       network captures broader market trends, while the QNN is
+                                                                       designed to uncover intricate correlations that may be less
+input sequence of stock prices X = {x1 , x2 , ..., xt }, the           accessible via classical methods.
+classical model computes:                                                 As shown in Fig. 7, preprocessed data is fed in paral-
+                                                                       lel to both the classical and quantum layers. Their outputs
+ht = σ(Wh ht−1 + Wx xt + bh ),(8)                                     are fused in a dedicated fusion layer before being passed
+                                                                       on to a fully connected prediction layer. This entire process
+ot = Wo ht + bo ,(9)                                                  is optimized end-to-end using backpropagation with shared
+                                                                       loss functions, enabling cohesive learning across both
+where ht represents the hidden state at time step t,                   components.
+Wh , Wx , Wo are learnable weight matrices, bh , bo are biases,           Mathematically, the fusion process can be expressed as:
+and σ is the activation function. The final hidden state of the
+classical model serves as the feature representation, which            Xhybrid = f (Wquantum · XQNN + Wclassical · XDL ),(10)
+
+
+Fig. 6 QNN Regressor circuit, the
+core quantum processing unit in
+HybridQNN1. The circuit inte-
+grates parameterized single-qubit
+operations and entangling gates to
+enhance feature learning
+
+
+
+
+                                                                                                                         13
+55 Page 10 of 18                                                                                     Quantum Machine Intelligence (2026) 8:55
+
+
+
+
+Fig. 7 HybridQNN2 architecture, the process starts with the prepro-     fused and passed to a fully connected prediction layer, with joint back-
+cessed data being simultaneously fed to a classical LSTM-based fea-     propagation updating both components
+ture extractor and a parameterized quantum circuit. Their outputs are
+
+
+where Wquantum and Wclassical are trainable parameters,                 ensuring that both the quantum and classical components
+XQNN and XDL represent the quantum and classical feature                are refined concurrently via backpropagation.
+outputs respectively, and f (·) is a nonlinear activation func-            The training procedure begins with the partitioning of
+tion. In HybridQNN2, we intentionally employ a lightweight              the time-series data using TimeSeriesSplit cross-validation.
+fusion mechanism that combines classical and quantum                    This method maintains the temporal order of the dataset,
+feature representations via weighted aggregation followed               enabling an authentic evaluation of the model’s perfor-
+by a nonlinearity. This design choice is motivated by three             mance across sequential data folds. To further enhance
+considerations. First, our goal is to enable a controlled com-          generalization and prevent overfitting, early stopping is
+parison between hybrid integration paradigms; introducing               implemented by monitoring the validation loss, interrupt-
+complex fusion modules (e.g., attention-based or deep con-              ing the optimization process when improvements become
+catenation networks) would add trainable parameters that                negligible. Additionally, a learning rate schedule is applied
+could dominate learning and obscure the specific contribu-              to gradually reduce the learning rate during training, which
+tion of the quantum component. Second, under small-qubit                facilitates more precise convergence.
+NISQ constraints and limited training data, simpler fusion                 The core of the optimization strategy lies in the joint update
+mechanisms reduce the risk of overfitting and improve                   of all trainable parameters—both those in the classical layers
+training stability. Third, a compact fusion layer facilitates           and those within the quantum circuit. The Adam optimizer, a
+interpretability and supports gradient flow during joint                robust variant of stochastic gradient descent, is used to mini-
+optimization, which is important for analyzing the behav-               mize the Mean Squared Error (MSE) cost function defined as:
+ior of hybrid quantum–classical models. More expressive
+                                                                                  1∑
+                                                                                      n
+fusion strategies remain an important direction for future
+                                                                        Cost =          (yi − ŷi )2 ,(11)
+work as quantum resources and data availability scale. This                       n i=1
+fully integrated quantum-classical model not only simpli-
+fies the training process but also leverages the strengths of
+both components. The simultaneous optimization enhances                 where yi represents the true target values, ŷi are the pre-
+generalization performance, offering robust predictive capa-            dicted values, and n is the number of samples. During each
+bilities by combining quantum-enhanced feature extraction               iteration, the optimizer computes gradients with respect to
+with the established power of deep learning.                            the loss and updates the corresponding parameters in both
+                                                                        the classical deep learning modules and the quantum circuit.
+3.3 Training process and optimization                                   This unified update mechanism ensures that improvements
+                                                                        in one component are propagated throughout the network,
+For all three models—CustomQNN, HybridQNN1, and                         leading to a more cohesive learning process.
+HybridQNN2—the training process is designed to optimize                    This training process integrates classical optimization
+the entire network by updating all trainable parameters,                techniques with joint parameter updates to optimize both
+including those within the quantum circuit, using a classi-             the quantum and classical components. By employing Time-
+cal optimizer. In our approach, the classical Adam optimizer            SeriesSplit cross-validation, early stopping, and a learning
+is employed to update the parameters in a unified manner,               rate schedule alongside the Adam optimizer, our framework
+
+
+
+
+13
+Quantum Machine Intelligence (2026) 8:55                                                                                                                          Page 11 of 18 55
+
+
+effectively refines all trainable parameters, resulting in                                                     4.2 Stock price prediction performance
+enhanced performance and robust generalization across
+CustomQNN, HybridQNN1, and HybridQNN2 models.                                                                  We assess the predictive performance of quantum and
+                                                                                                               hybrid QNN models in forecasting stock price trends. As
+                                                                                                               shown in Fig. 8, in Phase 1 (Time: 0–4000), the actual stock
+4 Results and discussion                                                                                       prices fluctuate within a relatively narrow range (Close
+                                                                                                               Price: 0.25–0.45). The predictions from CustomQNN,
+4.1 Experimental settings                                                                                      HybridQNN1, and HybridQNN2 exhibit partial overlap
+                                                                                                               with these real values, effectively capturing general price
+To ensure a rigorous evaluation of the proposed hybrid                                                         levels and broader trends, albeit with occasional deviations
+quantum-classical models for stock market prediction, the                                                      in short-term fluctuations. In Phase 2 (Time: 4000–6000),
+experimental setup incorporated well-defined dataset prepa-                                                    the actual stock prices experience a sharp downward shift
+ration, model architectures, hyperparameter tuning, and                                                        toward values close to zero. However, the predictions from
+evaluation metrics. The details are summarized in Table 2.                                                     all three models remain consistently within the initial price
+   Experiments are conducted using a quantum simulator                                                         range (0.25–0.45), indicating their inability to promptly
+(QULACS) and a High-Performance Computing (HPC)                                                                adjust to sudden market changes or regime shifts. This
+cluster. The classical and hybrid quantum-classical models                                                     discrepancy underscores a limitation in model responsive-
+were trained on the PARAM Shivay supercomputer at IIT                                                          ness to rapid price dynamics. Overall, while the evaluated
+(BHU), utilizing GPU nodes equipped with 2 × Intel Xeon                                                        models demonstrate promising predictive capability dur-
+Skylake 6148 CPUs (20 cores @ 2.4GHz each), 192GB                                                              ing stable market conditions (Phase 1), their performance
+RAM, and 2 × NVIDIA Tesla V100 GPUs (5120 CUDA                                                                 deteriorates significantly during abrupt market transitions
+cores, 16GB HBM2). The code execution is parallelized                                                          (Phase 2). This highlights potential areas for improvement
+using CUDA and scheduled via Slurm job management,                                                             in quantum and hybrid models through further optimization
+leveraging 100Gbps InfiniBand EDR network communica-                                                           and adaptive training strategies.
+tion for efficient multi-node execution.
+                                                                                                               4.3 Prediction error analysis
+Table 2 Summary of our experimental settings
+Parameter                    Details                                                                           To further evaluate the stock price prediction performance,
+Dataset                      Historical stock prices (Sahoo n.d.)                                              we analyze the models’ error distributions using Gauss-
+Data Partitioning            80% training, 20% testing                                                         ian fit analysis and violin plot interpretation. As shown in
+Validation Methods           TimeSeriesSplit and k-fold                                                        Fig. 9-(a), the histogram provides a detailed view of the
+                             cross-validation
+                                                                                                               error spread, while the Gaussian fit illustrates how well
+Classical Models             LSTM, RNN, BiLSTM, GRU (Rather
+                             et al. 2015; Nelson et al. 2017; Kumar
+                                                                                                               the errors follow a normal distribution. The CustomQNN
+                             et al. 2022)                                                                      model exhibits a broader distribution, indicating a higher
+Quantum Frameworks           Qiskit and scikit-QULACS (Javadi-                                                 variance in its prediction errors. In contrast, HybridQNN1
+                             Abhari et al. 2024) (​h​t​t​p​s​:​​​/​​/​q​u​l​a​c​​​s​-​o​​s​a​k​​​a​.​          and HybridQNN2 demonstrate narrower distributions,
+                             g​​i​t​h​​​u​b​​.​​i​o​​/​s​c​i​​​k​i​​t​-​q​u​l​​a​c​s​/​i​​n​d​e​x​.​h​t​m​l)
+Classical Frameworks         TensorFlow and scikit-learn
+Number of Qubits             3, 4, and 5
+Hyperparameters              Lookback period: 2, Batch size: 32, Max
+                             iterations: 500, Early stopping applied
+Optimization Algorithm Adam optimizer with learning rate
+                             scheduling
+Performance Metric           RMSE
+The experimental setup employs both TimeSeriesSplit and k-fold
+cross-validation techniques to ensure robust model evaluation. His-
+torical stock price data is partitioned into 80% for training and 20%
+for testing. Classical models explored include LSTM, RNN, BiLSTM,
+and GRU, while quantum models are developed using Qiskit and
+scikit-QULACS frameworks. TensorFlow and scikit-learn are utilized                                             Fig. 8 Comparison of actual stock prices with predictions from quan-
+as the main classical ML libraries. Quantum circuits are tested with 3,                                        tum and hybrid QNN models: CustomQNN, HybridQNN1, and
+4, and 5 qubits. Key hyperparameters include a lookback period of 2,                                           HybridQNN2. Phase 1 (Time: 0–4000) demonstrates a reasonable
+batch size of 32, a maximum of 500 training iterations, early stopping,                                        overlap between predictions and actual values, while in Phase 2 (Time:
+and the Adam optimizer with a learning rate scheduling strategy.                                               4000–6000), predictions fail to capture the sharp downward trend in
+Model performance is evaluated using the RMSE metric                                                           stock prices
+
+
+
+                                                                                                                                                                         13
+55 Page 12 of 18                                                                                     Quantum Machine Intelligence (2026) 8:55
+
+
+
+
+Fig. 9 Comparison of prediction error distributions across Custom-       wider spread, suggesting higher variability in errors. (b) The violin
+QNN, HybridQNN1, and HybridQNN2. (a) The histogram of predic-            plots further highlight the stability of HybridQNN models, showing
+tion errors with Gaussian fits shows that HybridQNN models exhibit a     a tighter error distribution compared to CustomQNN, which demon-
+narrower distribution with a peak near zero, indicating lower variance   strates greater variance
+and more consistent predictions. In contrast, CustomQNN displays a
+
+
+suggesting that their errors are more concentrated around                exhibits higher RMSE values, indicating less accurate pre-
+zero. The tighter Gaussian fits of HybridQNN models con-                 dictions, whereas HybridQNN1 and HybridQNN2 achieve
+firm their greater stability and lower error variance, though            lower RMSE values, with HybridQNN2 maintaining the
+they are still not perfect.                                              lowest error across all configurations. The 5-qubit setting
+   In Fig. 9-(b), the violin plot provides additional insight            yields the best accuracy, particularly for HybridQNN2,
+by visualizing the density and spread of errors for each                 reinforcing the benefit of more tightly integrated quantum-
+model. The CustomQNN model displays a wider shape                        classical layers. However, computational trade-offs emerge
+with notable outliers, reflecting its higher variability. On             as training time increases with higher qubit counts. While
+the other hand, HybridQNN1 and HybridQNN2 show more                      HybridQNN2 is more computationally efficient in lower
+compact distributions, with errors clustered near zero, indi-            qubit configurations, HybridQNN1 exhibits a sharp rise
+cating improved consistency and reduced variance in their                in training time at 5 qubits. This highlights a key trade-off
+predictions.                                                             between accuracy and efficiency, where increasing qubit
+                                                                         counts can enhance predictive performance and introduce
+4.4 Qubit count analysis                                                 higher computational costs.
+
+To assess the impact of qubit count on model performance,                4.5 Global feature attribution analysis using SHAP
+we analyze the loss values and training times across different
+qubit configurations for CustomQNN, HybridQNN1, and                      To further examine model interpretability, we perform SHAP
+HybridQNN2. As shown in Table 3, we compare these models                 analysis on a representative subset of the test data. The
+using 3, 4, and 5 qubits, highlighting their respective RMSE             resulting global attribution patterns are shown in Fig. 10,
+values and computational costs. CustomQNN consistently                   while the corresponding mean absolute SHAP magnitudes
+
+Table 3 Average RMSE and Training Time (Seconds) for 3,4 and 5 qubits
+Model                      Average RMSE                                              Training Time (Seconds)
+                           3 Qubits             4 Qubits           5 Qubits          3 Qubits               4 Qubits          5 Qubits
+CustomQNN                  0.07603              0.05528            0.06120           120765.63              155362.05         139337.06
+HybridQNN1                 0.02605              0.02161            0.01740           121020.84              155336.05         227781.18
+HybridQNN2                 0.02312              0.01959            0.01920           69841.69               92337.84          118833.32
+RMSE and training time (in seconds) for CustomQNN, HybridQNN1, and HybridQNN2 across different qubit configurations using Time-
+SeriesSplit. The results illustrate the trade-off between prediction accuracy and computational cost, with HybridQNN2 achieving the lowest
+RMSE while maintaining relatively efficient training times
+
+
+
+13
+Quantum Machine Intelligence (2026) 8:55                                                                                    Page 13 of 18 55
+
+
+                                                                          Table 5 Qualitative comparison of global SHAP attribution character-
+                                                                          istics across classical, quantum, and hybrid architectures
+                                                                          Model            Autore-       Short-Term Long-          Attribution
+                                                                                           gressive      Momentum Term             Distribution
+                                                                                           Dependence Sensitivity      Trend
+                                                                                                                       Sensitivity
+                                                                          RNN              Strong        Moderate      Very Low Moderately
+                                                                                                                                   Concentrated
+                                                                          LSTM             Strong        Strong        Very Low Momentum-
+                                                                                                                                   Dominant
+                                                                          BiLSTM           Very Strong Strong          Moderate Price–
+                                                                                           (bidirec-                               Momentum
+                                                                                           tional                                  Focused
+                                                                                           price)
+                                                                          GRU              Strong        Moderate      Low         Relatively
+Fig. 10 SHAP-based global feature attribution across classical and                                                                 Balanced
+quantum models. (a) RNN, (b) LSTM, (c) BiLSTM, (d) GRU, (e)               CustomQNN Strong               Moderate      High        Structurally
+CustomQNN, (f) HybridQNN1, and (g) HybridQNN2. Color indicates                                                                     Distributed
+feature magnitude (blue: low, red: high), and the horizontal axis shows   HybridQNN1 Strong              Strong        Very Low Short-Term
+each feature’s SHAP contribution to the model output                                                                               Dominant
+                                                                          HybridQNN2 Strong              Strong        Low         Short-Term
+                                                                                                                                   Aligned
+and the detailed comparison for selected structural indica-
+                                                                          Qualitative categories are derived from relative SHAP attribution
+tors are summarized in Tables 4 and 5.                                    patterns observed in Fig. 10. “Strong” and “Low” indicate compara-
+    Across all architectures, opent−1 (opening price one day              tive importance within each model rather than absolute magnitude
+before prediction) consistently emerges as the most influen-
+tial predictor. Higher values of opent−1 yield predominantly         is substantially larger than in any classical or hybrid model.
+positive SHAP contributions, confirming strong autoregres-           This indicates that the variational quantum circuit captures
+sive dependence in next-day price forecasting. This pattern          longer-term structural dependencies in addition to short-
+is consistent across classical, quantum, and hybrid variants.        term autoregressive behavior. The SHAP distribution in Fig.
+    Among classical recurrent models, short-term trend               10-(e) further reflects a more evenly distributed contribution
+and momentum indicators—particularly sma50t−1 and                    across trend and momentum features.
+MACDt−1 —follow in importance, whereas long-term                         The hybrid variants reveal distinct behaviors.
+structural indicators (sma200) contribute minimally. This            HybridQNN1 (sequential feature extraction) suppresses
+suggests that classical architectures primarily model short-         long-term trend sensitivity, with sma200 exhibiting negli-
+horizon price dynamics rather than broader structural                gible importance. This suggests that independently trained
+trends. The GRU exhibits the most balanced attribution pro-          classical feature extraction biases the learned representa-
+file among classical models, whereas the BiLSTM places               tion toward short-term dynamics before quantum process-
+relatively stronger emphasis on contemporaneous price and            ing. HybridQNN2 (joint optimization) improves alignment
+momentum interactions.                                               among short-term indicators but does not recover the stron-
+    In contrast, the CustomQNN demonstrates a structurally           ger long-term structural sensitivity observed in the stand-
+different attribution pattern. The contribution of sma200t−0         alone CustomQNN.
+                                                                         Overall, the SHAP analysis confirms that while all mod-
+Table 4 Mean absolute SHAP values for selected structural indicators els rely on autoregressive momentum signals, the Cus-
+across models                                                        tomQNN uniquely incorporates broader structural market
+Model                  opent−1          MACDt−1            sma200t−0 information. These findings support the interpretability and
+RNN                    0.0762           0.0023             0.0017    economic plausibility of the proposed quantum architecture.
+LSTM                    0.0553            0.0249           0.0018
+BiLSTM                  0.0314            0.0138           0.0083         4.6 Loss analysis using k-Fold cross-validation and
+GRU                     0.0505            0.0126           0.0018
+                                                                          time series techniques
+CustomQNN               0.0297            0.0110           0.0185
+HybridQNN1              0.0473            0.0188           0.0009
+HybridQNN2              0.0508            0.0158           0.0016
+                                                                          We validate model robustness by analyzing loss values
+Values correspond to mean absolute SHAP magnitudes computed               under two distinct cross-validation strategies: k-fold cross-
+over the test subset. Larger values indicate stronger average con-        validation and TimeSeriesSplit. The k-fold cross-validation
+tribution to the model output. Reported indicators highlight autore-      technique randomly divides the dataset into K equal folds,
+gressive (opent−1 ), momentum (MACDt−1 ), and long-term trend             assuming data points are independently and identically
+(sma200t−0 ) effects
+
+
+
+                                                                                                                                   13
+55 Page 14 of 18                                                                                    Quantum Machine Intelligence (2026) 8:55
+
+
+distributed. While effective for many datasets, this approach            4.7 Comparative performance analysis
+can introduce information leakage in time-series data, as
+future observations may unintentionally appear in the train-             Rather than focusing solely on comparing quantum and
+ing set. TimeSeriesSplit, in contrast, maintains the chrono-             classical models, this section evaluates the effectiveness of
+logical order of data, ensuring that training is based only on           hybrid quantum-classical architectures within the broader
+past data while testing is conducted on future observations,             landscape of stock price prediction. As shown in Table 6
+making it more suitable for sequential dependencies.                     and Fig. 12, HybridQNN models consistently achieve
+   As shown in Fig. 11-a, RMSE consistently decreases                    lower RMSE than CustomQNN, demonstrating the benefits
+across models, suggesting that k-fold cross-validation                   of hybridization. However, classical models continue to
+provides a more generalized estimate of predictive perfor-               achieve the lowest RMSE, reinforcing their robustness and
+mance, while TimeSeriesSplit results in higher RMSE due                  efficiency in this task.
+to the inherent challenges of handling sequential depen-                    Several factors contribute to the superior performance
+dencies. Among the models, HybridQNN2 consistently                       of classical recurrent models observed in our experiments.
+achieves the lowest RMSE, reinforcing its superior pre-                  First, classical LSTM- and GRU-based architectures pos-
+dictive accuracy. However, this improvement comes at a                   sess a strong inductive bias for sequential data and are
+computational cost. Figure 11-b highlights the training time             specifically designed to capture long-range temporal depen-
+variations across models, where HybridQNN1 incurs the                    dencies, whereas the quantum circuits employed here do
+highest computational cost, particularly when using k-fold               not explicitly encode recurrence. Second, the small number
+cross-validation, which generally requires more training                 of qubits (3–5) imposes a strict capacity limit on the quan-
+time than TimeSeriesSplit due to repeated model evalua-                  tum hypothesis space relative to deep classical networks.
+tions across multiple folds.                                             Third, parameterized quantum circuits are more difficult to
+   These results suggest a trade-off between predictive                  optimize, exhibiting flatter loss landscapes and incurring
+accuracy and computational efficiency when selecting a                   substantially higher computational cost even under simula-
+validation approach for hybrid quantum models. While                     tion. Finally, current NISQ-era hardware and circuit designs
+k-fold cross-validation provides a more stable performance               prioritize feasibility over depth, which further constrains
+estimate, TimeSeriesSplit aligns better with real-world                  expressivity. These factors collectively explain why classi-
+sequential forecasting tasks. The choice between these                   cal baselines remain dominant in this setting.
+methods depends on the application requirements, balanc-                    The objective of this work is not to assert an immedi-
+ing generalization, computational cost, and model reliability            ate quantum advantage, even though classical models
+in dynamic financial environments.                                       obtain superior predictive accuracy in the current context.
+
+
+
+
+Fig. 11 Comparison of RMSE and training time for our models using        models, with HybridQNN1 incurring the highest computational cost,
+TimeSeriesSplit and k-fold cross-validation. (a) RMSE decreases          and k-fold generally requiring more time than TimeSeriesSplit. The
+across models, indicating improved predictive accuracy, while Time-      results suggest a trade-off between predictive accuracy and computa-
+SeriesSplit results in higher RMSE due to challenges in handling         tional efficiency in hybrid quantum models
+sequential dependencies. (b) Training time varies significantly across
+
+
+
+
+13
+Quantum Machine Intelligence (2026) 8:55                                                                                  Page 15 of 18 55
+
+
+Table 6 Loss comparison of classical, quantum and hybrid models
+Model                   Average RMSE                                                  Training Time (Seconds)
+                        3 Features           4 Features           5 Features          3 Features            4 Features          5 Features
+LSTM                    0.00781              0.00670              0.00649             3790.59               3281.62             2735.92
+RNN                     0.00772              0.00671              0.00659             3699.21               3139.98             2232.31
+BiLSTM                  0.00775              0.00715              0.00669             4146.64               3675.25             3471.38
+GRU                     0.00781              0.00687              0.00669             3806.17               3319.52             2854.31
+CustomQNN               0.07603              0.05528              0.06120             120765.63             155362.05           139337.06
+HybridQNN1              0.02605              0.02161              0.01740             121020.84             155336.05           227781.18
+HybridQNN2              0.02312              0.01959              0.01920             69841.69              92337.84            118833.32
+Comparison of average RMSE and training time (seconds) for different models using 3, 4, and 5 features, determined via SelectKBest (k=3,
+k=4, k=5). The selected feature count is mapped to the number of qubits in quantum/hybrid models. Results are obtained using TimeSeriesSplit
+cross-validation
+
+
+                                                                        hybridization mitigates some quantum limitations for this
+                                                                        case. Despite these advantages, hybrid models still face
+                                                                        computational trade-offs. CustomQNN experiences high
+                                                                        RMSE and prolonged training times, highlighting inef-
+                                                                        ficiencies in standalone quantum models. HybridQNN1,
+                                                                        while performing well, incurs significantly higher training
+                                                                        costs than HybridQNN2, suggesting that different quantum-
+                                                                        classical integration strategies influence overall efficiency.
+                                                                           These findings emphasize the promise of hybrid archi-
+                                                                        tectures while highlighting areas for further improvement.
+                                                                        Optimizing quantum encoding schemes, reducing circuit
+                                                                        depth, and enhancing noise resilience could enhance the
+Fig. 12 Comparison of average RMSE for classical models (LSTM,          feasibility of hybrid approaches. As quantum hardware con-
+RNN, BiLSTM, GRU) with 3, 4, and 5 selected features (via Select-
+KBest) and our quantum/hybrid models (CustomQNN, HybridQNN1,
+                                                                        tinues to advance, hybrid models may become more com-
+HybridQNN2) with 3, 4, and 5 qubits, respectively. The number of        petitive with classical methods, narrowing the performance
+selected features in classical models corresponds to the number of      gap and offering new possibilities for financial forecasting
+qubits in quantum/hybrid models. Classical models exhibit stable        and other predictive tasks.
+RMSE with limited improvement from additional features, while quan-
+tum models show potential but require further optimization. Hybrid
+models demonstrate better performance than pure quantum models          4.8 Discussion
+
+Rather, the proposed hybrid frameworks provide a sys-                   The analysis of stock price prediction using hybrid quan-
+tematic examination of how quantum components can be                    tum-classical models highlights their advantages and limi-
+integrated with classical models under realistic NISQ con-              tations. The results consistently indicate that hybrid models
+straints. Our results demonstrate that hybridization consis-            outperform purely quantum models in predictive accuracy,
+tently improves performance relative to standalone quantum              with HybridQNN2 achieving the lowest RMSE across all
+models and reduces error variance, suggesting that classi-              configurations. The improved performance of HybridQNN2
+cal–quantum coupling alleviates some limitations of purely              is primarily attributable to end-to-end joint optimization.
+quantum approaches. In addition, the analysis of accuracy–              HybridQNN1 trains the classical feature extractor indepen-
+cost trade-offs, qubit-scaling behavior, and hybrid integra-            dently of the quantum module, which can induce a represen-
+tion strategies offers insight into the practical conditions            tation mismatch: the classical network learns features that
+under which quantum-enhanced models may become com-                     are well suited for classical-only prediction rather than for
+petitive as hardware, optimization methods, and data avail-             subsequent quantum encoding. In contrast, HybridQNN2
+ability improve.                                                        optimizes the classical and quantum parameters simulta-
+   A clear trend emerges: classical models maintain stable              neously under a shared loss, allowing both components to
+RMSE values with minimal improvement from additional                    co-adapt. This coordinated gradient flow encourages the
+features, whereas hybrid models exhibit stronger gains in               classical network to produce representations that better
+predictive performance compared to purely quantum mod-                  align with the expressive capacity of the quantum circuit.
+els. Notably, HybridQNN2 achieves the lowest RMSE                       Moreover, HybridQNN2 avoids staged execution and typi-
+among quantum-enhanced methods, confirming that                         cally reduces repeated quantum evaluations compared with
+
+
+
+                                                                                                                                13
+55 Page 16 of 18                                                                               Quantum Machine Intelligence (2026) 8:55
+
+
+HybridQNN1, improving computational efficiency and                layers in expanding the feature space. Although hybrid
+yielding more stable training behavior. The Gaussian error        quantum–classical models reduce prediction variance and
+distribution and violin plot analysis further confirm that        improve robustness relative to standalone quantum models
+hybrid models exhibit lower variance and greater stabil-          in stable regimes, the results indicate limited responsive-
+ity, reinforcing their effectiveness in mitigating prediction     ness to abrupt market regime shifts and periods of extreme
+inconsistencies.                                                  volatility. Addressing such non-stationarity may require
+    However, all models struggle with rapid market transi-        additional mechanisms, including adaptive retraining,
+tions, underscoring the need for adaptive mechanisms to           regime-aware modeling, or reinforcement learning–based
+improve responsiveness to abrupt changes. A critical trade-       strategies; investigating these extensions is reserved for
+off emerges between model complexity and computational            future work.
+cost, as increasing the qubit count enhances predictive accu-        Interpretability played a key role in this study, as the
+racy but significantly prolongs training time, particularly for   SHAP analysis shows that domain-specific technical indica-
+HybridQNN1, which incurs the highest computational over-          tors, such as RSI and MACD, significantly influenced the
+head in the 5-qubit setting. This emphasizes the importance       model’s predictive output. This emphasizes the importance
+of efficient quantum circuit design to balance performance        of incorporating well-selected financial features to improve
+and resource consumption.                                         model performance. Additionally, HybridQNN2 exhibited a
+    Comparisons with classical deep learning models reveal        more balanced error distribution, reducing extreme predic-
+that while hybrid models improve upon purely quantum              tion errors and enhancing stability, as reflected in the RMSE
+approaches, they still fall short of the performance achieved     analysis.
+by state-of-the-art architectures such as LSTM and BiL-              Despite the advantages, several limitations remain.
+STM in terms of RMSE. This suggests hybridization helps           Quantum circuit execution is resource-intensive, and perfor-
+mitigate quantum limitations but does not yet confer a deci-      mance is constrained by the current state of NISQ devices.
+sive advantage over classical models. Several directions          Future work will explore larger-scale quantum architectures,
+for improvement emerge, including enhancing adaptability          including noise-resilient quantum processors, to enhance
+through reinforcement learning to better handle market fluc-      model scalability and precision. Furthermore, extending the
+tuations, optimizing hybrid architectures to reduce circuit       model with larger datasets and additional financial indica-
+depth and improve qubit utilization, exploring alternative        tors could improve its adaptability and generalization. Test-
+quantum encoding schemes to enhance feature representa-           ing real-time applications on quantum hardware will also
+tion, and leveraging quantum error mitigation to address          be crucial for assessing its practical feasibility in financial
+noise-related challenges and enhance model reliability.           markets.
+    Overall, hybrid quantum-classical models represent               The key takeaway from this research is that hybrid quan-
+a promising avenue for financial forecasting but require          tum-classical models offer a promising approach to finan-
+further optimization to compete effectively with classical        cial forecasting. While not yet surpassing classical deep
+deep learning approaches. Future advancements in quan-            learning methods, they provide a viable path toward quan-
+tum hardware, noise reduction techniques, and algorithmic         tum-enhanced predictive analytics. As quantum hardware
+refinements will be crucial in narrowing the performance          advances and cloud-accessible QC matures, hybrid models
+gap and unlocking the full potential of quantum-enhanced          can play a transformative role in financial decision-making,
+financial models.                                                 offering enhanced accuracy, interpretability, and deeper
+                                                                  insights into complex market dynamics.
+
+5 Conclusion                                                      Acknowledgements This work was supported by the HRD Group of
+                                                                  the Council of Scientific & Industrial Research (CSIR) provided CSIR
+                                                                  Research Fellowships, and in parts by the NYUAD Center for Quan-
+This paper introduces a hybrid quantum-classical model            tum and Topological Systems (CQTS), funded by Tamkeen under the
+for stock market forecasting, leveraging the strengths of         NYUAD Research Institute grant CG008. The authors also acknowl-
+both classical recurrent models and quantum circuits to           edge the National Supercomputing Mission (NSM) for providing
+                                                                  computing resources of ‘PARAM Shivay’ at the Indian Institute of
+capture complex financial time series patterns. The results       Technology (BHU), Varanasi, which is implemented by C-DAC and
+demonstrate that integrating quantum models with classical        supported by the Ministry of Electronics and Information Technology
+architectures enhances predictive accuracy and robustness,        (MeitY) and Department of Science and Technology (DST), Govern-
+particularly when compared to standalone quantum models.          ment of India.
+The analysis confirms that HybridQNN1 and HybridQNN2
+                                                                  Author Contributions All authors contributed to the study conception
+consistently outperform CustomQNN, highlighting the               and design. The first draft of the manuscript was written by P.K.C, and
+effectiveness of parameterized rotation and entanglement          N.I extensively revised the manuscript. M.S and R.S also contributed
+
+
+
+13
+Quantum Machine Intelligence (2026) 8:55                                                                                                                                                          Page 17 of 18 55
+
+to reviewing and refining the content. All authors reviewed, comment-                                                 Chen, I., Innan, N., Roy, S.K., Saroni, J.: Crossing the gap using varia-
+ed on previous versions, and approved the final manuscript.                                                                tional quantum eigensolver: A comparative study. arXiv preprint
+                                                                                                                           arXiv:2405.11687. (2024)
+Funding This research received no specific grant from any funding                                                     Ciliberto, C., Herbster, M., Ialongo, A.D., Pontil, M., Rocchetto, A.,
+agency in the public, commercial, or not-for-profit sectors.                                                               Severini, S., Wossnig, L.: Quantum machine learning: a classi-
+                                                                                                                           cal perspective. Proceedings of the Royal Society A: Mathemati-
+Data Availability The data used in this study is publicly available and                                                    cal, Physical and Engineering Sciences. 474, 20170551 (2018)
+can be accessed from relevant stock market databases and Kaggle. Any                                                       10.1098/rspa.2017.0551
+additional datasets or materials generated during the study are avail-                                                Dave, K., Innan, N., Behera, B.K., Mumtaz, Z., Al-Kuwari, S., Farouk,
+able from the corresponding author upon reasonable request.                                                                A.: Sentiqnf: A novel approach to sentiment analysis using
+                                                                                                                           quantum algorithms and neuro-fuzzy systems. arXiv preprint
+                                                                                                                           arXiv:2412.12731. (2024)
+Code Availability The code developed for this research is available                                                   Dave, K., Innan, N., Behera, B.K., Mumtaz, S., Al-Kuwari, S., Farouk,
+upon request from the corresponding author.                                                                                A., et al.: Optimizing low-energy carbon iiot systems with quan-
+                                                                                                                           tum algorithms: Performance evaluation and noise robustness.
+Declarations                                                                                                               IEEE Internet of Things Journal. (2025)
+                                                                                                                      Doosti, M., Wallden, P., Hamill, C.B., Hankache, R., Brown, O.T.,
+Conflicts of Interest The authors declare that there are no conflicts of                                                   Heunen, C.: A Brief Review of Quantum Machine Learning for
+interest regarding the publication of this paper.                                                                          Financial Services (2024). ​h​t​t​p​​s​:​/​​/​a​r​x​​i​v​​.​o​r​​g​/​a​b​​s​/​2​​4​0​7​​.​1​2​6​1​8
+                                                                                                                      Dutta, S., Innan, N., Marchisio, A., Yahia, S.B., Shafique, M.:
+                                                                                                                           QADQN: Quantum attention deep q-network for financial market
+Competing interests The authors declare no competing interests.
+                                                                                                                           prediction. arXiv preprint arXiv:2408.03088. (2024)
+                                                                                                                      El Koufi, N., Missah, Y.M., Belangour, A.: A hybrid cnn-lstm based
+                                                                                                                           natural language processing model for sentiment analysis of
+References                                                                                                                 customer product reviews: A case study from ghana. Journal of
+                                                                                                                           Hunan University Natural Sciences. 51(8) (2024)
+                                                                                                                      Emmanoulopoulos, D., Dimoska, S.: Quantum machine learning in
+Abbas A, Sutter D, Zoufal C, Lucchi A, Figalli A, Woerner S (2021)
+                                                                                                                           finance: Time series forecasting. arXiv preprint arXiv:2202.00599.
+     The power of quantum neural networks. Nature Computational
+                                                                                                                           (2022)
+     Science 1(6):403–409
+                                                                                                                      Fischer, T., Krauss, C.: Deep learning with long short-term memory
+Ahmad, N., Wishart, D.: Hybrid Approaches in Financial Time-
+                                                                                                                           networks for financial market predictions. European Journal of
+     Series Forecasting: Balancing Performance and Interpretability.
+                                                                                                                           Operational Research. 270 (2017) 10.1016/j.ejor.2017.11.054
+     10.13140/RG.2.2.28715.04649
+                                                                                                                      Gao, X., Duan, L.-M.: Efficient representation of quantum many-body
+Al-Selwi SM, Hassan MF, Abdulkadir SJ, Muneer A, Sumiea EH,
+                                                                                                                           states with deep neural networks. Nature Communications. 8
+     Alqushaibi A, Ragab MG (2024) Rnn-lstm: From applications
+                                                                                                                           (2017) 10.1038/s41467-017-00705-2
+     to modeling techniques and beyond—systematic review. Journal
+                                                                                                                      Havlíček V, Córcoles AD, Temme K, Harrow AW, Kandala A, Chow
+     of King Saud University - Computer and Information Sciences
+                                                                                                                           JM, Gambetta JM (2019) Supervised learning with quantum-
+     36(5):102068. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​1​6​​/​j​.​​j​k​s​u​c​i​.​2​0​2​4​.​1​0​2​0​6​8
+                                                                                                                           enhanced feature spaces. Nature 567(7747):209–212. ​h​t​t​p​​s​:​/​​/​d​o​
+Arute, F., Arya, K., Babbush, R., Bacon, D., Bardin, J., Barends, R.,
+                                                                                                                           i​​.​o​​r​g​/​​1​0​.​1​​0​3​8​​/​s​4​​1​5​8​6​-​0​1​9​-​0​9​8​0​-​2
+     Biswas, R., Boixo, S., Brandao, F., Buell, D., Burkett, B., Chen,
+                                                                                                                      He, Y., Huang, P., Hong, W., Luo, Q., Li, L., Tsui, K.-L.: In-depth
+     Y., Chen, Z., Chiaro, B., Collins, R., Courtney, W., Dunsworth,
+                                                                                                                           insights into the application of recurrent neural networks (rnns)
+     A., Farhi, E., Foxen, B., Martinis, J.: Quantum supremacy using a
+                                                                                                                           in traffic prediction: A comprehensive review. Algorithms. 17(9)
+     programmable superconducting processor. Nature. 574, 505–510
+                                                                                                                           (2024) 10.3390/a17090398
+     (2019) 10.1038/s41586-019-1666-5
+                                                                                                                      Innan N, Sawaika A, Dhor A, Dutta S, Thota S, Gokal H, Patel N, Khan
+Atsalakis, G., Valavanis, K.: Surveying stock market forecasting tech-
+                                                                                                                           MA-Z, Theodonis I, Bennai M (2024) Financial fraud detection
+     niques - part ii: Soft computing methods. Expert Syst. Appl. 36,
+                                                                                                                           using quantum graph neural networks. Quantum Machine Intel-
+     5932–5941 (2009) 10.1016/j.eswa.2008.07.006
+                                                                                                                           ligence 6(1):7
+Benedetti, M., Lloyd, E., Sack, S., Fiorentini, M.: Parameterized quan-
+                                                                                                                      Innan N, Khan MA-Z, Bennai M (2024) Quantum computing for elec-
+     tum circuits as machine learning models. Quantum Science and
+                                                                                                                           tronic structure analysis: Ground state energy and molecular prop-
+     Technology. 4 (2019) 10.1088/2058-9565/ab4eb5
+                                                                                                                           erties calculations. Materials Today Communications 38:107760
+Biamonte, J., Wittek, P., Pancotti, N., Rebentrost, P., Wiebe, N., Lloyd,
+                                                                                                                      Iyer, R., Bakshi, A.: Artificial intelligence and quantum computing
+     S.: Quantum machine learning. Nature. 549 (2016) 10.1038/
+                                                                                                                           techniques for stock market predictions. Deep Learning Tools for
+     nature23474
+                                                                                                                           Predicting Stock Market Movements, 123–146 (2024)
+Cerezo M, Arrasmith A, Babbush R, Benjamin SC, Endo S, Fujii K,
+                                                                                                                      Javadi-Abhari, A., Treinish, M., Krsulich, K., Wood, C.J., Lishman,
+     McClean JR, Mitarai K, Yuan X, Cincio L et al (2021) Variational
+                                                                                                                           J., Gacon, J., Martiel, S., Nation, P.D., Bishop, L.S., Cross,
+     quantum algorithms. Nature Reviews. Physics 3(9):625–644
+                                                                                                                           A.W., et al.: Quantum computing with qiskit. arXiv preprint
+Chandrashekar G, Sahin F (2014) A survey on feature selection meth-
+                                                                                                                           arXiv:2405.08810. (2024)
+     ods. Computers & electrical engineering 40(1):16–28
+                                                                                                                      Kea, K., Kim, D., Huot, C., Kim, T.-K., Han, Y.: A hybrid quan-
+Chen, K., Zhou, Y., Dai, F.: A lstm-based method for stock returns
+                                                                                                                           tum-classical model for stock price prediction using quantum-
+     prediction: A case study of china stock market. In: Proceed-
+                                                                                                                           enhanced long short-term memory. Entropy. 26(11) (2024)
+     ings - 2015 IEEE International Conference on Big Data, IEEE
+                                                                                                                           10.3390/e26110954
+     Big Data 2015. Proceedings - 2015 IEEE International Confer-
+                                                                                                                      Kim HY, Won CH (2018) Forecasting the volatility of stock price
+     ence on Big Data, IEEE Big Data 2015, pp. 2823–2824. Institute
+                                                                                                                           index: A hybrid model integrating lstm with multiple garch-type
+     of Electrical and Electronics Engineers Inc., (2015). 10.1109/
+                                                                                                                           models. Expert Syst Appl 103:25–37
+     BigData.2015.7364089
+
+
+
+
+                                                                                                                                                                                                            13
+55 Page 18 of 18                                                                                                                                                                  Quantum Machine Intelligence (2026) 8:55
+
+Kottahachchi Kankanamge Don, A., Khalil, I.: Qrlaxai: quantum rep-                                                                                  Machine Learning Solutions for Financial Analysis and Decision
+     resentation learning and explainable ai. Quantum Machine Intel-                                                                                Making. Packt Publishing Ltd, (2023)
+     ligence. 7(1), 1–22 (2025)                                                                                                                Schuld, M., Killoran, N.: Quantum machine learning in feature hil-
+Kumar G, Singh UP, Jain S (2022) An adaptive particle swarm opti-                                                                                   bert spaces. Phys. Rev. Lett. 122, 040504 (2019) 10.1103/
+     mization-based hybrid long short-term memory model for stock                                                                                   PhysRevLett.122.040504
+     price time series forecasting. Soft Comput 26(22):12115–12135.​                                                                           Schuld, M., Sinayskiy, I., Petruccione, F.: An introduction to quan-
+     h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​7​​/​s​0​​0​5​0​0​-​0​2​2​-​0​7​4​5​1​-​8                                                    tum machine learning. Contemporary Physics. 56 (2014)
+Maouaki, W.E., Innan, N., Marchisio, A., Said, T., Bennai, M.,                                                                                      10.1080/00107514.2014.964942
+     Shafique, M.: Quantum clustering for cybersecurity. arXiv pre-                                                                            Sezer OB, Ozbayoglu AM (2018) Algorithmic financial trading with
+     print arXiv:2408.02314. (2024)                                                                                                                 deep convolutional neural networks: Time series to image con-
+Mienye, I.D., Swart, T.G., Obaido, G.: Recurrent neural networks: A                                                                                 version approach. Appl Soft Comput 70:525–538
+     comprehensive review of architectures, variants, and applica-                                                                             Thakkar S, Kazdaghli S, Mathur N, Kerenidis I, Ferreira-Martins
+     tions. Information. 15(9) (2024) 10.3390/info15090517                                                                                          A, Brito S (2024) Improved financial forecasting via quantum
+Nelson, D., Pereira, A., Oliveira, R.: Stock market’s price movement                                                                                machine learning. Quantum Machine Intelligence 6(1):27. ​h​t​t​p​​s​
+     prediction with lstm neural networks, pp. 1419–1426 (2017).                                                                                    :​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​7​​/​s​4​​2​4​8​4​-​0​2​4​-​0​0​1​5​7​-​0
+     10.1109/IJCNN.2017.7966019                                                                                                                Tsay, R.S.: Analysis of Financial Time Series. John wiley & sons,
+Orús, R., Mugel, S., Lizaso, E.: Quantum computing for finance:                                                                                     (2005)
+     Overview and prospects. Reviews in Physics. 4, 100028 (2019)                                                                              Vargas, M.R., Dos Anjos, C.E., Bichara, G.L., Evsukoff, A.G.: Deep
+     10.1016/j.revip.2019.100028                                                                                                                    leaming for stock market prediction using technical indicators
+Palaniappan, V., Ishak, I., Ibrahim, H., Sidi, F., Zukarnain, Z.A.: A review                                                                        and financial news articles. In: 2018 International Joint Confer-
+     on high frequency trading forecasting methods: Opportunity and                                                                                 ence on Neural Networks (IJCNN), pp. 1–8 (2018). IEEE
+     challenges for quantum based method. IEEE Access. (2024)                                                                                  Vashishth, T.K., Sharma, V., Kaushik, V., Singh, A., Kaushik, S., et
+Paquet E, Soleymani F (2022) Quantumleap: Hybrid quantum neural                                                                                     al.: Exploring quantum challenges and opportunities of quantum
+     network for financial predictions. Expert Syst Appl 195:116583                                                                                 machine learning adoption in finance. Machine Learning and
+Patel, J., Shah, S., Thakkar, P., Kotecha, K.: Predicting stock and stock                                                                           Modeling Techniques in Financial Data Science, 437–460 (2025)
+     price index movement using trend deterministic data preparation                                                                           Wang Z, Hu Z, Li F, Ho S-B, Cambria E (2023) Learning-based stock
+     and machine learning techniques. Expert Systems with Applica-                                                                                  trending prediction by incorporating technical indicators and
+     tions. 42, 259–268 (2015) 10.1016/j.eswa.2014.07.040                                                                                           social media sentiment. Cogn Comput 15(3):1092–1102. ​h​t​t​p​​s​:​/​​
+Pathak, P., Oad, V., Prajapati, A., Innan, N.: Resource allocation opti-                                                                            /​d​o​i​​.​o​​r​g​/​​1​0​.​1​​0​0​7​​/​s​1​​2​5​5​9​-​0​2​3​-​1​0​1​2​5​-​8
+     mization in 5g networks using variational quantum regressor. In:                                                                          Zhang, G.P.: Time series forecasting using a hybrid arima and neural
+     2024 International Conference on Quantum Communications,                                                                                       network model. Neurocomputing. 50, 159–175 (2003) 10.1016/
+     Networking, and Computing (QCNC), pp. 101–105 (2024). IEEE                                                                                     S0925-2312(01)00702-0
+Power, L., Guha, K.: Feature importance and explainability in quan-                                                                            Zhou J (2025) Quantum finance: Exploring the implications of quan-
+     tum machine learning. arXiv preprint arXiv:2405.08917. (2024)                                                                                  tum computing on financial models. Comput Econ. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​
+Preskill, J.: Quantum computing in the nisq era and beyond. Quantum.                                                                                g​/​​1​0​.​1​​0​0​7​​/​s​1​​0​6​1​4​-​0​2​5​-​1​0​8​9​4​-​4
+     2 (2018) 10.22331/q-2018-08-06-79                                                                                                         Zoufal, C., Lucchi, A., Woerner, S.: Quantum generative adversarial
+Rani, S., Pareek, P.K., Kaur, J., Chauhan, M., Bhambri, P.: Quantum                                                                                 networks for learning and loading random distributions. npj
+     machine learning in healthcare: Developments and challenges.                                                                                   Quantum Information. 5 (2019) 10.1038/s41534-019-0223-2
+     In: 2023 IEEE International Conference on Integrated Circuits
+     and Communication Systems (ICICACS), pp. 1–7 (2023). IEEE                                                                                 Publisher’s Note Springer Nature remains neutral with regard to juris-
+Rather, A., Agarwal, A., Sastry, V.: Recurrent neural network and a                                                                            dictional claims in published maps and institutional affiliations.
+     hybrid model for prediction of stock returns. Expert Systems with
+     Applications. 42 (2015) 10.1016/j.eswa.2014.12.003                                                                                        Springer Nature or its licensor (e.g. a society or other partner) holds
+SAHOO, D.: Stock Market Data - Nifty 100 stocks (5 min) data. Data                                                                             exclusive rights to this article under a publishing agreement with the
+     set. ​h​t​t​p​​s​:​/​​/​w​w​w​​.​k​​a​g​g​​l​e​.​c​​o​m​/​​d​a​t​​a​s​e​​t​s​/​​d​e​b​a​​s​h​​i​s​7​​4​0​1​7​​/​s​t​​o​c​k​​-​m​a​​r​k​   author(s) or other rightsholder(s); author self-archiving of the accepted
+     e​​t​-​d​a​​t​a​​-​n​i​​f​t​y​-​​1​0​0​​-​s​t​​o​c​k​s​-​5​-​m​i​n​-​d​a​t​a Accessed 2023-12-31                                          manuscript version of this article is solely governed by the terms of
+Saxena, A., Mancilla, J., Montalban, I., Pere, C.: Financial Model-                                                                            such publishing agreement and applicable law.
+     ing Using Quantum Computing: Design and Manage Quantum
+
+
+
+
+13
+

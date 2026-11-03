@@ -1,0 +1,3 @@
+﻿Study_ID,Field,Retained_Value,Limitation
+P00663,Technical_Indicators,No,Binary Yes/No taxonomy cannot express evidence uncertainty; do not interpret No as verified absence
+P00841,Technical_Indicators,No,Binary Yes/No taxonomy cannot express evidence uncertainty; do not interpret No as verified absence

@@ -1,0 +1,10 @@
+﻿Study_ID,Field,Original_Value,Corrected_Value,Reason
+P00401,Raw_Input_Features,Not stated,Historical closing prices; 60-day input windows; technical indicators mentioned but implementation not demonstrated,Full-text-supported input description
+P00401,Manual_Review_Required,No,Yes,Source-based methodological ambiguity
+P00211,Forecast_Horizon,Multiple_Horizons,Not_Reported,Exact evaluated lead not established
+P00661,Dataset_Source,"Chinese stocks 600,719.SS and 000679.SZ (Yahoo Finance)","Kaggle NVIDIA Stock Data (Latest and Updated); NVIDIA monthly closing prices, 2000–2025","Original P00661 full text, pp. 1–4"
+P00661,Sampling_Frequency,Not_Reported,Monthly,Original paper explicitly uses monthly data
+P00661,Evidence_Location,Abstract_Only,"Full text, pp. 1–4",Original source methodology and results verified
+P00826,Market_Country,Yahoo Finance (not stated which stocks/market),Not stated,Yahoo Finance is not a market country
+P00826,Sampling_Frequency,Mixed,Not_Reported,Mixed-frequency implementation not established
+P00425,Principal_Method_Family,Deep-learning models,Other/unclear,ARIMA/LSTM comparison has no demonstrated dominant family or integrated hybrid

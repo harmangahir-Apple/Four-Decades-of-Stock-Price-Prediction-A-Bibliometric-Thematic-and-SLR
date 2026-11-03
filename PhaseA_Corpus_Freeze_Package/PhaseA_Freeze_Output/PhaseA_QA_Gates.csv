@@ -1,0 +1,12 @@
+﻿Gate,Status,Observed,Required_Action
+Final study-ID congruence,PASS,"Compiled included, Compiled audit, Supplement 492 and final family audit: same 492 IDs",Freeze ID list and protect from overwrite
+Evidence-scope counts,PASS,"{'Abstract_Only': 88, 'Metadata_Only': 25, 'Full_Text': 379}",Maintain full-text/abstract-only/metadata-only scope labels
+Different 493-row register identities,REVIEW,Compiled-only ['P00295']; legacy-only ['P04845'],Document both historical 493 populations explicitly; never equate counts with identical study sets
+Legacy 493 mapping,PASS,['P04845'],Document excluded record; do not mix legacy counts
+Modality applicability,PASS,['P00814'],Exclude Not Applicable record from 491 denominator only
+Legacy 492-labelled modality input,FAIL,Extra vs applicable ['P04845']; Missing vs applicable [],Replace ID set; manually adjudicate divergent modality flags
+Same-named modality copy,PASS,Byte-identical,Do not mistake duplicate file for independent evidence
+Authoritative field congruence,PASS,0 field-level disagreements in comparable fields,Resolve by field-level evidence hierarchy; do not bulk replace
+Modality indicator congruence,REVIEW,8 category disagreements between supplementary register and retained legacy modality flags,Inspect the corresponding explicit/override evidence for each difference
+Legacy Table 18 compatibility,FAIL,Legacy audit 493 rows; final audit 492 rows,"Regenerate family-by-audit table from frozen 492, not 493"
+Eligibility of non-original P00814,REVIEW,P00814 title indicates state-of-the-art analysis; currently Included_High_Priority and Not_Applicable for modalities,Manually confirm it meets technical-synthesis eligibility; do not silently exclude

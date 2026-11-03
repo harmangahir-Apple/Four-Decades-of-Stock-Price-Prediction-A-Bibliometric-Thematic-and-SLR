@@ -1,0 +1,11 @@
+﻿Study_ID,Excel_Column,Field,Existing_Value,Proposed_Value,Adjudication_Status,Evidence_Location
+P00211,J,Principal_Method_Family,Deep-learning models,ARIMA-only; controlled-family mapping unresolved,HOLD_ELIGIBILITY_AND_TAXONOMY,PDF pp.1-5
+P00211,M,Forecast_Horizon,Multiple_Horizons,Not_Reported,HOLD_HORIZON_DEFINITION_REVIEW,"PDF pp.2,5"
+P00211,N,Asset_Scope,Single_Stock,Multiple_Stocks,SOURCE_VERIFIED_PROPOSED,PDF pp.1-2
+P00211,O,Market_Country,Apple Inc. (AAPL) stock,United States; Apple (AAPL) and Amazon (AMZN),SOURCE_VERIFIED_PROPOSED,PDF pp.1-2
+P00211,P,Dataset_Source,Apple Inc. (AAPL) stock,Yahoo Finance,SOURCE_VERIFIED_PROPOSED,PDF p.2
+P00211,Q,Sampling_Frequency,Not_Reported,Daily,PROPOSED_CONFIRM_CODING_RULE,"PDF pp.2,5"
+P00211,R,Raw_Input_Features,Historical price data (not stated further),Historical adjusted closing prices of AAPL and AMZN,SOURCE_VERIFIED_PROPOSED,PDF p.2
+P00211,AC,Validation_Design,Unclear,Chronological train/test holdout,HOLD_CONTROLLED_VALUE_MAPPING,PDF p.2
+P00211,AE,Chronological_Split,Unclear,Yes,SOURCE_VERIFIED_PROPOSED,PDF p.2
+P00211,AI,Nonstationarity_Acknowledged,Unclear,Yes,SOURCE_VERIFIED_PROPOSED,PDF pp.2-4

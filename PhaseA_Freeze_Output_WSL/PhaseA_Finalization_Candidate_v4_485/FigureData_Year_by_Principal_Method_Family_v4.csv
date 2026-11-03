@@ -1,0 +1,60 @@
+﻿Year,Principal_Method_Family,Count
+2016,Metaheuristic-optimized models,3
+2017,Deep-learning models,1
+2017,Metaheuristic-optimized models,1
+2017,Sentiment/NLP-driven models,1
+2018,Deep-learning models,2
+2018,Hybrid deep-learning models,2
+2018,Metaheuristic-optimized models,2
+2018,Sentiment/NLP-driven models,1
+2019,Deep-learning models,3
+2019,Metaheuristic-optimized models,1
+2019,Sentiment/NLP-driven models,1
+2020,Deep-learning models,5
+2020,Ensemble/tree-based machine learning,1
+2020,Hybrid deep-learning models,2
+2020,Sentiment/NLP-driven models,1
+2021,Deep-learning models,6
+2021,Ensemble/tree-based machine learning,3
+2021,Hybrid deep-learning models,5
+2021,Metaheuristic-optimized models,1
+2021,Other/unclear,1
+2021,Sentiment/NLP-driven models,4
+2021,Transformer/attention-based models,1
+2022,Deep-learning models,4
+2022,Hybrid deep-learning models,5
+2022,Metaheuristic-optimized models,2
+2022,Sentiment/NLP-driven models,4
+2023,Deep-learning models,6
+2023,Ensemble/tree-based machine learning,1
+2023,Hybrid deep-learning models,2
+2023,Metaheuristic-optimized models,1
+2023,Sentiment/NLP-driven models,3
+2023,Transformer/attention-based models,1
+2024,Deep-learning models,17
+2024,Ensemble/tree-based machine learning,1
+2024,Graph-based models,2
+2024,Hybrid deep-learning models,4
+2024,Metaheuristic-optimized models,1
+2024,Sentiment/NLP-driven models,2
+2024,Transformer/attention-based models,6
+2025,ANN/neuro-fuzzy models,1
+2025,Deep-learning models,56
+2025,Ensemble/tree-based machine learning,22
+2025,Graph-based models,9
+2025,Hybrid deep-learning models,61
+2025,Metaheuristic-optimized models,27
+2025,Multimodal-fusion models,10
+2025,Other/unclear,1
+2025,Sentiment/NLP-driven models,36
+2025,Statistical/econometric models,1
+2025,Transformer/attention-based models,36
+2026,Deep-learning models,14
+2026,Ensemble/tree-based machine learning,5
+2026,Graph-based models,5
+2026,Hybrid deep-learning models,28
+2026,Metaheuristic-optimized models,12
+2026,Multimodal-fusion models,2
+2026,Other/unclear,1
+2026,Sentiment/NLP-driven models,24
+2026,Transformer/attention-based models,24

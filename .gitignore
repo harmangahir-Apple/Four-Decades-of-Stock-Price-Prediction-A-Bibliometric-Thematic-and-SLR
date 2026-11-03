@@ -1,0 +1,66 @@
+# ARCO Revision-I — Initial GitHub safety exclusions
+
+# Python/Jupyter environment and cache
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+
+# Credentials and secrets
+*.pem
+*.p12
+*.pfx
+*.key
+id_rsa*
+*credentials*.json
+*secrets*.json
+
+# Windows and operating-system metadata
+*:Zone.Identifier
+Thumbs.db
+.DS_Store
+
+# Research sources requiring separate rights review
+01_Raw_Data/
+02_Merged_Data/
+04_Elicit_Output/
+07_Reference_Exports/
+PhaseA_Source_Evidence/
+PhaseB3_Primary_Sources/
+**/Original_Source_Retrieval_v1/
+
+# Publisher PDFs and compressed archives
+*.pdf
+*.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+*.tgz
+
+# Large generated data and binary models
+*.parquet
+*.feather
+*.sqlite
+*.db
+*.pkl
+*.joblib
+*.pt
+*.pth
+*.h5
+*.hdf5
+*.npy
+*.npz
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+~$*

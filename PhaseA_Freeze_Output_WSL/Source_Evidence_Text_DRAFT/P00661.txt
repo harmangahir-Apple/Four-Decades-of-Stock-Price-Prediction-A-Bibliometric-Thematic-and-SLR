@@ -1,0 +1,197 @@
+                                                                                                                                                                                               Comparative Evaluation for Limitations of LSTM
+
+
+
+
+2025 International Technical Conference on Circuits/Systems, Computers, and Communications (ITC-CSCC) | 979-8-3315-5363-0/25/$31.00 ©2025 IEEE | DOI: 10.1109/ITC-CSCC66376.2025.11137719
+                                                                                                                                                                                                 and GRU Models in Stock Price Prediction
+                                                                                                                                                                                                         Teranun Kitnapat                                Suchada Sitjongsataporn                               Nithis Limpraditthanon
+                                                                                                                                                                                                 Dept. of Computer Engineering         Dept. of Electronic Engineering       Dept. of Computer Engineering
+                                                                                                                                                                                              Mahanakorn University of Technology          School of Electrical and       Mahanakorn University of Technology
+                                                                                                                                                                                                 International College (MUTIC)          Electronic Engineering (SEE)         International College (MUTIC)
+                                                                                                                                                                                              Faculty of Engineering and Technology Faculty of Engineering and Technology Faculty of Engineering and Technology
+                                                                                                                                                                                              Mahanakorn University of Technology Mahanakorn University of Technology Mahanakorn University of Technology
+                                                                                                                                                                                                  Nongchok, Bangkok, Thailand          Nongchok, Bangkok, Thailand            Nongchok, Bangkok, Thailand
+                                                                                                                                                                                                  Email: Teranun.k@gmail.com              Email: ssuchada@mut.ac.th         nithislimpraditthanon@gmail.com
+
+
+
+                                                                                                                                                                                               Abstract—This paper evaluates the effectiveness of three deep                leading to fewer parameters and faster training times, often
+                                                                                                                                                                                            learning models GRU, LSTM, and Bi-LSTM in predicting stock                      without sacrificing performance [4]. Bi-LSTM enhances the
+                                                                                                                                                                                            price trends using only historical data. The models were trained                LSTM architecture by allowing information to be processed in
+                                                                                                                                                                                            on NVIDIA’s monthly closing stock prices from 2000 to 2025
+                                                                                                                                                                                            and assessed using common regression metrics. While the models                  both forward and backward directions, potentially improving
+                                                                                                                                                                                            captured general price trends, their predictions were not very                  pattern recognition by capturing both past and future context
+                                                                                                                                                                                            accurate. The results emphasize that relying solely on past                     [5].
+                                                                                                                                                                                            prices fails to account for influential real world factors such as                 While these models have shown promising results in some
+                                                                                                                                                                                            political developments, economic shifts, market sentiment, and                  financial applications, their effectiveness often diminishes
+                                                                                                                                                                                            speculation. This study shows the limitations of these models,
+                                                                                                                                                                                            while they are able to detect short term patterns, they cannot be               when relying solely on historical price data [6]. For instance,
+                                                                                                                                                                                            relied upon for robust or realistic stock market forecasting.                   in cryptocurrency price forecasting, GRU has demonstrated
+                                                                                                                                                                                              Keywords—Stock price prediction, LSTM, BiLSTM, GRU,                           superior generalization compared to LSTM and Bi-LSTM,
+                                                                                                                                                                                            Deep Learning, Limitations.                                                     particularly on smaller datasets, due to its simpler structure [7].
+                                                                                                                                                                                                                                                                            However, models like Bi-LSTM, despite capturing complex
+                                                                                                                                                                                                                     I. I NTRODUCTION                                       temporal patterns, are prone to overfitting without adequate
+                                                                                                                                                                                               Forecasting stock prices remains one of the most complex                     regularization or diverse input features.
+                                                                                                                                                                                            challenges in financial analytics due to the dynamic and                           Overall, these deep learning models provide a solid founda-
+                                                                                                                                                                                            multi factor nature of financial markets. Recent advancements                   tion for time-series modeling but face clear limitations in stock
+                                                                                                                                                                                            in deep learning, particularly recurrent neural networks like                   prediction scenarios, especially when critical external factors
+                                                                                                                                                                                            Gated Recurrent Units (GRU), Long Short-Term Memory                             such as economic policies, investor sentiment, and global news
+                                                                                                                                                                                            (LSTM), and Bidirectional LSTM (Bi-LSTM), have shown                            are excluded from the input data.
+                                                                                                                                                                                            promise in modeling time series data [1].                                          In this paper, all three models were able to learn the general
+                                                                                                                                                                                               However, the true effectiveness of these models in stock                     upward trend in NVIDIA’s stock price. GRU performed best
+                                                                                                                                                                                            prediction remains questionable when relying solely on his-                     overall with the lowest RMSE and highest R2 score, followed
+                                                                                                                                                                                            torical price data. This paper explores their performance on                    closely by LSTM. Bi-LSTM showed signs of overfitting, per-
+                                                                                                                                                                                            NVIDIA’s historical stock prices and critically evaluates their                 forming well on training data but worse on test data. However,
+                                                                                                                                                                                            limitations.                                                                    even the best performing model of GRU had an average
+                                                                                                                                                                                               Deep learning has become increasingly popular in financial                   monthly prediction error of over $35 USD, highlighting a
+                                                                                                                                                                                            time-series forecasting, particularly for modeling stock prices                 significant gap in predictive reliability.
+                                                                                                                                                                                            [2]. Among the most widely used architectures are Recurrent
+                                                                                                                                                                                                                                                                                                 II. M ODEL A RCHITECTURE
+                                                                                                                                                                                            Neural Networks (RNNs) and their more advanced variants
+                                                                                                                                                                                            GRU, LSTM, and Bi-LSTM [3]. These models are designed                           A. Gated Recurrent Unit (GRU)
+                                                                                                                                                                                            to capture sequential dependencies and have shown success in                      GRU is a simplified version of the LSTM network [1]. It
+                                                                                                                                                                                            domains like speech recognition, natural language processing,                   uses two gates an update gate and a reset gate. The update
+                                                                                                                                                                                            and financial trend analysis.                                                   gate determines how much past information to retain, while
+                                                                                                                                                                                               LSTM networks were developed to address the vanishing                        the reset gate controls how much past information to forget.
+                                                                                                                                                                                            gradient problem in traditional RNNs by introducing memory                      This streamlined design reduces the number of parameters,
+                                                                                                                                                                                            cells and three types of gates (as input, forget, and output)                   making GRU faster to train and less prone to overfitting. GRU
+                                                                                                                                                                                            to control information flow across time steps [2]-[3]. GRU                      models are known for performing well on smaller datasets and
+                                                                                                                                                                                            simplifies this design with only two gates, update and reset,                   maintaining strong generalization as shown in Fig. 1.
+
+
+
+
+                                                                                                                                                                                                    Authorized licensed use limited to: Galgotias University. Downloaded on October 13,2026 at 09:31:52 UTC from IEEE Xplore. Restrictions apply.
+                      Fig. 1. GRU model summary.                                                      Fig. 3. Bi-LSTM model summary.
+
+
+
+                                                                                                      III. S IMULATION R ESULTS
+                                                                                   All three models were able to learn the general upward
+                                                                                trend in NVIDIA’s stock price. GRU performed best overall
+                                                                                with the lowest RMSE and highest R2 score, followed closely
+                                                                                by LSTM. Bi-LSTM showed signs of overfitting, performing
+                                                                                well on training data but worse on test data. However, even
+                                                                                the best performing model (GRU) had an average monthly
+                                                                                prediction error of over $35 USD, highlighting a significant
+                                                                                gap in predictive reliability.
+                                                                                   All three models demonstrated the ability to learn general
+                                                                                trends in NVIDIA’s stock price movements over the 25-year
+                                                                                period from [8]. However, their performance in accurately
+                                                                                predicting specific price points varied significantly.
+                                                                                   The GRU model outperformed the others across all metrics,
+                     Fig. 2. LSTM model summary.                                achieving the lowest RMSE and highest R2 and variance
+                                                                                scores. This suggests that the GRU was most effective at
+                                                                                capturing essential patterns in the data while maintaining
+B. Long Short-Term Memory (LSTM)                                                generalization. The training and validation loss curves for
+  LSTM networks are designed to capture long term depen-                        GRU also showed stable convergence, with minimal overfitting
+dencies in sequential data [2]. Each LSTM unit contains mem-                    in Fig. 4.
+ory cells and three gates input, forget, and output gates. These                   The LSTM model, in contrast, struggled significantly. It
+gates manage the cell state and determine what information to                   produced the highest RMSE and lowest R2 , even showing a
+keep or discard across time steps. LSTM model summary is                        negative R2 value, which indicates the model performed worse
+presented in Fig. 2. LSTM is more powerful than traditional                     than simply predicting the mean. The validation loss in Fig.
+RNNs for learning complex time series patterns, but also more                   5 curve flattened early and showed signs of the model failing
+computationally expensive due to its more complex structure.                    to generalize, possibly due to over complexity relative to the
+                                                                                dataset size.
+                                                                                   The Bi-LSTM model performed better than LSTM but
+C. Bidirectional LSTM (Bi-LSTM)
+                                                                                still trailed behind GRU. While it initially showed strong
+   Bi-LSTM networks extend the LSTM architecture by pro-                        training performance, its validation loss in Fig. 6 diverged as
+cessing input sequences in both forward and backward direc-                     training progressed, indicating overfitting. This is consistent
+tions [2]. This allows the model to capture context from both                   with its relatively high number of parameters, which, without
+the past and future, which can enhance pattern recognition                      external features or stronger regularization, resulted in poor
+in certain scenarios. However, in stock price prediction, this                  generalization on unseen data.
+advantage may not translate well to real-time forecasting,                         The results indicate that while all models are capable
+since future data isn’t available during live predictions. Bi-                  of learning from historical data, they are not reliable for
+LSTM models as shown in Fig. 3 also have significantly more                     precise forecasting. Even the best model, GRU, had an average
+parameters and are more susceptible to overfitting, especially                  monthly prediction error of over $120, and visually, the
+on limited datasets.                                                            predicted prices failed to match real market fluctuations.
+
+
+
+
+        Authorized licensed use limited to: Galgotias University. Downloaded on October 13,2026 at 09:31:52 UTC from IEEE Xplore. Restrictions apply.
+                                                                                             Fig. 6. Training and validation loss for Bi-LSTM.
+             Fig. 4. Training and validation loss for GRU.
+
+
+                                                                                                                 TABLE I
+                                                                                                          P ERFORMANCE M ETRICS
+
+                                                                                  Model          RMSE       MSE         MAE        R2 score      Variance
+                                                                                  GRU            0.1732     0.0299      0.0907     0.3853        0.4001
+                                                                                  LSTM           0.3767     0.1419      0.2686     -1.9082       -0.8725
+                                                                                  Bi-LSTM        0.3336     0.1112      0.1859     -1.2802       -0.9890
+
+                                                                                  One major reason for these shortcomings is the absence of
+                                                                               real world variables in the input data. Stock prices are influ-
+                                                                               enced not only by historical trends but also by rapidly evolving
+                                                                               factors such as political events, economic announcements,
+            Fig. 5. Training and validation loss for LSTM.                     investor psychology, breaking news, technological innovations,
+                                                                               and market manipulation. These cannot be captured in a
+                                                                               univariate time series. Without incorporating such exogenous
+     IV. P ERFORMANCE METRICS AND S TOCK PRICE                                 features, even sophisticated models like Bi-LSTM are funda-
+                 PREDICTION VISUALIZATION                                      mentally limited.
+   Table I below summarizes the performance of each model                         Moreover, the observed overfitting in Bi-LSTM and LSTM
+using standard regression metrics. Stock Price Prediction Vi-                  models highlights the risk of using overly complex architec-
+sualization shows in Fig. 7 that the graph below compares the                  tures on limited datasets. Despite their theoretical ability to
+actual NVIDIA stock prices against the predicted values from                   learn complex patterns, the lack of diverse and high quality
+the best-performing model.                                                     input features makes them prone to memorizing rather than
+                                                                               generalizing. GRU’s relatively better generalization may be
+                          V. D ISCUSSION                                       attributed to its simpler structure and fewer parameters, which
+   The results of this study underscore the limitations of                     makes it more suitable for modest datasets.
+using deep learning models, particularly GRU, LSTM, and                           This study also draws attention to the gap between model
+Bi-LSTM, for stock price prediction when trained solely on                     training metrics and practical utility. A model can achieve de-
+historical price data. While the GRU model showed relatively                   cent performance on paper through metrics like R2 or RMSE
+better performance compared to LSTM and Bi-LSTM, none of                       but still fail to make meaningful, trustworthy predictions when
+the models achieved high predictive accuracy. Their forecasts                  applied in the real world. The stock market is a chaotic system,
+failed to align with real-world price movements, particularly                  and small prediction errors can lead to major financial losses
+during periods of market volatility.                                           if decisions are made based on faulty forecasts. Therefore,
+                                                                               model evaluation must go beyond quantitative metrics and
+                                                                               incorporate robustness checks, domain knowledge, and stress
+                                                                               testing.
+
+
+
+
+       Authorized licensed use limited to: Galgotias University. Downloaded on October 13,2026 at 09:31:52 UTC from IEEE Xplore. Restrictions apply.
+                  Fig. 7. Nvidia stock price prediction.
+                                                                                                               R EFERENCES
+                                                                                 [1] Q. Wang, "Stock Prediction under GRU, LSTM and GNN," IEEE Inter-
+                         VI. C ONCLUSION                                             national Conference on Image Processing and Computer Applications
+   In conclusion, this paper has explored the application of                         (ICIPCA), Shenyang, China, pp. 460-464, 2024.
+                                                                                 [2] N.Q. Viet, N.N. Quang, N. King, D.T. Huu, N.D. Toan, D.N.H. Thanh,
+GRU, LSTM, and Bi-LSTM models for NVIDIA stock price                                 "An Exploratory Comparison of LSTM and BiLSTM in Stock Price
+prediction using 25 years of historical monthly data. While                          Prediction In: Ranganathan, G., Papakostas, G.A., Rocha, Á. (eds),
+GRU demonstrated relatively better accuracy and generaliza-                          in Proc. Inventive Communication and Computational Technologies
+                                                                                     (ICICCT’2023), Lecture Notes in Networks and Systems, Springer,
+tion, the overall results reveal critical limitations in relying on                  Singapore, vol. 757,pp. 513-524, 2023.
+deep learning models trained solely on past stock prices.                        [3] I. Goodfellow, Y. Bengio and A. Courville, "Deep Learning", MIT Press.,
+   The findings emphasize that historical data alone is in-                          2016.
+                                                                                 [4] N. Srivastava, G. Hinton, A. Krizhevsky, I. Sutskever and R. Salakhut-
+sufficient for accurate stock market forecasting. Real world                         dinov, "Dropout: A simple way to prevent neural networks from overfit-
+financial systems are influenced by numerous external factors                        ting", Journal of Machine Learning Research, vol. 15, pp. 1929–1958,
+that these models are unable to process unless such data is                          2004.
+                                                                                 [5] M. Schuster and K.K. Paliwal, "Bidirectional recurrent neural networks",
+explicitly included. Furthermore, complex models like Bi-                            IEEE Transactions on Signal Processing, vol. 45, no. 11, pp. 2673–2681,
+LSTM may offer no real benefit over simpler architectures                            1997.
+when trained on narrow datasets, and in fact may hinder                          [6] K. Cho, B. Van Merrienboer, D. Bahdanau, and Y. Bengio, "Learning
+                                                                                     phrase representations using RNN encoder-decoder for statistical ma-
+performance due to overfitting.                                                      chine translation", arXiv preprint, arXiv:1406.1078, 2014.
+   Future work should focus on enhancing model input by                          [7] R. Feng, W. Jiang, N. Yu, Y. Wu and J. Yan, "Projected Minimal
+incorporating multivariate features such as trading volume,                          Gated Recurrent Unit for Speech Recognition," IEEE Access, vol. 8,
+                                                                                     pp. 215192–215201, Dec. 2020.
+technical indicators, economic indicators, and sentiment data                    [8] S. Hochreiter, and J. Schmidhuber, "Long short-term memory", Neural
+from news or social media. While deep learning provides a                            Computation, vol. 9, no. 8, pp. 1735-–1780, 1997.
+powerful toolkit for time series modeling, its application to                    [9] N. Kalilur Rahman, "NVIDIA Stock Data (Latest and
+                                                                                     Updated)", Kaggle, 2024, Retrieved on Apr. 24, 2025 from
+stock prediction should be approached with caution, trans-                           https://www.kaggle.com/datasets/kalilurrahman/nvidia-stock-data-
+parency, and a deep understanding of the market’s complexi-                          latest-and-updated/data.
+ties.
+
+
+
+
+        Authorized licensed use limited to: Galgotias University. Downloaded on October 13,2026 at 09:31:52 UTC from IEEE Xplore. Restrictions apply.
+

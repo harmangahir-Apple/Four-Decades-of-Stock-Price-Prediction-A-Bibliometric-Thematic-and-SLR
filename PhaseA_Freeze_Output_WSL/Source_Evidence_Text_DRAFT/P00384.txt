@@ -1,0 +1,370 @@
+          Multimodal Stock Price Prediction in the Chinese Market via
+               Financial Sentiment Analysis and Feature Fusion
+
+                                                                           Heming Chang
+     School of Advanced Technology, Xi’an Jiaotong‑Liverpool University, No. 111 Ren'ai Road, Suzhou Industrial Park,
+                                                     Suzhou, China
+
+
+
+
+Keywords:             Multimodal Learning, Financial Sentiment Analysis, Stock Price Prediction, BERT, Technical Indicators.
+
+Abstract:             Given the reduced difficulty in getting access to data and improved computational capabilities, the stock
+                      market has become a compelling arena for both investors and researchers pursuing precise stock price
+                      prediction. Among various influence factors such as national political climate and macroeconomic policies,
+                      prediction leveraging investor sentiment has garnered significant interest, yet few studies thoroughly
+                      investigate the effectiveness of multi-modal sentiment features in forecasting stock price fluctuations,
+                      particularly within the context of the Chinese market. This study introduces a multi-modal prediction model
+                      which combined textual sentiment analysis using BERT embeddings with numerical financial indicators and
+                      lagged sentiment features. With a comprehensive dataset derived from Chinese financial news and stock
+                      market data from previous years, ablation experiments are systematically performed to evaluate the
+                      incremental predictive value of sentiment weighting, lagged sentiment integration and technical indicators.
+                      Through rigorous 5-fold cross validation and statistical significance tests, the results demonstrate that
+                      integrating BERT-based textual embeddings with carefully engineered numerical features enhances
+                      prediction accuracy compared to baseline models, including traditional Long Short-Term Memory (LSTM)
+                      and single-modal models. The finding suggests that multimodal sentiment approaches capture complex
+                      relationships between investor sentiment and market movements effectively, providing valuable insights for
+                      either investors or policymakers.
+
+
+
+1      INTRODUCTION                                                                          quantification of market sentiment through advanced
+                                                                                             Natural Language Processing (NLP) and deep
+Stock price prediction has been an important yet                                             learning models (Shakya et al, 2025).
+challenging topic in financial research and                                                  Previous studies have extensively investigated and
+application and attracted significant attention from                                         proved that sentiment mined from social media, such
+both academia and industry, as it has the potential to                                       as tweets from either Twitter or financial press or
+assist in the investment, risk control and study of                                          both, is also reflecting well of the stock price
+financial markets (Roy et al, 2025). The previous                                            variation especially during stressful periods like
+studies on stock price forecasting were largely based                                        political or financial shocks (Chatterjee et al, 2024;
+on a premise that past stock price information is                                            Sumathi et al, 2024). However, most of these are
+helpful in determining future movements, or based on                                         predominantly English Language sources focusing on
+technical signs that do not rely on stock price                                              Western financial markets, particularly the United
+information such as moving average (Wijaya et al,                                            States, with limited attention paid to emerging
+2024). However, financial markets are naturally                                              markets like Chinese stock market. There are also
+affected by investor sentiment and public mood,                                              very few efforts that consider how sentiment
+which causes potentially large deviations from pure                                          information from Chinese social media could be
+price movements (Yang et al, 2024; Siek & Chandra,                                           combined and interact with historical stocks data in a
+2024). Based on massive available volumes of                                                 predictive setting, which warrant detailed exploration
+unstructured textual data from digital media                                                 given the unique characteristics of China’s financial
+platforms and financial news dissemination channels,                                         environment and regulatory policies.
+sentiment analysis allows for effective extraction and
+
+
+                                                                                                                                               211
+Chang, H.
+Multimodal Stock Price Prediction in the Chinese Market via Financial Sentiment Analysis and Feature Fusion.
+DOI: 10.5220/0014761600004818
+Paper published under CC license (CC BY-NC-ND 4.0)
+In Proceedings of the 3rd International Conference on Data Analysis and Machine Learning (DAML 2025), pages 211-216
+ISBN: 978-989-758-847-1; ISSN: 3051-8660
+Proceedings Copyright © 2026 by SCITEPRESS – Science and Technology Publications, Lda.
+DAML 2025 - International Conference on Data Analysis and Machine Learning
+
+
+
+
+In order to fill this research gap, a comprehensive                ±7-days date matching algorithm. Each sentiment
+analysis of the relationship between market sentiment              record was matched with the closest available stock
+derived from Chinese digital media and subsequent                  data within a 7-day window. To handle incomplete
+stock price fluctuations in the Chinese financial                  date consistency such as missing year fields, a default
+market is conducted. Specifically, Bidirectional                   year 2023 was assigned for ensuring chronological
+Encoder Representations from Transformers (BERT)                   consistency. After cleaning, a structured dataset
+embeddings are combined with numerical financial                   containing sentiment labels that were mapped as {0:
+indicators by leveraging advanced multimodal fusion                negative, 1: neutral, 2: positive}, timestamps and
+techniques, aiming to enhance the accuracy of                      financial indicators was accomplished.
+predictive models (Agrawal & Mukherjee, 2025).                     After alignment, the final matched dataset consisted
+Furthermore, this study investigates sentiment lag                 of 2,712 unique samples. Statistical analysis indicated
+features to capture delayed market responses and                   the distribution of sentiment labels was: 39%
+incorporate diverse technical indicators to enhance                positive, 16% neutral, and 45% negative. We also
+model efficacy.                                                    computed summary statistics on stock price volatility
+To further evaluate the effectiveness of the proposed              and daily returns to understand the underlying
+methodology, extensive experiments, including                      characteristics of matched samples.
+ablation studies and comparative analysis with widely
+used baseline models such as Long Short-Term                       2.2       Sentiment Analysis Module
+Memory (LSTM) networks (Pasoi et al, 2024; Shi et
+al, 2025).                                                         To perform textual sentiment classification, this
+The contributions of this study are threefold: first of            module fine-tuned a pre-trained Chinese BERT
+all, it systematically investigates the predictive                 model. The input textual sequences were tokenized
+capability of sentiment analysis in the context of the             by the Hugging Face BERT tokenizer, and the
+Chinese stock market; secondly, it introduces an                   sequence representations were derived by the pooled
+effective multimodal fusion model integrating text                 output associated with the [CLS] token.
+and numerical financial data; moreover, it provides                Subsequently, a dropout layer followed by a linear
+empirical evidence supporting the inclusion of lag                 classification layer was applied to predict the
+sentiment features and class weighting in predictive               sentiment class probabilities.
+modeling. By completing this experiment, it is                     Given the inherent imbalance among sentiment
+expected to offer valuable insights for investors,                 classes, a weighted cross entropy loss function during
+policymakers, and researchers interested in                        training was adopted. Five-fold cross validation was
+leveraging sentiment analysis to enhance stock                     used to rigorously evaluate performance, achieving a
+market predictions.                                                weighted F1-score of approximately 0.78 on the
+                                                                   validation set.
+
+2     METHODOLOGY                                                  2.3       Feature Engineering
+                                                                   Additional financial and sentiment-related predictors
+2.1     Data Collection and Preprocessing
+                                                                   was developed for enhancing the predictive
+                                                                   capabilities of the sentiment-driven model, including:
+Textual and financial data was collected from two
+primary sources: (1) financial news, analyst reports,              As for financial and technical indicators, there are
+and social media posts related to Chinese-listed                   return features which are calculated as the daily stock
+                                                                   return: (close price – open price) / open price, as well
+companies; (2) corresponding stock market data
+                                                                   as technical indicators including moving averages
+including opening and closing prices, trading volume
+                                                                   (MA₃, MA₅, MA₁₀), volatility (rolling 5-day standard
+and other market indicators.
+                                                                   deviation) and momentum indicators.
+For textual data, raw documents undergo a multi-step
+cleaning process including removal of irrelevant                   Lagged sentiment indicators were generated based on
+characters, normalization of text formats, and                     behavioral finance theory that market sentiment has
+                                                                   temporal inertia, including sentiment labels lagged by
+duplicate elimination. Regular expressions and fuzzy
+                                                                   one and two days, as well as a three-day rolling
+matching were employed to align sentiment data with
+                                                                   sentiment average.
+stock price records based on company names and
+                                                                   All engineered features are systematically integrated
+dates. Due to inherent date mismatches between
+sentiment data and market data (caused by weekends,                with textual embeddings, producing a comprehensive
+holidays, or delayed reports), we applied a flexible
+
+
+212
+                        Multimodal Stock Price Prediction in the Chinese Market via Financial Sentiment Analysis and Feature Fusion
+
+
+
+
+multimodal    feature   representation      for    further        comprises textual embeddings which were generated
+modeling.                                                         via BERT’s [CLS] token embeddings (768-
+                                                                  dimensional vector), as well as numerical features
+2.4    Model Architecture                                         that were concatenations of financial indicators and
+                                                                  lagged sentiment scores
+This study proposed a multimodal fusion (BERT +                   The concatenation vector undergoes dimensionality
+Numerical) integrating textual sentiment embeddings               reduction and feature extraction through fully
+from BERT and numerical financial indicators.                     connected neural network layers, which is shown in
+Specifically, the multimodal fusion process                       Figure 1:
+
+
+
+
+Figure 1: Architecture of the multimodal fusion network combining embeddings and numerical features for sentiment
+classification. (Picture credit: Original)
+
+The model outputs class probabilities corresponding               according to highest validation F1-score that was
+to positive, neutral, and negative sentiment classes.             reported as mean ± standard deviation.
+An AdamW optimizer was employed and
+hyperparameters were carefully tuned via grid search              2.5.3 Ablation Studies and Statistical
+(learning rate, dropout rate, weight decay, batch size,                 Testing
+epochs).
+                                                                  To isolate the contribution of various feature groups
+2.5    Experimental Setup                                         and design decisions, several structured ablation
+                                                                  experiments were conducted:
+2.5.1 Baseline Models                                               ▪ Baseline BERT only
+                                                                    ▪ BERT + Class weight balancing
+To benchmark multimodal fusion model, three                         ▪ BERT + Class weights + Lagged sentiment
+baselines were conducted, including TF-IDF +                             features
+Logistic Regression which is a traditional Natural                  ▪ Full model (BERT + Class weights + Lagged
+Language Processing (NLP) baseline leveraging                            sentiment + Technical indicators)
+Term Frequency-Inverse Document Frequency (TF-                    Paired t-tests and Wilcoxon signed-rank tests were
+IDF) vectors and logistic regression classifier, pure             conducted to evaluate the statistical significance of
+BERT model which is fine-tuned without numeric or                 performance       differences     among       ablation
+lagged sentiment features, and pure LSTM model                    configurations. Results indicated statistically
+which is a standard sequential model using                        significant improvements (p < 0.05) in the proposed
+bidirectional LSTM with embedding layers trained                  multimodal fusion model relative to baselines.
+from scratch.
+
+2.5.2 Training and Evaluation Procedure                           3     RESULTS AND DISCUSSION
+All models employed stratified five-fold cross-
+                                                                  This proposed multimodal framework yielded
+validation to ensure balanced splits. The dataset was
+                                                                  promising results across multiple experimental
+partitioned into training, validation, and test sets
+                                                                  configurations after integrating textual sentiment,
+(70% training, 15% validation, 15% testing) per fold
+                                                                  numerical financial indicators, technical metrics and
+and model performance was assessed using weighted
+                                                                  lagged sentiment features. The fine-tuned BERT-
+F1-score.
+                                                                  based sentiment classification module also
+Hyperparameter tuning was performed through
+                                                                  demonstrated solid standalone performance and
+extensive grid search based on cross-validation
+                                                                  achieved an average weighted-F1 score of 0.78 across
+scores. The best hyperparameter combination
+                                                                  5-fold cross validation with balanced precision and
+(learning rate: 3e-5, dropout: 0.3, weight decay:
+                                                                  recall for negative and neutral classes. Although
+0.001, batch size: 32, epochs: 5) was selected
+                                                                  positive class performance was slightly hindered due
+
+
+
+                                                                                                                              213
+DAML 2025 - International Conference on Data Analysis and Machine Learning
+
+
+
+
+to class imbalance, the model maintained reliable
+discrimination across sentiment categories.
+Table 1 shows the different performances of various
+baseline models with our multimodal architecture.
+Traditional TF-IDF combined with logistic
+regression surprisingly achieved the highest mean
+weighted-F1 (0.7815 ± 0.0225), showcasing that
+simple models can be competitive in limited data
+scenarios. In contrast, the LSTM-based sentiment
+classifier underperformed (0.6766 ± 0.0274),
+probably because of its data-hungry nature and
+inability to model fine-grained context effectively.
+                                                                   Figure 2: Ablation Study Results with Weighted F1-scores
+The BERT-only model (0.7521 ± 0.0178) validated                    (Picture credit: Original)
+the superiority of transformer-based embeddings over
+LSTM. Our multimodal model achieved a slightly
+                                                                   Statistical tests confirmed that this multimodal fusion
+lower score (0.7673 ± 0.0162) than TF-IDF+LR but
+                                                                   model improvements over baseline methods were
+demonstrated superior consistency (lowest standard
+                                                                   significant (paired t-test p-value = 0.003, Wilcoxon
+deviation), suggesting enhanced generalization
+                                                                   test p-value = 0.002). This suggests robust
+across folds.
+                                                                   performance gains rather than random fluctuations.
+                                                                   Error analysis revealed that most misclassifications
+  Table 1: Summary of the Weighted F1 Performances.
+                                                                   involved confusion between neutral and polar
+               Model            Weighted-      Std                 sentiments. The confusion matrix in Figure 3
+                                F1(Mean)                           highlighted that while positive and negative instances
+ 0             TF-IDF +         0.7815         0.0225              were rarely misclassified into neutral class, a
+               LR                                                  considerable number of samples was incorrectly
+ 1             LSTM             0.6766         0.0274              predicted negative (nearly 20%), illustrating the
+ 2             BERT             0.7521         0.0178              inherent ambiguity in financial sentiment, especially
+ 3             Multimodal       0.7673         0.0162              when derived from short-form text. Nevertheless, the
+                                                                   model maintained high fidelity for strongly polarized
+Ablation experiments further evaluated the impact of               sentiments.
+feature engineering, which is shown in Figure 2. The
+baseline using only BERT embeddings served as a
+strong reference (weighted-F1 ≈ 0.75) while applying
+class weights (+class_wt) offered minor gains by
+addressing label imbalance. Adding lagged sentiment
+features (+lag_feats) slightly improved performance,
+capturing       temporal     sentiment       continuity.
+Incorporating technical indicators (+tech_feats)
+showed complementary improvements, reflecting
+that features like volatility and momentum can
+modestly enhance predictions. However, the
+performance boost from these engineered features
+was relatively small and statistically insignificant in
+isolation, as confirmed by paired t-test (p = 0.083) and
+Wilcoxon test (p = 0.092), though the complete
+multimodal model did surpass BERT-only
+significantly (p < 0.005).
+                                                                   Figure 3: Confusion Matrix of Instance Prediction. (Picture
+                                                                   credit: Original)
+
+                                                                   The overall findings underscore the dominant role of
+                                                                   textual sentiment in market trend forecasting, as
+                                                                   reflected in BERT’s strong standalone performance.
+                                                                   The additional numerical, technical, and lagged
+
+
+214
+                        Multimodal Stock Price Prediction in the Chinese Market via Financial Sentiment Analysis and Feature Fusion
+
+
+
+
+features did not change the game, but indeed add                  REFERENCES
+measurable robustness and help model secondary
+market dynamics like short-term momentum and                      Agrawal, M., & Mukherjee, A. (2025). Predicting Stock
+volatility. More importantly, statistical significance                Market Trends Using Machine Learning and Sentiment
+tests validated that the improvements of multimodal                   Analysis. SoutheastCon 2025, 2025, SoutheastCon,
+model were due to meaningful feature fusion instead                   1001–1006.
+of random variation.                                              Chatterjee, A., et al. (2024). Forecasting Financial Markets:
+Despite these achievements, several challenges                        A Multi-Modal GAN Approach to Stock Prediction
+remain. The limited dataset size (n = 2712) and                       Using      Sentiment       Analysis      and     Technical
+                                                                      Indicators. 2024 OITS International Conference on
+reliance on a single sentiment source constrain
+                                                                      Information Technology (OCIT), Information
+generalizability. While deep models like BERT were                    Technology (OCIT), 2024 OITS International
+effective, they still suffer from low interpretability,               Conference        on,     OCIT,      580–583.       https://
+making it difficult to justify predictions in critical                doi.org/10.1109/OCIT65031.2024.00106
+financial applications. Moreover, temporal mismatch               Pasoi, G. E., Talattinis, K. A., Memos, V. A., Goudos, S.
+between sentiment and market reaction could                           K., Sarigiannidis, P. G., Ishibashi, Y., & Psannis, K. E.
+introduce noise despite lagged modelling. Future                      (2024). A Comparative Analysis between Sentiment
+work could explore more advanced architectures to                     Analysis Methods in Stock Prediction of IoT-based
+model inter-stock correlations, such as attention-                    companies. 2024 7th World Symposium on
+                                                                      Communication Engineering (WSCE), Communication
+based fusion or graph neural networks. Additionally,
+                                                                      Engineering (WSCE), 2024 7th World Symposium on,
+enriching the dataset with alternative data modalities                WSCE,        57–62.     https://doi.org/10.1109/WSCE65
+like images from financial news or social interactions                107.2024.00016
+may further boost predictive capability. Integrating              Roy, S., et al. (2025). Advanced Stock Prediction with
+explainability mechanisms could help bridge the gap                   Amazon Cloud. 2025 International Conference on
+between model power and real-world trust as well.                     Computing and Communication Technologies
+                                                                      (ICCCT),        Computing        and       Communication
+                                                                      Technologies (ICCCT), 2025 International Conference
+                                                                      On,                                                    1–6.
+4    CONCLUSIONS                                                      https://doi.org/10.1109/ICCCT63501.2025.11018931
+                                                                  Shakya, S. R., Ceh-Varela, E., Shakya, S., Parten, C., &
+In this study, novel multimodal framework for stock                   Zhou, Z. (2025). Boosting Stock Predictions with
+movement prediction in the Chinese financial market                   Sentiment Analysis and Deep Learning Models. 2025
+was proposed by integrating textual sentiment signals                 IEEE 4th International Conference on AI in
+with numerical financial features, technical                          Cybersecurity (ICAIC), AI in Cybersecurity (ICAIC),
+                                                                      2025 IEEE 4th International Conference On, 1–6.
+indicators, and lagged sentiment attributes. Our                      https://doi.org/10.1109/ICAIC63015.2025.10849008
+experimental results demonstrated that the fusion of              Shi, H., Chong, D., & Zheng, W. (2025). The impact of
+these     modalities    significantly     outperformed                social media and the pandemic on stock price
+traditional baselines such as TF-IDF+LR, LSTM, and                    prediction. Journal of Management Analytics, 1–28.
+pure BERT models, highlighting the strong predictive                  https://doi.org/10.1080/23270012.2025.2512518
+power of sentiment-aware multimodal modeling.                     Siek, M., & Chandra, V. D. (2024). Analysis of News
+These findings offer practical value for enhancing                    Sentiment for Stock Price Prediction Using VADER
+automated trading systems and real-time market                        Sentiment. 2024 6th International Conference on
+analysis tools.                                                       Cybernetics and Intelligent System (ICORIS),
+                                                                      Cybernetics and Intelligent System (ICORIS), 2024 6th
+Nonetheless, there are still limitations in both dataset              International      Conference      On,      1–6.    https://
+and model training. The dataset size limitation and                   doi.org/10.1109/ICORIS63540.2024.10903909
+limited interpretability remain areas for future                  Sumathi, K., et al. (2024). Impact of Natural Language
+improvement. To address these, future research                        Processing on Sentiment Analysis in Stock Market
+should focus on multi-source integration such as                      Predictions. 2024 International Conference on
+incorporating news videos and social media streams.                   Innovative Computing, Intelligent Communication and
+Additionally, leveraging graph-based neural                           Smart Electrical Systems (ICSES), Innovative
+networks could help better model inter-company                        Computing, Intelligent Communication and Smart
+relationships and sector-level sentiment diffusion.                   Electrical Systems (ICSES), 2024 International
+                                                                      Conference        On,     1–7.     https://doi.org/10.1109
+These advancements will contribute to a more holistic
+                                                                      /ICSES63760.2024.10910349
+and explainable prediction system.
+
+
+
+
+                                                                                                                              215
+DAML 2025 - International Conference on Data Analysis and Machine Learning
+
+
+
+Wijaya, A. Y., Navastara, D. A., & Hasanat, I. (2024).
+   Stock Buy/Sell Prediction Based on Technical Analysis
+   and News Sentiment Using Deep Learning. 2024
+   International Conference on Informatics Electrical and
+   Electronics (ICIEE), Informatics Electrical and
+   Electronics (ICIEE), 2024 International Conference
+   On, 1–6. https://doi.org/10.1109/ICIEE63403.2024.
+   10920382
+Yang, L., Liu, Y., Li, Z., Qi, B., & Feng, J. (2024).
+   Improving Stock Index Prediction Based on Financial
+   Sentiment Analysis and Time Series Models. 2024 8th
+   International Conference on Communications and
+   Future Internet (ICCFI), Communications and Future
+   Internet (ICCFI), 2024 8th International Conference on,
+   ICCFI, 1–6. https://doi.org/10.1109/ICCFI63302.2024.
+   00008
+
+
+
+
+216
+

@@ -1,0 +1,435 @@
+                                                                                                                                                                                                                   Stock Market Data Analysis Using LSTM Model
+
+
+
+
+2025 4th OPJU International Technology Conference (OTCON) on Smart Computing for Innovation and Advancement in Industry 5.0 | 979-8-3315-3536-0/25/$31.00 ©2025 IEEE | DOI: 10.1109/OTCON65728.2025.11070758
+                                                                                                                                                                                                                        Nitin Kumar Thakur                                        Mandeep Kaur                                             Keshav Gupta
+                                                                                                                                                                                                                Department of Computer Science and                     Department of Computer Science and                       Department of Computer Science and
+                                                                                                                                                                                                                             Engineering                                           Engineering                                              Engineering
+                                                                                                                                                                                                               School of Engineering and Technology,                  School of Engineering and Technology,                    School of Engineering and Technology,
+                                                                                                                                                                                                                          Sharda University                                     Sharda University                                        Sharda University
+                                                                                                                                                                                                                        Greater Noida, India                                   Greater Noida, India                                     Greater Noida, India
+                                                                                                                                                                                                                       nitint8350@gmail.com                               drmandeepkaur10@gmail.com                                 keshav.gupta@sharda.ac.in
+
+                                                                                                                                                                                                                   Abstract—This paper attempts to review the literature on                    realities reality and trends, and other occurrences. There are
+                                                                                                                                                                                                               stock market forecasting using both basic and advanced                          numerous methods used for forecasting the future prices
+                                                                                                                                                                                                               approaches. Starting form technical and fundamental analysis,                   comprising of technical analysis that involves study of past
+                                                                                                                                                                                                               it uses a vast array of historical data from a number of                        market data then providing price forecasts; fundamental
+                                                                                                                                                                                                               markets and businesses to evaluate how precise and accurate                     analysis that involves analyzing the firm’s financial status.
+                                                                                                                                                                                                               each strategy is. The paper assesses the impact that outside
+                                                                                                                                                                                                               forces within the global system including geo-political                             The prediction system of this research employs LSTM
+                                                                                                                                                                                                               occurrences and mood swings of the market have on                               networks in projecting and forecasting stock prices adopting
+                                                                                                                                                                                                               fluctuations in stock prices. As a value-oriented financial                     technical indicators together with past records. This is
+                                                                                                                                                                                                               journal, it stresses the importance of the current pricing                      because in addition to price fluctuations, the model is
+                                                                                                                                                                                                               strategies in the fast-growing financial environment and also                   equipped with important characteristics such as Bollinger
+                                                                                                                                                                                                               examines the ethicality of using modern technology. The                         Bands, MACD, MAs, EMAs and RSI that reflect market
+                                                                                                                                                                                                               f454indings are meant to give advice to investors on                            momentum characteristics. These indicators used in technical
+                                                                                                                                                                                                               minimizing on risk and increasing on reward in an attempt at                    analysis enhances the predicted accuracy since the model is
+                                                                                                                                                                                                               giving an all-rounded standpoint on managing the complexity                     helpful in identifying the moments where stock price might
+                                                                                                                                                                                                               of stock trading in a dynamic market environment. This study                    turn. The other critical determinant towards the enhancement
+                                                                                                                                                                                                               is very helpful in making good financial decisions knowingly.                   of model performance is hyperparameter tuning. In many
+                                                                                                                                                                                                                  Keywords—Stock Market, Invest, Long Short-Term memory
+                                                                                                                                                                                                                                                                                               cases the more common ARIMA models or linear regression
+                                                                                                                                                                                                               network, Architecture Visualization, Stock Price Forecasting,                   approaches do not appear to adequately execute with such
+                                                                                                                                                                                                               Predictive Analysis, Evaluation Criteria.                                       forecasting because such circumstances are distinct due to
+                                                                                                                                                                                                                                                                                               nonlinear, multifaceted relations between different constant,
+                                                                                                                                                                                                                                                                                               fluctuating financial time series. A mean squared error of the
+                                                                                                                                                                                                                                       I. INTRODUCTION                                         area on the test data, which indicates the stability and
+                                                                                                                                                                                                                   Everyone in the present world is having a little                            reliability of the model and its ability to recognize trends in
+                                                                                                                                                                                                               knowledge on Stock market trading and earning, but some                         stock prices, is achieved with its help Moreover, a procedure
+                                                                                                                                                                                                               are getting a sound income on it, those are those who have no                   for fine-tuning is almost certainly a contributing factor to
+                                                                                                                                                                                                               so much experience in stock market business while on the                        account for the low MSE on test data.
+                                                                                                                                                                                                               other side there are some who acquire millions on it those
+                                                                                                                                                                                                                                                                                                   In essence, accurate forecasting is an essential
+                                                                                                                                                                                                               who mastered in investing in stock market trading.
+                                                                                                                                                                                                                                                                                               commodity to both traders and investors especially in an
+                                                                                                                                                                                                               Therefore, it is clear that the Stock market has touched many
+                                                                                                                                                                                                                                                                                               unstable and very complex market. Indeed, stock market data
+                                                                                                                                                                                                               peoples’ lives and it can alter the world economy or in other
+                                                                                                                                                                                                                                                                                               are often characterized by nonlinearity and dynamics, and it
+                                                                                                                                                                                                               words the economic profile around the globe. Analysing
+                                                                                                                                                                                                                                                                                               is quite challenging to model such data with traditional
+                                                                                                                                                                                                               shifts in stock prices has long been one of the most important
+                                                                                                                                                                                                                                                                                               algorithms. Among the recent developments, the most
+                                                                                                                                                                                                               and challenging endeavours in the sphere of finance because
+                                                                                                                                                                                                                                                                                               representative of them are the recurrent neural networks
+                                                                                                                                                                                                               of multifaceted factors such as market fluctuation,
+                                                                                                                                                                                                                                                                                               (RNNs) of the LSTM type. That is why LSTMs work well
+                                                                                                                                                                                                               irrationality of buyers and sellers, and the state of the
+                                                                                                                                                                                                                                                                                               for capturing long-term dependencies of sequential
+                                                                                                                                                                                                               economy. The analysis of stream of data, especially the stock
+                                                                                                                                                                                                                                                                                               information and have a great opportunity for enhancing
+                                                                                                                                                                                                               market data, through the integrated techniques of deep
+                                                                                                                                                                                                                                                                                               accuracy in predicting the stock market. Since there may be
+                                                                                                                                                                                                               learning models, is increasing at a regular pace. Recurrent
+                                                                                                                                                                                                                                                                                               insights that can help with current trend analysis and
+                                                                                                                                                                                                               neural networks of the LSTM network type show a good
+                                                                                                                                                                                                                                                                                               investment decision-making, the proposed LSTM model
+                                                                                                                                                                                                               performance on time-series data [1] requirements that are
+                                                                                                                                                                                                                                                                                               could act as one approach to use for the stock market
+                                                                                                                                                                                                               suitable for forecasting tasks, and for that reason, using stock
+                                                                                                                                                                                                                                                                                               analysis. Adding to the growing body of knowledge on AI-
+                                                                                                                                                                                                               prices for stock price prediction. LSTM models are designed
+                                                                                                                                                                                                                                                                                               based financial forecasting processes, this work integrates
+                                                                                                                                                                                                               to learn the long-term dependencies between the different
+                                                                                                                                                                                                                                                                                               machine learning into basic financial ratios.
+                                                                                                                                                                                                               sequences of data.
+                                                                                                                                                                                                                   As previously mentioned, stocks, or shares of stock,                                           II. LITERATURE SURVEY
+                                                                                                                                                                                                               provide investors with ownership rights and opportunities for
+                                                                                                                                                                                                               getting paid proportionate to their stake – with potential                          A lot of different methods from the machine learning
+                                                                                                                                                                                                               increases in pay tied to rises in a company’s value: stocks                     area have been researched for stock price prediction
+                                                                                                                                                                                                               also signify ownership rights over a given clip of a                            especially using time series approaches. Due to the capability
+                                                                                                                                                                                                               company’s profits and assets. The essence of stock purchases                    of estimating the dependencies over long sequences in series
+                                                                                                                                                                                                               is the desire to get more money in the long run and gain a                      data, the Long Short-Term Memory (LSTM) Recurrent
+                                                                                                                                                                                                               profit. Investing involves decision-making that needs stock                     Neural Networks which are part of the recurrent neural
+                                                                                                                                                                                                               market analysis, which involves consideration of financial                      networks have become widely used models for sequential
+                                                                                                                                                                                                                                                                                               data. Improving performance metrics, including R-squared
+
+
+                                                                                                                                                                                                               979-8-3315-3536-0/25/$31.00 ©2025 IEEE
+
+                                                                                                                                                                                                                      Authorized licensed use limited to: Galgotias University. Downloaded on October 13,2026 at 09:28:16 UTC from IEEE Xplore. Restrictions apply.
+values Mean Square Error (MSE) and Root Mean Square                            This literature analysis focuses on the stacked LSTM
+Error (RMSE), several studies have examined how the                            models and the corresponding improvement in the means of
+technical indicators and the hyperparameters of LSTM                           predictions. Specifically, it provides a critical review of the
+should be set up to derive efficient stock market forecasting.                 current literature relating to advanced ML techniques in the
+These papers demonstrate that feature engineering and                          context of financial time series forecasting. These models
+architecture optimization and tuning of hyperparameters are                    require further development for numerous markets with a
+important steps in enhancing the performance and robustness                    view to enhancing their applicability in varying market
+of a model for stock price prediction.                                         situations and situations with limited information.
+    Table 1 As shown in the table below, the models used,
+the indicators that have been deployed and the key findings                                  III. PROPOSED METHODOLOGY
+of previous stock price forecasting research have been                             The approach employed in this project to achieve the best
+compared.                                                                      models to forecast and to ensure systematic consistency is
+                                                                               illustrated in the methodology diagram. The following are
+  TABLE I. COMPARISON BETWEEN A DIFFERENT PUBLISHED
+                                                                               some crucial processes that are included in this diagram:
+                        BOOK
+  Reference      Technology used         Accuracy         Drawbacks                                 Dataset Collection
+               Machine Learning          RNN and           Binary data
+               (Decision    Tree,         LSTM              conversion
+               Random      Forest,      achieved an           leads to
+ Nabipour et
+               AdaBoost,    SVC,        accuracy of         diminished
+ al. [6]
+               Naïve Bayes, KNN,         up to 94%        performance
+ 2020
+               Logistic                                     differences                           Data Pre-processing
+               Regression), Deep                               among
+               Learning                                       models.
+                                                                High
+                                         Optimized
+                                                         computational
+                                          Neural
+ Alotaibi et   Ensemble Prediction                            cost for
+                                         Network                                                  Model Architecture
+ al. [7]       (SVM, RF1, RF2,                           training due to
+                                        achieved up
+ 2021          Optimized NN).                             optimization
+                                          to 92%
+                                                          and ensemble
+                                         accuracy
+                                                             methods.
+                                                          Initial testing
+ Alam et al.                                                on a single                             Model Training
+               Deep     Learning
+ [8]                                       98.6%          dataset (Bajaj
+               (LSTM, DNN)
+ 2024                                                      stock) limits
+                                                            robustness.
+               Multi-layer                               The study may
+               Perceptron,                                 rely heavily                        Performance Evaluation
+               Dynamic Artificial                          on historical
+ Guan et al.   Neural      Network,                        data, which
+ [9]           Generalized                 97.2%             might not         Fig. 1. Methodology Workflow Diagram
+ 2024          Autoregressive                               account for
+               Conditional                               sudden market
+               Heteroscedasticity                            changes.          A. Dataset Collection
+               (GARCH)
+                                                                                   Define In the current study, historical stock data
+                                                                               embracing daily variables of the open, high, low, close, and
+    Here, in Table 1, I also enlist prior studies on stock price               transaction volume from 2001 to 2021 are used. Thus, the
+forecasting and prediction focusing on the models developed,                   objective for the forecast was the closing price. To make the
+employed variables, and crucial findings. From this                            dataset more reliable and increase the prediction rate,
+comparison, we can see that stacked LSTM models have a                         common technical indices like Bollinger Bands, RSI, Best of
+lot of potential and ability to forecast for stocks. These                     Exponential Moving Average (EMA), 10-Day Moving
+models are especially relevant for their ability to handle                     Average 20-Day Moving Average, and others were also
+complex temporal dependencies and use multiple sources of                      considered. Due to these properties, the model is a better
+information, which make for a most accurate market                             receptacle of fine-grained temporal patterns of short-term
+prediction.                                                                    trends and daily price variation. Combined with these
+                                                                               variables, the dataset assists the LSTM model in identifying
+    Interestingly, the higher performance of LSTM models
+                                                                               the directional stock price movement thus enhancing
+over conventional models is a topical issue when it comes to
+                                                                               predictive capability and robustness to fluctuations in the
+dealing with the temporal and non-temporal characteristics of
+                                                                               stock prices [3].
+financial data, and is featured in the contingency now under
+publication. These two issues on processing time and the
+accuracy of the prediction model are, however, debatable to                    B. Data Pre-processing
+some extent [7]. Moreover, it remains unclear how LSTM                             The advancement of time series models and an enhanced
+models work well-stacked with fewer numbers of data or in                      stock price prediction capability depends on the data pre-
+some market conditions while, overall, LSTM models                             processing techniques. To ensure that the dataset was clean,
+typically need vast datasets. Speculating, filling up these                    ordered, and enriched with relevant features for modeling
+areas might enhance LSTM models’ adaptability and                              this study employed the following preprocessing steps. These
+robustness in financial applications [2].                                      actions were taken in an effort to get the most useful dataset
+
+
+
+
+      Authorized licensed use limited to: Galgotias University. Downloaded on October 13,2026 at 09:28:16 UTC from IEEE Xplore. Restrictions apply.
+range for the model as well as to enhance ability of the                       first LSTM layer exists to find the short-term relationship by
+model to portray accurately high-frequency nature of                           acting on the input series and keeping relevant patterns of
+changes in stock prices.                                                       characteristics across the diverse time steps.se LSTMs can
+                                                                               store pertinent historical knowledge over lengthy sequences,
+    The preprocessing procedures listed below were carried                     they are well-known for their efficacy in time-series
+out:                                                                           prediction tasks. This makes them ideal for use in the stock
+    1) Managing Missing Values: To eliminate any bias that                     market prediction. Specifically, it is designed to grasp the
+may result due to possibility of missing or incomplete                         preprocessed dataset enriched with technical indicators to
+values within the dataset, the set of data was checked for                     improve the model’s opportunities for analyzing the subtle
+such data. These were then either eliminated or guessed at                     work of stocks’ exchange rates.
+by interpolating, based on looking at neighbouring data
+features.                                                                            a) A sequential record of stock price data that is
+                                                                               formed from a set look back period (30 or 40 days) is fed to
+    2) Normalization: Since all the stock prices will be used                  the input layer. These sequences provide the model with
+for computing a distance measure, to make feature scales                       insights about prevailing market trend and the price
+more comparable and speed up convergence during the                            movement.
+training process, all the stock price variables were
+normalized using Min-Max scaling.                                                     b) Stacked LSTM Layers: For the best learning
+                                                                               outcome, the design feature comprises two LSTM layers
+   3) Feature Engineering: To cover more distinct market                       that are connected one to another and that capture different
+changes, extra options were incorporated, such as Bollinger                    degrees of temporal dependencies.
+Bands, the Relative Strength Index (RSI), exp. Moving Ave,
+10 & 20 Moving Ave., and others. These indicators added                             • The first LSTM layer: Also useful in identifying
+more depth to the dataset by providing details about price                               short term relation since it will allow for the
+movement that the simple Idea has not captured.                                          processing of the input sequences while storing
+                                                                                         important patterns across time steps.
+    4) Data Sequencing: They grouped the time-series data
+                                                                                    • Second LSTM Layer: The second LSTM layer
+into sequences using a predetermined number of days look
+                                                                                         further improves these learned temporal
+back period say 30 or 40 days. The objective of each
+sequence was to predict the closing price of the next day                                characteristics to expand the capability of the
+stock price data which forms a window of stock prices in                                 identification of long-term dependencies and offers
+time.                                                                                    a better representation in stock price trends.
+                                                                                   3) Dense Output Layer: It’s a final output layer in which
+    5) Task partitioning guaranteed that the model was                         a Dense layer estimates the closing price in the subsequent
+trained on past data by the usage of the training data and                     real-time step based on the learned features from the stacked
+then tested on other data through testing data. This split
+allowed for an accurate assessment of the models ability to                    LSTM layers.
+forecast future stock prices appropriately.                                        4) Linear Activation: This model may give an almost
+                                                                               infinite number of suitable forecasts for the case when stock
+   Such preprocessing procedures were quite helpful in                         prices are constantly fluctuating because the output layer of
+ensuring that a successful and well-organized dataset for the                  the recurrent neural net utilizes a linear sigmoid function.
+model was produced so that the model received clear and
+                                                                                   5) Loss Function: Mean Squared Error (MSE) which is
+valuable input data aimed at improving its predicting
+capabilities.                                                                  the average square of the variations of difference between
+                                                                               forecasted and actual stock prices is adopted for training the
+C. Model Architecture                                                          model. In order to increase the accuracy of the prediction of
+                                                                               the model, MSE connotes to reduce error[4].
+    The In order to extract temporal dependencies in the
+order of stocks prices and subsequent volatility, the proposed
+                                                                                   This is possible because the model has 38,593 trainable
+model incorporates a stacked LSTM architecture. LSTMs are
+                                                                               parameters while the given architecture, whereby the model
+rather acknowledged for their effectiveness within time-
+                                                                               can learn and enhance precise internal representations for
+series prediction problems, as they are competent at saving
+                                                                               stock price prediction. Due to this structure, the model is
+important historic information over extensive sequences.
+                                                                               capable of predicting movements of the stocks prices and
+This makes them very suitable for use in market for instance
+                                                                               other temporal dependencies.
+in the stock market predictions. For this reason, the model is
+designed to accept the preprocessed dataset that was
+supplemented with the ‘‘technical’’ indicators in order for                                      TABLE II. MODEL ARCHITECTURE
+the model to have a better ability to elaborate more complex                               Layer (Type)                                Number of
+patterns in the movement of stock price.                                                                           Output Shape
+                                                                                                                                       Parameters
+
+    1) Realised data sequences of stock price that are                                     lstm(LSTM)             (None, 30, 48)          9,600
+constructed based on a fixed look-back period, say 30 or 40                                   Dropout             (None, 30, 48)             0
+days, both go to the input layer. These sequences provide
+the model with information regarding the strengths and                                    lstm_1(LSTM)              (None, 64)            28,928
+trends in the current market as well as prices.                                         dropout_1(dropout)          (None, 64)               0
+    2) Stacked LSTM Layers: For this purpose, the design is                                dense(Dense)              (None, 1)              65
+built up of two layered LSTM nodes, where each layer is
+trained at different degree of temporal dependencies:• The
+
+
+
+
+      Authorized licensed use limited to: Galgotias University. Downloaded on October 13,2026 at 09:28:16 UTC from IEEE Xplore. Restrictions apply.
+    By courtesy, table 2 shows that the model comprises two                                        TABLE III. MODEL EQUATIONS
+LSTM layers and a Dense output layer; it is expected to                               Performance
+                                                                                                                 Equations                  Summary
+capture Temporal correlations in stock price data. Hence, it is                         Metrics
+the first LSTM layer that has 9,600 parameters with 48 units                                                                           RMSE uses the
+and output shape of (None, 30, 48). Unfortunately, the                                                                                 square root of the
+                                                                                                                                       mean of squared
+number of nodes in the visible layer is large, and to prevent                      Root Mean Squared       √1       ∑ ( =1             differences of actual
+overfitting, a dropout layer follows it. The first layer of                        error                            - ̂ )2             and        forecasted
+learned patterns is then passed to the second LSTM layer                                                                               values to measure
+which consists of 64 units and 28,928 parameters. Before the                                                                           the average size of
+last Dense layer which gives a single projected stock price,                                                                           the error.
+there is another dropout layer, which aids in the process of                                                                           Increased predictive
+regularization. The overall trainable parameters in the model                                                                          ability is postulated
+are 38,593 and thus the model can be used for accurate stock                       R-Squared
+                                                                                                           1− ∑ (      =1 − ̂          by higher R-square
+price prediction.                                                                                          )2 ∑ (       =1 − ̅)2       values whose merit
+                                                                                                                                       is to measure model
+                                                                                                                                       accuracy.
+D. Model Training
+                                                                                                                                       MAPE       gives    a
+    To maximize learning and guarantee precise forecasts,                                                                              percentagewise idea
+the LSTM-based model for stock price prediction underwent                                                                              for the efficiency of
+the following systematic phases during training:                                   Mean       Absolute     100    ∑|    − ̂      |     the model by finding
+                                                                                   Percentage Error                    =               the average percent
+    1) Data Preparation: The data which consists of the                                                                                difference between
+historical stock data from the year 2001 to 2021 was sourced                                                                           the given and the
+from Kaggle. The data was split into 80% for the model’s                                                                               actual data set
+training, 20% for testing and finally for performance
+evaluation, so that the model put into practice what it learnt                    All these factors evidence the predictive capability of the
+from previous patterns. All features were rescaled using                       model for stock prices with some features about accuracy
+min-max scaling to make their ranges consistent and speed                      and reliability of the forecast.
+up convergence.
+    2) Batch Size and Epochs: In order to balance weight                            IV. EXPERIMENTAL RESULT AND ANALYSIS
+update frequency and data processing efficiency, the batch
+size was set to 32. Twenty epochs were enough to train the                         The goal of this study is to evaluate the general
+model to find a complicated sequential dependency of the                       performance of LSTM (stacked long short-term memory)
+data but not too many to overtrain the model.                                  based models for predicting the future prices of Axis Bank
+                                                                               shares. The performances of LSTM based model have been
+    3) Loss Function: Quantifying the model’s loss                             established by vital contingency measures such as accuracy,
+function, the closeness of the model-predicted against actual                  MAPE, R², as well as RMSE. These performance indicators
+closing prices was ascertained by calculating the MSE of the                   provide a complete evaluation of the strength of the
+average of squared differences between them. This option is                    prediction made by the model.
+preferred most of the time in regression projects because it
+provides better forecasts through increased penalties on                          The second set of performance parameters shown in
+higher forecast errors.                                                        Table 4 below provides numericalical support for assessing
+                                                                               the performance of Stacked LSTM regarding stock price
+    4) Model evaluation: In order to ensure that no                            predictions.
+compromise on accuracy in predicting the stock prices the
+following assessment measures were used to test the
+                                                                                TABLE IV. REPRESENTS THE PERFORMANCE METRICS USED IIN
+efficiency of the model being offered. Therefore, accuracy                                            PREDICTION.
+was measured by using the Root Mean Squared Error which
+calculates the average magnitude of mistakes, higher                                    Performance Metrics                          Value Obtained
+disparities yielded larger fines. The performance in the                          Root Mean Squared Error               15.681602527149401
+context of real stock prices was demonstrated through Mean
+                                                                                  R-Squared                             0.9809708447894628
+Absolute Percentage Error (MAPE), along with details of
+average percental error. Lastly, the robustness of the model                      Mean Absolute Percentage Error         1.98%
+to explain stock price volatility was evaluated by computing                      Accuracy                              98.02%
+the R-squared (R²). When used altogether it gives a
+confirmation on the efficiency of the model in providing a
+reliable prediction of the financial position. The process was                     A high RMSE score is concerning because it indicates
+refined while making the forecasts of stock prices for this                    that the predicted values are significantly different from the
+particular model.                                                              actual observed values. On the other hand, the R2 score
+                                                                               reflects the proportion of stock price volatility that the model
+E. Performance Evaluation                                                      can explain. MAPE is also useful for comparing the average
+    To ensure high reliability of the results obtained, the                    forecast error with the actual closing prices. Together, these
+effectiveness of the stacked LSTM model for predicting                         metrics provide a clear understanding of the model's
+stock prices was evaluated based on several performance                        performance and highlight its potential value for investors
+indicators.                                                                    looking to make informed decisions in the unpredictable
+                                                                               stock price [5].
+
+
+
+
+      Authorized licensed use limited to: Galgotias University. Downloaded on October 13,2026 at 09:28:16 UTC from IEEE Xplore. Restrictions apply.
+      A. Actual price vs Predicted Price Graph                                       is not very volatile. Around 0.00005, the training loss is by
+                                                                                     and large oscillating. 0.0006 and 0.00075. After the 30
+                                                                                     epochs of training the model has been evaluated on the
+                                                                                     human side of the dataset. From figure 3, both the training
+                                                                                     and validation losses seem to have converged implying that
+                                                                                     the model is now stable. This implies that the model is
+                                                                                     capable of achieving the aimed at outcomes. Generalizing to
+                                                                                     unseen data as it is evident through the low validation loss.
+
+
+
+
+Fig. 2.     Comparison between Actual price vs Predicted price
+
+          The figure illustrates how a stock price prediction model
+      performs when compared to actual stock prices. The x-axis
+      represents time, likely measured in trading sessions or days,
+      while the y-axis indicates the stock price, with higher values
+      reflecting a more expensive stock. The red line depicts the
+      predicted stock from the model, and the blue line represents
+      the actual stock price over time. These observations prove
+      that while the model overfits the low-level prices, it can
+      detect the general pattern of the stock’s behavior. They found
+      that, although the model may overstate or understate the
+      magnitude of the price changes, it can give an accurate                             Fig. 4. Training and Validation Loss vs Epochs
+      indication of the overall direction of such price changes.
+                                                                                         The graph of the training and validation loss of a
+                                                                                     machine-learning model on 50 epoch. The validation loss is
+      B. Regression Error Characteristic Graph                                       plotted by the orange line in the diagram, whereas the
+                                                                                     training loss is plotted by the blue line. Overall eras, the
+                                                                                     training loss oscillates but in most cases decreases,
+                                                                                     suggesting that the protocol is learning from the training
+                                                                                     data. On the other hand, the validation loss stays rather low
+                                                                                     and does increase further which means the model is not
+                                                                                     overfitting and could load unseen data well. The gap between
+                                                                                     the training and validation losses might show that there is a
+                                                                                     significant issue with the model performing well on the
+                                                                                     training data and its ability to perform well on the validation
+                                                                                     data. For the given problem, therefore, the graph above
+                                                                                     shows that the model has captured the balance between the
+                                                                                     training and validation loss which makes it probable to
+                                                                                     predict well on other data.
+Fig. 3.     REC Curve graph
+                                                                                                              V. CONCLUSION
+          This figure presents an area of the Regression Error                           This study aimed to create a genuine stock price
+      Characteristic (REC) which means the coverage of a total                       prediction model based on stacked LSTM since LSTM
+      number of predictions for a given range of error. The model                    performs very well for time-dependent sequence analysis,
+      gets an accurate result of more than 95 percent for all the                    such as pricing. Technical indicators, together with previous
+      values higher than 10 proving how well it has done its work.                   stock prices, provide complexity to the model by detecting
+      The relative flat curve near 100% indicates that almost all                    quick variations in price behavior patterns. With a batch size
+      forecasts are within a reasonable tolerance range hence                        of 32 and non-hydrated 20 epochs, the stacked LSTM
+      proving that the proposed model presents most of the target                    performed best in training, producing top results in Root
+      variables with reasonable accuracy. As we move up in the                       Mean Squared Error (RMSE), Mean Squared Error (MSE),
+      lower error tolerance range we see that its curve is more                      R-squared value, and Mean Absolute Percentage Error
+      inclined; this also speaks volumes about the ability of the                    (MAPE). The gating mechanisms inside lengthy short-term
+      model to approximate very closely to the actual values, if                     memory overcome the gradient vanishing problem, which is
+      needed. Overall the REC curve gives a good account of how                      common in ordinary neural networks. This model delivers
+      well the implemented model is in prediction or classification                  exceptional performance for long-term trend prediction
+      tasks.                                                                         models since financial time series forecasting shows trends
+                                                                                     over periods instead of short-term alterations.
+      C. Training and Validation Loss Graph
+          Using the figure below, different phases can be described
+      as follows; The figure below represents the training and the
+      evaluation of the validation loss of the neural network to be                                                REFERENCES
+      over 50 epochs. It is also noteworthy that the validation loss
+
+
+
+
+            Authorized licensed use limited to: Galgotias University. Downloaded on October 13,2026 at 09:28:16 UTC from IEEE Xplore. Restrictions apply.
+                                                                                       Analysis," in IEEE Access, vol. 8, pp. 150199-150212, 2020, doi:
+[1]   Bengio, Y., Simard, P., & Frasconi, P. (1994). Learning longterm                 10.1109/ACCESS.2020.3015966.
+      dependencies with gradient descent is difficult. *IEEE Transactions        [6]   S. S. Alotaibi, "Ensemble Technique With Optimal Feature Selection
+      on Neural Networks*.                                                             for Saudi Stock Market Prediction: A Novel Hybrid Red Deer-Grey
+[2]   Zhang, D., Fung, T. W., Keung, J. S., & Zhang, X. (2018).                        Algorithm," in IEEE Access, vol. 9, pp. 64929-64944, 2021, doi:
+      Forecasting stock price movement using deep learning                             10.1109/ACCESS.2021.3073507.
+      methodologies: A performance evaluation model.                             [7]   K. Alam, M. H. Bhuiyan, I. U. Haque, M. F. Monir and T. Ahmed,
+[3]   S. Mehtab, J. Sen and S. Dasgupta, "Robust Analysis of Stock Price               "Enhancing Stock Market Prediction: A Robust LSTM-DNN Model
+      Time Series Using CNN and LSTM-Based Deep Learning Models,"                      Analysis on 26 Real-Life Datasets," in IEEE Access, vol. 12, pp.
+      2020 4th International Conference on Electronics, Communication                  122757-122768, 2024, doi: 10.1109/ACCESS.2024.3434524.
+      and Aerospace Technology (ICECA).                                          [8]   Guan, Z., & Zhao, Y. (2024). Optimizing stock market volatility
+[4]   G. W. R. I. Wijesinghe and R. M. K. T. Rathnayaka, "Stock Market                 predictions based on the SMVF-ANP approach. International Review
+      Price Forecasting using ARIMA vs ANN; A Case study from CSE,"                    of       Economics         &amp;       Finance,   95,      103502.
+      2020 2nd International Conference on Advancements in Computing                   https://doi.org/10.1016/j.iref.2024.103502
+      (ICAC).                                                                    [9]   J. You, H. Jang, M. Kang, S. -B. Yang and S. -H. Yoon, "Leveraging
+[5]   M. Nabipour, P. Nayyeri, H. Jabani, S. S. and A. Mosavi, "Predicting             Stock Discussion Forum Posts for Stock Price Predictions: Focusing
+      Stock Market Trends Using Machine Learning and Deep Learning                     on the Secondary Battery Sector," in IEEE Access, vol. 12, pp.
+      Algorithms Via Continuous and Binary Data; a Comparative                         153537-153549, 2024, doi: 10.1109/ACCESS.2024.3481442.
+
+
+
+
+        Authorized licensed use limited to: Galgotias University. Downloaded on October 13,2026 at 09:28:16 UTC from IEEE Xplore. Restrictions apply.
+

@@ -1,0 +1,11 @@
+﻿Study_ID,Excel_Column,Field,Existing_Value,Proposed_Value,Adjudication_Status,Evidence_Location
+P00826,G,DOI,10.1109/cises66934.2025.11265263,10.1109/WCCEST66994.2025.11389979,Source verified,PDF p.1
+P00826,J,Principal_Method_Family,Deep-learning models,Sentiment/NLP-driven models,Proposed; confirm taxonomy precedence,PDF pp.2-4
+P00826,K,Target_Primary,Price,Direction,Source verified,PDF pp.2-5
+P00826,L,Learning_Formulation,Regression,Binary_Classification,Source verified,PDF pp.3-5
+P00826,M,Forecast_Horizon,Not_Reported,Not_Reported,Retain; horizon not established,PDF pp.3-4
+P00826,N,Asset_Scope,Cross_Market,Multiple_Stocks,Source verified,PDF pp.3-5
+P00826,O,Market_Country,Yahoo Finance (not stated which stocks/market),United States (NASDAQ reported; company list inconsistent),Proposed with qualification,PDF pp.3-5
+P00826,P,Dataset_Source,Yahoo Finance (not stated which stocks/market),"Historical stock data (price provider not specified); financial news from Reuters, Google, Yahoo and eComomics.com",Source supported; provider incomplete,PDF p.3
+P00826,Q,Sampling_Frequency,Mixed,Daily,Provisional; verify reporting granularity,PDF pp.2-4
+P00826,R,Raw_Input_Features,"Historical stock data augmented with technical indicators (RSI, SMA, EMA, MACD, Bollinger Bands)",Daily OHLC prices; financial-news text and NB-derived sentiment polarity; NLP n-gram and term-weighting features,Source verified,PDF pp.2-4

@@ -1,0 +1,59 @@
+﻿Field,Category,Count,Percent_of_485,Denominator
+Evidence_Scope,Abstract_Only,83,17.1134,485
+Evidence_Scope,Full_Text,377,77.7320,485
+Evidence_Scope,Metadata_Only,25,5.1546,485
+Target_Primary,Direction,49,10.1031,485
+Target_Primary,Multi_Target,32,6.5979,485
+Target_Primary,Price,378,77.9381,485
+Target_Primary,Return,17,3.5052,485
+Target_Primary,Trend_Regime,8,1.6495,485
+Target_Primary,Volatility,1,0.2062,485
+Learning_Formulation,Binary_Classification,45,9.2784,485
+Learning_Formulation,Hybrid_Other,7,1.4433,485
+Learning_Formulation,Multi_Task,28,5.7732,485
+Learning_Formulation,Multiclass_Classification,6,1.2371,485
+Learning_Formulation,Not_Reported,1,0.2062,485
+Learning_Formulation,Probabilistic,5,1.0309,485
+Learning_Formulation,Regression,393,81.0309,485
+Forecast_Horizon,Intraday,17,3.5052,485
+Forecast_Horizon,Longer_Than_Monthly,9,1.8557,485
+Forecast_Horizon,Monthly_11_22,4,0.8247,485
+Forecast_Horizon,Multiple_Horizons,45,9.2784,485
+Forecast_Horizon,Not_Reported,315,64.9485,485
+Forecast_Horizon,One_Day,80,16.4948,485
+Forecast_Horizon,Short_Multiday_2_5,4,0.8247,485
+Forecast_Horizon,Weekly_6_10,11,2.2680,485
+Principal_Method_Family,ANN/neuro-fuzzy models,1,0.2062,485
+Principal_Method_Family,Deep-learning models,115,23.7113,485
+Principal_Method_Family,Ensemble/tree-based machine learning,33,6.8041,485
+Principal_Method_Family,Graph-based models,16,3.2990,485
+Principal_Method_Family,Hybrid deep-learning models,109,22.4742,485
+Principal_Method_Family,Metaheuristic-optimized models,51,10.5155,485
+Principal_Method_Family,Multimodal-fusion models,12,2.4742,485
+Principal_Method_Family,Other/unclear,2,0.4124,485
+Principal_Method_Family,Sentiment/NLP-driven models,77,15.8763,485
+Principal_Method_Family,Statistical/econometric models,1,0.2062,485
+Principal_Method_Family,Transformer/attention-based models,68,14.0206,485
+Asset_Scope,Cross_Market,12,2.4742,485
+Asset_Scope,Multiple_Indices,19,3.9175,485
+Asset_Scope,Multiple_Stocks,153,31.5464,485
+Asset_Scope,Not_Reported,133,27.4227,485
+Asset_Scope,Portfolio,1,0.2062,485
+Asset_Scope,Single_Stock,105,21.6495,485
+Asset_Scope,Stock_Index,62,12.7835,485
+Sampling_Frequency,Daily,83,17.1134,485
+Sampling_Frequency,Intraday,4,0.8247,485
+Sampling_Frequency,Mixed,4,0.8247,485
+Sampling_Frequency,Not_Reported,394,81.2371,485
+Validation_Status,Random/shuffled,6,1.2371,485
+Validation_Status,Temporally ordered,81,16.7010,485
+Validation_Status,Unclear,398,82.0619,485
+Technical_Indicators,No,367,75.6701,485
+Technical_Indicators,Yes,118,24.3299,485
+Leakage_Risk,High,32,6.5979,485
+Leakage_Risk,Low,7,1.4433,485
+Leakage_Risk,Unclear,446,91.9588,485
+Economic_Evaluation,Unclear,448,92.3711,485
+Economic_Evaluation,Yes,37,7.6289,485
+Code_Available,Unclear,478,98.5567,485
+Code_Available,Yes,7,1.4433,485

@@ -1,0 +1,12 @@
+﻿Study_ID,Excel_Column,Field,Existing_Value,Proposed_Value,Adjudication_Status,Evidence_Location
+P00384,J,Principal_Method_Family,Sentiment/NLP-driven models,BERT-based multimodal fusion; family recoding conditional on technical-synthesis eligibility,HOLD_ELIGIBILITY,PDF pp.2-4
+P00384,K,Target_Primary,Price,No demonstrated stock-forecast target; documented endpoint is sentiment polarity,ELIGIBILITY_REVIEW_REQUIRED,PDF pp.3-4
+P00384,L,Learning_Formulation,Regression,Three-class sentiment classification; not demonstrated stock-price regression,ELIGIBILITY_REVIEW_REQUIRED,PDF pp.3-4
+P00384,O,Market_Country,Not stated,China; Chinese-listed companies,SOURCE_VERIFIED_PROPOSED,PDF p.2
+P00384,P,Dataset_Source,Not stated,"Chinese financial news, analyst reports, social media and stock-market observations; exact providers not sufficiently reported",SOURCE_SUPPORTED_WITH_LIMITATIONS,PDF p.2
+P00384,R,Raw_Input_Features,Financial sentiment as covariates; (unspecified additional time-series covariates),Chinese text; BERT embeddings; prices; volume; daily returns; MA3/MA5/MA10; rolling volatility; momentum; lagged sentiment features,SOURCE_VERIFIED_PROPOSED,PDF pp.2-3
+P00384,T,Technical_Indicators,No,Yes,SOURCE_VERIFIED_PROPOSED,PDF p.2
+P00384,U,Financial_News_Text,No,Yes,SOURCE_VERIFIED_PROPOSED,PDF p.2
+P00384,AC,Validation_Design,Unclear,Stratified five-fold cross-validation; temporal ordering not demonstrated,HOLD_CONTROLLED_VALUE_MAPPING,PDF p.3
+P00384,AK,Statistical_Testing,Unclear,Yes,SOURCE_VERIFIED_PROPOSED,PDF pp.3-4
+P00384,AX,Manual_Review_Required,No,Yes,SOURCE_VERIFIED_PROPOSED,PDF pp.3-5

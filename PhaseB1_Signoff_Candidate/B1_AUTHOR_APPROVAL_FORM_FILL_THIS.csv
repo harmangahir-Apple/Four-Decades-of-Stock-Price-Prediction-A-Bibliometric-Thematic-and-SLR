@@ -1,0 +1,12 @@
+﻿Gate_ID,Scientific_Approval_Gate,Required_Approval_Statement,Author_Decision,Approving_Author,Approval_Date_YYYY_MM_DD,Author_Comments
+G01,Corpus integrity and 485 Paper_ID freeze,"485/51, 375/85/25 and SHA-256 lock approved; no source overwrite",,,,
+G02,Field inventory and operational thresholds,"45 fields, CORE=27, EXTENDED=18 and v1.1 revised thresholds approved",,,,
+G03,Outcome states and scope-specific missingness,"YES, EXPLICIT_NO, NOT_REPORTED, INSUFFICIENT_ACCESS, AMBIGUOUS, NOT_APPLICABLE separated; NOT_ASSESSED workflow only",,,,
+G04,Source precedence and provenance requirements,"Claim-specific source hierarchy, exact quotes and locations, source hashes, code commits and negative-search log approved",,,,
+G05,Leakage risk and mechanism aggregation,PL09 mechanism-level provenance; PL11 HIGH/LOW/INDETERMINATE/CONFLICTED/NA; experiment-first aggregation approved,,,,
+G06,Multi-experiment study-level summary,Primary experiment predefinition; separate any-YES and primary-YES sensitivity reporting; mixed cases logged,,,,
+G07,Pilot design,40 = 30 full text + 6 abstract + 4 metadata; quotas by family; seeded selection and years/leakage constraints approved,,,,
+G08,B2 schema and change tracking,"Paper_ID based immutable Phase A mapping, blank proposed outcomes, source assertions, search/adjudication/change logs approved",,,,
+G09,Phase C independent coding boundary,No independent agreement claimed in B1/B; Phase C requires blinded second reviewer and corrected reporting,,,,
+G10,Publication freeze and amendment control,No manuscript count changes before Phase B verification and Phase C; versioned amendments only,,,,
+G11,Scientific scope and negative evidence,"Distinguish verified reporting from actual practice, no missing->NO, no automated fabricated passage, preserve 485",,,,

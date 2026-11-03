@@ -1,0 +1,1154 @@
+Stock Price Prediction with Sentiment Analysis for Chinese Market
+
+       Yuchen Luan1 , Haiyang Zhang1∗ , Chenlei Zhang1 , Yida Mu2 , Wei Wang1
+                                       Xi’an Jiaotong Liverpool University
+                                        1
+                                          2
+                                            The University of Sheffield
+                             {yuchen.luan22, chenlei.zhang}@student.xjtlu.edu.cn
+                                  {haiyang.zhang, wei.wang03}@xjtlu.edu.cn
+                                             y.mu@sheffield.ac.uk
+
+                                                       Abstract
+Accurate prediction of stock prices is considered as a significant practical challenge and has been a longstanding
+topic of debate within the economic domain. In recent years, sentiment analysis on social media comments has been
+considered an important data source for stock prediction. However, most of these works focus on exploring stocks with
+high market values or from specific industries. The extent to which sentiments affect a broader range of stocks and
+their overall performance remains uncertain. In this paper, we study the influence of sentiment analysis on stock price
+prediction with respect to (1) different market value groups and (2) different Book-to-Market ratio groups in the Chinese
+stock market. To this end, we create a new dataset that consists of 24 stocks across different market value groups
+and Book-to-Market ratio categories, along with 12,000 associated comments that have been collected and manually
+annotated. We then utilized this dataset to train a variety of sentiment classifiers, which were subsequently integrated
+into sequential neural-based models for stock price prediction. Experimental findings indicate that while sentiment in-
+tegration generally improve the predictive performance for price prediction, it may not consistently lead to better results
+for individual stocks. Moreover, these outcomes are notably influenced by varying market values and Book-to-Market
+ratios, with stocks of higher market values and B/M ratios often exhibiting more accurate predictions. Among all the
+models tested, the Bi-LSTM model incorporated with the sentiment analysis, achieves the best prediction performance.
+
+Keywords: Stock Price Prediction, Sentiment Analysis, Chinese Stock Market
+
+                                                               Sentiment analysis often employs various models,
+                                                               including Convolutional Neural Networks (CNNs)
+                                                               and BERT-based models, to interpret and classify
+                 1.    Introduction
+                                                               emotions within text data effectively. Specifically,
+Stocks are frequently traded investment products,              when analyzing sentiment in Chinese text, a sig-
+and accurately forecasting stock prices is regarded            nificant number of studies prefer the Bert-base-
+as a crucial practical concern. This topic has been a          Chinese model (BBC) for its general applicabil-
+subject of ongoing debate in the field of economics,           ity. However, a smaller yet noteworthy body of
+with numerous scholars proposing various methods               research opts for the Erlangshen-MegatronBert-
+to forecast stock market trends. In recent years,              1.3B-Sentiment model (EMB-1.3B-S), which has
+the rise of social media has led many investors to             been shown to outperform others in classification
+express their views and sentiments on stocks in                tasks, as highlighted in the literature (Zhang et al.,
+online forums, prompting scholars and practitioners            2022). As for the stock prediction task, the majority
+to pay attention to discourse on these investment              of studies aim to predict the future direction of stock
+platforms. Such information has been shown to                  movements as a classification task. In contrast, a
+offer evidence indicating that investor sentiment              lesser-explored avenue is to predict the exact stock
+might play a pivotal role in explaining stock price            price based on historical data, treating it as a re-
+fluctuations (Dewally, 2003; Sunny et al., 2020).              gression task. For this latter task, Long-Short Term
+   Most existing works on stock prediction with sen-           Memory (LSTM) networks are frequently chosen
+timent analysis follow a two-stage process: the first          due to their proficiency in processing and analyzing
+stage involves using sentiment classification meth-            time series data (Hiew et al., 2019; Sidogi et al.,
+ods to compute sentiment values, which are sub-                2021).
+sequently integrated into conventional time series                  In the realm of stock prediction research, a preva-
+stock price prediction models. (Jing et al., 2021;               lent trend involves selecting stocks based on criteria
+Tashiro et al., 2019; Sirignano and Cont, 2021; Hiew             such as market capitalization (Zhang et al., 2017;
+et al., 2019; Sidogi et al., 2021). Common models                Liu and Chen, 2019) or industry sector (Huang et al.,
+employed for sentiment analysis include Convolu-                 2018; Wu et al., 2018). However, such methods
+tional Neural Networks (CNNs) and BERT models.                   introduce a selection bias where the chosen stocks
+                                                                 often share similar features, leading to a lack of
+    * denotes corresponding author.                              diversity within the analyzed portfolio. Even when
+
+                                                           167
+         Proceedings of the Joint Workshop of the 7th FinNLP, the 5th KDF, and the 4th ECONLP, pages 167–177
+                     20 May, 2024. © 2024 ELRA Language Resource Association: CC BY-NC 4.0
+considering both market capitalization and indus-          1000, representing portfolios of stocks with differ-
+try factors together, it remains challenging to avoid      ent market capitalizations and liquidity in the Chi-
+the concentration of market capitalization within          nese stock market. The CSI 100 comprises the
+specific industries (Jing et al., 2021). For instance,     top 100 stocks with the largest market capitaliza-
+stocks in the banking and food and beverage in-            tion and best liquidity from the Shanghai and Shen-
+dustries typically have high market capitalization,        zhen 300 indices, representing mega-cap stocks in
+while those in the chemical and communication              the Chinese market; the CSI 200 consists of 200
+equipment industries tend to have lower market             stocks excluding the constituents of the CSI 100
+capitalization. This leads to an issue of similarity       index, representing large-cap stocks; the CSI 500
+among the stocks to be predicted within the portfo-        and CSI 1000 represent mid-cap and small-cap
+lio. An innovative approach to counteract this bias        stocks, respectively. Subsequently, we constructed
+involves incorporating the Book-to-Market (B/M)            a 3 × 4 table by combining the three market cap-
+ratio (Pontiff and Schall, 1998), a pivotal metric         italization portfolios with four B/M ratio portfolios.
+in value investment strategies indicating company          Six stocks meeting the selection criteria were ran-
+valuation. Considering both the B/M ratio and mar-         domly chosen from each cell of the table. For the 24
+ket capitalization for stock selection can effectively     selected stocks, technical indicators including the
+mitigate this selection bias. In this paper, we ex-        opening price, closing price, highest price, lowest
+amine the influence of sentiment analysis on stock         price, and trading volume have been collected from
+price prediction with respect to (1) different market      the China Stock Market & Accounting Research
+value groups and (2) different Book-to-Market ratio        Database (CSMAR)2 . Regarding technical indica-
+groups in the Chinese stock market. We train a             tors, we employ the Lagrange interpolation method
+set of sentiment classifiers, which are then incorpo-      to rectify missing and outlier values, subsequently
+rated with sequence-based deep learning models             arranging the data chronologically (de Resende
+for price prediction. The contributions of this work       et al., 2016).
+are as follows:
+                                                           Time Span To capture highly diverse price fluctu-
+  • We construct a new dataset comprising 24
+                                                           ations and to alleviate concerns about data snoop-
+    stocks from various market value and book-
+                                                           ing, we selected data spanning from January 1,
+    to-market ratio groups in the Chinese stock
+                                                           2017, to December 31, 2022, covering 1,459 trad-
+    market, along with 12,000 corresponding com-
+                                                           ing days. This interval has been deemed adequate
+    ments that were collected and manually anno-
+                                                           by prior research for stock price prediction pur-
+    tated.
+                                                           poses, capturing essential fluctuations in market
+  • We employ various combinations of sentiment            sentiment (Jiang, 2021). This selection ensures a
+    analysis models and sequence-based price               comprehensive analysis period that incorporates
+    prediction models to assess the impact of sen-         significant market events and trends, providing a ro-
+    timent information on stock prediction.                bust foundation for evaluating the impact of market
+                                                           sentiment on stock price movements.
+  • Experimental results suggest that while incor-
+    porating sentiment generally improves predic-
+    tive performance, it may not consistently lead
+                                                           2.2.   Stock Comments Collection
+    to superior results for individual stocks. Fur-        For the experiments, we collected over 1.2 million
+    thermore, the results are significantly influ-         stock comments related to the 24 selected stocks
+    enced by different market values and Book-             from the stock forum on the Financial Website (East
+    to-Market ratios. Among all the models tested,         Money)3 for the corresponding 24 stocks. Given
+    the Bi-LSTM model integrated with a sentiment          East Money’s reputation as a leading financial in-
+    factor demonstrates the highest prediction per-        formation platform in China, the discussions on
+    formance.                                              this forum are indicative of the broader sentiment
+                                                           among Chinese investors (Wang et al., 2018).
+                  2.   Datasets
+                                                           Data Filtering To ensure adherence to the fun-
+2.1.     Stock Selection                                   damental requirements and standards of this ex-
+                                                           periment, we systematically excluded stocks previ-
+Considering the diverse market attributes of stocks        ously categorized under ST or *ST status4 , elimi-
+in different market value portfolios in the Chinese
+market, we selected stocks from four market in-               2
+                                                                http://www.data.csmar.com
+dexes from the Shanghai Stock Exchange (SSE)1 ,               3
+                                                                http://www.guba.eastmoney.com
+namely CSI 100, CSI 200, CSI 500, and CSI                     4
+                                                                In the Chinese stock market, ST represents “Spe-
+                                                           cial Treatment,” indicating companies facing the risk of
+   1
+       http://english.sse.com.cn/                          delisting due to financial distress or other issues, while
+
+                                                     168
+                     Market Value
+                                          CSI 100                 CSI 200           CSI 500          CSI 1000
+ Average B/M
+                                        601818.SH               000783.SH          000488.SH        000797.SH
+            High (33%)
+                                        601998.SH               600741.SH          600657.SH        601588.SH
+                                        600999.SH               600085.SH          000685.SH        002138.SH
+          Medium (33%)
+                                        002736.SH               601021.SH          300244.SH        002542.SH
+                                        600585.SH               300144.SH          603355.SH        603989.SH
+            Low (33%)
+                                        601336.SH               300033.SH          600259.SH        300377.SH
+
+                 Table 1: Stocks selected based on the Fama-French three-factor model.
+
+
+nated those with less than 50 trading weeks annu-                             3.    Methodology
+ally, and removed entries marked by missing data.
+This process retained stocks that consistently main-               We propose a hybrid predictive pipeline that com-
+tained their status as index component constituents             bines 1) a sentiment analysis model to predict the
+throughout the designated trading period. The se-               sentiment score based on the daily comments for
+lected 24 stocks are listed in Table 1.                         each stock, and 2) a sequence model to predict
+                                                                time series stock price that includes the sentiment
+                                                                factor. The architecture of the proposed method is
+Text Pre-processing For the stock comments,
+                                                                depicted in Figure 1.
+we remove all garbled text, web links, and irrelevant
+short phrases.
+                                                                3.1.   Sentiment Analysis on Stock
+Data Annotation Three annotators indepen-                              Comments
+dently assigned sentiment labels: positive, neu-            We explore a number of text classification methods
+tral, or negative, to a set of 12,000 stock com-            for predicting the sentiment of stock comments,
+ments. To evaluate the inter-annotator reliability          including traditional machine learning models (e.g.,
+concerning the sentiment classification of these            Support Vector Machine (SVM)) and neural-based
+comments, we employed the Fleiss’ Kappa (Fleiss,            models, such as Convolutional Neural Networks
+1971) statistic as our chosen metric. This approach         (CNN) (Luan and Lin, 2019) and Transformer-based
+facilitates a quantifiable assessment of agreement          models (Vaswani et al., 2017; Devlin et al., 2019).
+levels among the three annotators, ensuring the
+consistency and accuracy of the sentiment labels
+assigned to the dataset. The Fleiss’ Kappa is com-              SVM SVM is used as a baseline for our sentiment
+puted as:                                                       classification. It utilizes unigram and bigram bag-
+                          po − pe                               of-words, weighted using TF-IDF, as inputs. These
+                      κ=                           (1)          are implemented using the default settings of scikit-
+                           1 − pe
+                 PN                                             learn (Pedregosa et al., 2011).
+where po = N1 i=1 pi is the average observed
+agreement probability across all raters for all sam-
+                        Pk                                  CNN CNN arpproaches leverage multiple convo-
+ples, and pi = n(n−1)
+                   1
+                           j=1 nij (nij − 1)represents      lutional kernels of varied granularities to meticu-
+the degree of agreement observed among raters               lously extract text features. . This process begins
+for each sample. nij is the number of raters who            with the generation of feature matrices, followed
+classified sample i into category j, n is the total         by the execution of one-dimensional convolution
+number of raters (in this study, there are 3 raters),       and pooling operations to distill and condense the
+and k is the number of categories (in this study,           information. The culmination of this process in-
+there are 3 categories: positive, negative, and neu-        volves the application of the Softmax function for
+             Pk
+tral). pe = j=1 p2j represents the expected aver-           sentiment classification, which computes a proba-
+age agreement probability that raters  PNcan achieve        bility distribution across the possible sentiment cat-
+when assigning ratings. pj = N1n i=1 nij repre-             egories for a given text. Following (Kim, 2014),our
+sents the mean number of raters assigned to each            approach integrates pre-trained word embeddings
+category, where N is the total number of samples.           through two distinct embedding layers: static and
+The Fleiss Kappa value for our annotation is 0.883,         non-static. The filter size is set to 3, where each
+indicating excellent agreement and demonstrating            type of filter comprises 100 filters. Then, max-
+good classification consistency.                            pooling operations are employed to extract critical
+                                                            information, ultimately yielding output results in the
+*ST denotes a more severe level of “Special Treatment.”     fully-connected layer.
+
+                                                          169
+                                                                                                                                 Sentences
+                                                                                  Crawlers
+                                                                                                                                    with
+                                                                                                                                 Sentimment
+
+
+                  Fama-French        Market Value                Comments                        Database                               Training
+                                                    Stocks
+               Three-Factors Model
+                                      B/M ratio
+                                                                                 Download                                         Classifier
+
+                                                                                                 Technical         Sentiment
+                                                                                                Information       Information
+
+
+                                                                Stock Historical       Training and              Training and
+                                                             Transaction Information    Prediction                Prediction      Erlangshen-
+                                                                                                                                MegatronBert-
+                                                                                             Bi-LSTM and LSTM                   1.3B-Sentiment
+                                                                                               Nerual Networks
+
+
+
+                                                                                                   Stock
+                                                                                                 Prediction
+
+
+
+
+  Figure 1: The design of the stock price prediction model in this study based on sentiment analysis.
+
+
+CBERT & EMB-1.3B-S BERT (Devlin et al., 2019;                                  equation:
+Zhang et al., 2022), the pre-trained deep bidi-
+                                                                                                             +      −          −
+rectional Transformer, has shown strong perfor-                                                num+
+                                                                                                  t · TScorest − numt · TScorest
+                                                                                  SVt =                                          (2)
+mance on many NLP tasks (Devlin et al., 2019).                                                               numt
+Conventionally, it is pre-trained using two self-
+                                                                                                             −
+supervised tasks (masked language modeling and                                 where TScores+  t and TScorest represent the sum
+next sentence prediction) on a large corpus and                                of sentiment probability scores for all positive and
+fine-tuned for downstream tasks. In this paper,                                negative labels corresponding to a stock on the
+we fine-tune two pre-trained BERT models for Chi-                              t-th trading day, respectively; numt denotes the
+nese for the sentiment classification task: Chinese                            total number of comments on the t-th trading day.
+Bidirectional Encoder Transformers5 (CBERT)(Cui                                The sentiment value ranges from -1 to 1, indicating
+et al., 2021) and Erlangshen-MegatronBert-1.3B-                                the overall investor sentiment towards a particular
+Sentiment6 (EMB-1.3B-S).                                                       stock on that day: a positive value suggests a pre-
+   CBERT is pre-trained on an extra Chinese corpus                             dominance of positive sentiments, and a negative
+(e.g., news articles and social media posts), based                            value indicates the opposite.
+on the pre-existing checkpoint of the BertBase-
+Chinese model (Devlin et al., 2019), maintaining an                            3.2.          Stock Prediction with Sentiment
+identical structure (e.g., 12 layers and 110M param-                                         Analysis
+eters) to the vanilla BERT-base model. It achieves
+comparable predictive performance on multiple Chi-                             In our study, we deploy both Long Short-Term
+nese NLP downstream tasks compared to tradi-                                   Memory (LSTM) and Bidirectional Long Short-Term
+tional machine learning approaches. EMB-1.3B-S,                                Memory (Bi-LSTM) models, synergistically com-
+one of the largest open-source Chinese BERT mod-                               bined with sentiment analysis, to forecast stock
+els to date with 1.3 billion parameters, surpasses                             prices. Specifically, we adopt a sliding window
+human performance on downstream tasks such as                                  technique for predicting stock prices for the sub-
+the TNEWS7 Subtask.                                                            sequent day. This method involves progressively
+   We employ CBERT and EMB-1.3B-S in our task                                  moving the input window over the data series to
+by incorporating an additional linear layer on top                             generate predictions for each new time step. This
+of the 12-layer transformer blocks with a Sigmoid                              approach allows for dynamic analysis of time-series
+activation, following the standard model fine-tuning                           data, where the LSTM and Bi-LSTM frameworks
+pipeline introduced by (Devlin et al., 2019). For both                         leverage both historical stock prices and sentiment
+transformer-based models, we set the maximum                                   indicators within each window to make informed
+input length to 512 tokens. Additionally, to maintain                          predictions about future stock price movements.
+consistency with the time input of the stock price
+prediction model, we computed the daily sentiment                              LSTM Long Short-Term Memory (LSTM) net-
+value (SVt ) for each trading day using the following                          works, a subclass of recurrent neural networks
+                                                                               (RNNs), enhance the RNN framework by effec-
+   5
+    https://huggingface.co/hfl/                                                tively managing sequential data while overcoming
+chinese-bert-wwm                                                               the notorious gradient vanishing and exploding is-
+  6
+    https://huggingface.co/                                                    sues commonly associated with traditional RNNs
+IDEA-CCNL/Erlangshen-TCBert-1.                                                 (Hochreiter and Schmidhuber, 1997). LSTMs intro-
+3B-Sentence-Embedding-Chinese                                                  duce a unique mechanism for long-term memory
+  7
+    Toutiao News Classification Dataset                                        retention, enabling the model to make judicious
+
+                                                                        170
+use of relevant historical information without be-          This setup allows for the comprehensive assimila-
+ing overly dependent on distant past data. This             tion of contextual information, both preceding and
+feature ensures a more balanced consideration of            following the target time t, thereby enriching the
+both recent and older inputs, significantly improving       model’s understanding and predictive accuracy of
+the network’s ability to learn from sequences over          stock price movements by leveraging insights from
+extended periods.                                           both past and future contexts. The calculation of
+   The calcluation of the LSTM are is shown as              Bi-LSTM is represented as:
+follows:                                                                 − →                −−→
+                                                                         ht = LST M (ht−1 , xt )
+                                                                        
+                                                                            ←
+                                                                            −                ←−−
+        
+           it = σ(wi · [Ht−1 , Xt ] + bi )
+        
+                                                                           ht = LST M (ht+1 , xt )         (5)
+        
+        
+          ft = σ(wf · [Ht−1 , Xt ] + bf )                                        → ←
+                                                                                   −    −
+                                                                            ht = ( ht , ht )
+                                                                       
+           C̃t = tanh(wc · [Ht−1 , Xt ] + bc )
+        
+                                                   (3)
+           o t = σ(wo · [Ht−1 , Xt ] + bo )
+                                                              Similarly, we integrate sentiment factors into the
+        
+        
+           C = ft · Ct−1 + it · C̃t
+        
+                                                            computation, where at each time step t, the senti-
+        
+         t
+        
+        
+           ht = ot · tanh(Ct )
+                                                            ment factor is included in Bi-LSTM as part of the
+where t represents the time point, Xt signifies the         input xt :
+input value at the cell, and Ht represents the output
+                                                                        ht = LST M (ht−1 , xt , SVt )       (6)
+state of the cell at the same time point. The sym-
+bols ft , it , and ot correspond to the formulas for        This approach allows sentiment factors to influence
+the forget gate, input gate, and output gate, respec-       the input gate, forget gate, and input candidate
+tively. Ct denotes the cell state update. Matrices          value computations, enabling the model to learn
+wi , wf , wc , and wo are the weight matrices for the       how to effectively use sentiment information for
+input gate, forget gate, update gate, and output            stock price prediction during the training process.
+gate, respectively. Biases bi , bf , bc , and bo repre-
+sent the respective biases. The activation function                4.   Experiment and Results
+σ is applied to each gate unit, generating values
+between 0 and 1. This activation function is also           4.1.   Experiments on Sentiment Analysis
+applied to the cell state and output, constraining
+                                                          To evaluate the predictive performance of various
+their values to a range between -1 and 1.
+                                                          classifiers on sentiment classification, we use com-
+   To enhance the LSTM model’s capability for stock
+                                                          ments collected from January 1, 2017, to October
+price prediction, we integrate sentiment values as
+                                                          30, 2022, as the training set, and comments from
+supplementary features. More precisely, we con-
+                                                          November and December 2022 as the test set. We
+catenate the sentiment value SVt as an additional
+                                                          report precision, recall, and the F1 measure to as-
+feature of the input data, forming an augmented
+                                                          sess their performance.
+input vector, as shown in Equation 4.
+                                                             The average evaluation results are presented
+          it = σ(wi · [Ht−1 , Xt , SVt ] + bi )    (4)    in Table 2. Considering the presence of data im-
+                                                          balance within the dataset, we employ a micro-
+By incorporating these sentiment values, they di-         average method for calculating the F-measure.
+rectly influence the operations of the input gate,        As indicated in Table 2, the EMB-1.3B-S model
+forget gate, and the calculation of the input can-        achieves the best overall performance. Given that
+didate value. This strategic integration empowers         the number of comments collected from forums
+the model to adeptly leverage sentiment informa-          exceeds 1.2 million, this level of improvement can
+tion, refining its ability to predict stock prices by     significantly enhance the accuracy of sentiment
+learning from the nuanced interplay between mar-          judgment. Therefore, employing this classifier for
+ket sentiment and stock price movements during            analyzing the hidden sentiments in text data col-
+the training phase.                                       lected from forums is feasible. In the stock price
+                                                          prediction phrase, we utilize the results from the
+                                                          EMB-1.3B-S model as one of the input features.
+Bi-LSTM The Bi-LSTM model, initially proposed
+by (Graves and Schmidhuber, 2005), consists of
+                                                               Metric        Precision     Recall        F-1
+two LSTM layers that enable bidirectional process-
+                                                                SVM            0.823       0.764        0.792
+ing of stock price information around time t. By
+                                                                CNN            0.875       0.823        0.848
+leveraging historical data from both forward and
+                                                               CBERT           0.947       0.946        0.946
+backward directions, it jointly predicts the stock’s
+                                                             EMB-1.3B-S        0.970       0.969        0.969
+closing price at time t. Bi-LSTM structure consists
+of two distinct LSTM layers aligned in parallel, each       Table 2: Performance Comparison of Various Clas-
+processing the temporal data sequence in opposite           sifiers in Sentiment Analysis.
+directions: one forward and the other backward.
+
+                                                      171
+                    3.00                                                                                                                        Actual Price
+                             Actual Price                                                         56                                            LSTM
+                             LSTM
+                             LSTM_Senti                                                                                                         LSTM_Senti
+                    2.95     Bi-LSTM                                                                                                            Bi-LSTM
+                                                                                                  54
+                             Bi-LSTM_Senti                                                                                                      Bi-LSTM_Senti
+
+
+                    2.90                                                                          52
+
+
+
+
+   Closing P rice
+                                                                                 Closing P rice
+                                                                                                  50
+                    2.85
+
+
+                                                                                                  48
+                    2.80
+
+                                                                                                  46
+
+                    2.75
+
+                                                                                                  44
+
+                    2.70
+                           20 22
+                           20 -11-0
+                              22
+                           20 -11-02
+                              22
+                           20 -11-03
+                              22
+                           20 -11-04
+                              22
+                           20 -11-07
+                              22
+                           20 -11-08
+                              22
+                           20 -11-19
+                              22
+                           20 -11-10
+                              22
+                           20 -11-11
+                              22
+                           20 -11-14
+                              22                                                                        22 -1
+                                                                                                        22 1-02
+                                                                                                          -1
+                                                                                                        22 1-03
+                                                                                                           -1
+                           20 -11-15
+                              22
+                           20 -11-16
+                              22
+                           20 -11-17
+                              22
+                           20 -11-28
+                              22
+                           20 -11-21
+                              22                                                                        22 1-04
+                                                                                                           -1
+                                                                                                        22 1-07
+                                                                                                           -1
+                                                                                                        22 1-08
+                                                                                                           -1
+                                                                                                        22 1-09
+                                                                                                           -1
+                                                                                                        22 1-10
+                                                                                                           -1
+                                                                                                        22 1-11
+                                                                                                           -1
+                                                                                                        22 1-14
+                           20 -11-22
+                              22
+                           20 -11-23
+                              22
+                           20 -11-24
+                              22
+                           20 -11-25
+                              22
+                           20 -11-28
+                              22
+                           20 -11-39
+                                                                                                           -1
+                                                                                                        22 1-15
+                                                                                                           -1
+                                                                                                        22 1-16
+                                                                                                           -1
+                                                                                                        22 1-17
+                                                                                                           -1
+                                                                                                        22 1-18
+                                                                                                           -1
+                                                                                                        22 1-21
+                                                                                                           -1
+                                                                                                        22 1-22
+                                                                                                           -1
+                              22
+                           20 -12-00
+                              22
+                           20 -12-01
+                              22
+                           20 -12-02
+                              22
+                           20 -12-05
+                              22
+                           20 -12-06                                                                    22 1-23
+                                                                                                           -1
+                                                                                                        22 1-24
+                                                                                                           -1
+                                                                                                        22 1-25
+                                                                                                           -1
+                                                                                                        22 1-28
+                                                                                                           -1
+                                                                                                        22 1-29
+                                                                                                           -1
+                                                                                                        22 1-30
+                                                                                                           -1
+                                                                                                        22 2-01
+                              22
+                           20 -12-07
+                              22
+                           20 -12-08
+                              22
+                           20 -12-19
+                              22
+                           20 -12-12
+                              22
+                           20 -12-13
+                              22                                                                           -1
+                                                                                                        22 2-02
+                                                                                                           -1
+                                                                                                        22 2-05
+                                                                                                           -1
+                                                                                                        22 2-06
+                                                                                                           -1
+                                                                                                        22 2-07
+                                                                                                           -1
+                                                                                                        22 2-08
+                                                                                                           -1
+                                                                                                        22 2-09
+                           20 -12-14
+                              22
+                           20 -12-15
+                              22
+                           20 -12-16
+                              22
+                           20 -12-29
+                              22
+                           20 -12-20
+                              22                                                                           -1
+                                                                                                        22 2-12
+                                                                                                           -1
+                                                                                                        22 2-13
+                                                                                                           -1
+                                                                                                        22 2-14
+                                                                                                           -1
+                                                                                                        22 2-15
+                                                                                                           -1
+                                                                                                        22 2-16
+                                                                                                           -1
+                                                                                                        22 2-19
+                                                                                                           -1
+                           20 -12-21
+                              22
+                           20 -12-22
+                              22
+                           20 -12-23
+                              22
+                           20 -12-26
+                              22
+                           20 -12-27
+                              22
+                           20 -12-28
+                                                                                                        22 2-20
+                                                                                                           -1
+                                                                                                        22 2-21
+                                                                                                           -1
+                                                                                                        22 2-22
+                                                                                                           -1
+                                                                                                        22 2-23
+                                                                                                           -1
+                                                                                                        22 2-26
+                                                                                                           -1
+                                                                                                        22 2-27
+                                                                                                           -1
+                                                                                                        22 2-28
+                              22 -12 9
+                                    -30                                                                    -1
+                                                                                                        22 2-29
+                                                                                                           -12 -30
+
+
+
+                           (a) 601818.SH. from CSI100, b/M ratio = high          (b) 600085.SH. from CSI200, b/M ratio = medium.
+                    5.1
+                             Actual Price                                                                 Actual Price
+                             LSTM                                                                 9.5     LSTM
+                             LSTM_Senti                                                                   LSTM_Senti
+                             Bi-LSTM                                                                      Bi-LSTM
+                    5.0      Bi-LSTM_Senti                                                                Bi-LSTM_Senti
+                                                                                                  9.0
+
+
+
+
+   Closing P rice                                                                Closing P rice
+                                                                                                  8.5
+                    4.9
+
+
+
+                                                                                                  8.0
+                    4.8
+
+
+                                                                                                  7.5
+
+
+                    4.7
+                                                                                                  7.0
+
+
+
+                           20 22
+                           20 -11-0
+                              22
+                           20 -11-02
+                              22
+                           20 -11-03
+                              22
+                           20 -11-04
+                              22
+                           20 -11-07                                                                     20 22
+                                                                                                         20 -11-0
+                                                                                                            22
+                                                                                                         20 -11-02
+                                                                                                            22
+                                                                                                         20 -11-03
+                                                                                                            22
+                                                                                                         20 -11-04
+                                                                                                            22
+                                                                                                         20 -11-07
+                              22
+                           20 -11-08
+                              22
+                           20 -11-19
+                              22
+                           20 -11-10
+                              22
+                           20 -11-11
+                              22
+                           20 -11-14
+                              22                                                                            22
+                                                                                                         20 -11-08
+                                                                                                            22
+                                                                                                         20 -11-19
+                                                                                                            22
+                                                                                                         20 -11-10
+                                                                                                            22
+                                                                                                         20 -11-11
+                                                                                                            22
+                                                                                                         20 -11-14
+                                                                                                            22
+                           20 -11-15
+                              22
+                           20 -11-16
+                              22
+                           20 -11-17
+                              22
+                           20 -11-28
+                              22
+                           20 -11-21
+                              22
+                           20 -11-22                                                                     20 -11-15
+                                                                                                            22
+                                                                                                         20 -11-16
+                                                                                                            22
+                                                                                                         20 -11-17
+                                                                                                            22
+                                                                                                         20 -11-28
+                                                                                                            22
+                                                                                                         20 -11-21
+                                                                                                            22
+                                                                                                         20 -11-22
+                              22
+                           20 -11-23
+                              22
+                           20 -11-24
+                              22
+                           20 -11-25
+                              22
+                           20 -11-28
+                              22
+                           20 -11-39
+                              22                                                                            22
+                                                                                                         20 -11-23
+                                                                                                            22
+                                                                                                         20 -11-24
+                                                                                                            22
+                                                                                                         20 -11-25
+                                                                                                            22
+                                                                                                         20 -11-28
+                                                                                                            22
+                                                                                                         20 -11-39
+                                                                                                            22
+                           20 -12-00
+                              22
+                           20 -12-01
+                              22
+                           20 -12-02
+                              22
+                           20 -12-05
+                              22
+                           20 -12-06
+                              22
+                           20 -12-07                                                                     20 -12-00
+                                                                                                            22
+                                                                                                         20 -12-01
+                                                                                                            22
+                                                                                                         20 -12-02
+                                                                                                            22
+                                                                                                         20 -12-05
+                                                                                                            22
+                                                                                                         20 -12-06
+                                                                                                            22
+                                                                                                         20 -12-07
+                              22
+                           20 -12-08
+                              22
+                           20 -12-19
+                              22
+                           20 -12-12
+                              22
+                           20 -12-13
+                              22
+                           20 -12-14
+                              22                                                                            22
+                                                                                                         20 -12-08
+                                                                                                            22
+                                                                                                         20 -12-19
+                                                                                                            22
+                                                                                                         20 -12-12
+                                                                                                            22
+                                                                                                         20 -12-13
+                                                                                                            22
+                                                                                                         20 -12-14
+                                                                                                            22
+                           20 -12-15
+                              22
+                           20 -12-16
+                              22
+                           20 -12-29
+                              22
+                           20 -12-20
+                              22
+                           20 -12-21
+                              22
+                           20 -12-22                                                                     20 -12-15
+                                                                                                            22
+                                                                                                         20 -12-16
+                                                                                                            22
+                                                                                                         20 -12-29
+                                                                                                            22
+                                                                                                         20 -12-20
+                                                                                                            22
+                                                                                                         20 -12-21
+                                                                                                            22
+                                                                                                         20 -12-22
+                              22
+                           20 -12-23
+                              22
+                           20 -12-26
+                              22
+                           20 -12-27
+                              22
+                           20 -12-28
+                              22 -12 9
+                                    -30                                                                     22
+                                                                                                         20 -12-23
+                                                                                                            22
+                                                                                                         20 -12-26
+                                                                                                            22
+                                                                                                         20 -12-27
+                                                                                                            22
+                                                                                                         20 -12-28
+                                                                                                            22 -12 9
+                                                                                                                  -30
+
+
+
+                           (c) 000488.SH. from CSI500, b/M ratio = high                                 (d) 300377.SH. from CSI1000, b/M ratio = low.
+
+
+Figure 2: The actual closing price and the predicted prices across the four model combinations on one
+stock from each stock market index.
+
+
+4.2.                        Experiments on Stock Price                          prediction models accurately forecast the stock
+                            Prediction                                          price trends.
+
+In our experimental setup for forecasting stock
+prices, we merge sentiment scores obtained from                                 Influence of Sentiment Factor Table 3 presents
+sentiment analysis with technical indicators related                            the aggregated performance of stocks from differ-
+to the stock market to predict the closing prices for                           ent market value groups using various models, with
+the following day. This integration approach com-                               the best performance highlighted in bold. Perfor-
+bines qualitative insights from investor sentiment                              mance for individual stock within each market value
+with quantitative stock technical factors, providing                            group are provided in Appendices. It is observed
+a comprehensive view that enhances the accuracy                                 that incorporating sentiment information does not
+of our predictive model for next-day closing prices.                            uniformly enhance prediction accuracy for every
+Same train/test data split are used as that of senti-                           stock. This observation suggests that the effective-
+ment analysis. Two metrics are employed: Mean                                   ness of sentiment data integration varies across
+Absolute Percentage Error (MAPE) and Root Mean                                  different stocks, indicating a nuanced relationship
+Square Error (RMSE) to evaluate the performance.                                between sentiment analysis and stock performance
+Smaller values of these two metrics indicate that the                           forecasting.
+model’s predictions are closer to the actual values.                               Table 4 aggregates the performance metrics
+   For both LSTM and Bi-LSTM, we set the input                                  for all stocks analyzed through various models,
+length to 3, and use 64D-3 layer neural networks.                               highlighting the comparative results. Notably,
+The batch size is 32. Figure 2 demonstrates                                     the Bi-LSTM model, augmented with sentiment
+the performance comparison using different                                      data, demonstrates the best results, achieving a
+methods: 1) LSTM, 2) LSTM with sentiment factor,                                RMSE of 41.1603 and a MAPEof 145.5350. In
+3) Bi-LSTM and 4) Bi-LSTM with sentiment factor,                                contrast, the LSTM model that does not incorporate
+against the actual stock prices for one stock                                   sentiment factors registers the least favorable out-
+(600818.SH, 600085.SH, 000488.SH, 300377.SH)                                    comes, with an RMSE of 41.3073 and a MAPE of
+from each market index. It demonstrates that all                                148.6382. These findings indicate that integrating
+
+                                                                          172
+sentiment information for stock prediction can            and comprehensive information disclosure. High
+generated overall better performance.                     stability and liquidity often manifest as relatively sta-
+                                                          ble technical indicators, favoring predictions from
+                                                          single models. Moreover, comprehensive informa-
+Performance on different Market Value and B/M
+                                                          tion disclosure implies richer information about high
+ratio groups Furthermore, by segmenting the re-
+                                                          market value stocks, making them focal points for in-
+sults according to various market capitalizations
+                                                          vestors’ attention, naturally accompanied by more
+and Book-to-Market (B/M) ratios, we noted marked
+                                                          stock comments. To verify this, We also investi-
+variations in model performance across different
+                                                          gated the relationship between the number of stock
+segments, as detailed in Table 5. Particularly, the
+                                                          reviews and predictive results within different mar-
+CSI 100 group exhibited the best performance,
+                                                          ket value groups. It was observed that in the CSI
+with an RMSE of 24.4222 and a MAPE of 102.4448.
+                                                          100 high market value group, there were the most
+Conversely, the CSI 200 group recorded the high-
+                                                          stock reviews (280,583 records), while in the CSI
+est RMSE at 73.8258, while the CSI 1000 group
+                                                          1000 low market value group, there were the fewest
+had the highest MAPE at 186.7908, indicating that
+                                                          stock reviews (203,526 records). This finding aligns
+the model performs excellently in predicting stocks
+                                                          with the focus of public attention, as stocks with
+with higher market values.
+                                                          higher market values are typically associated with
+   We also conducted an analysis to evaluate the im-
+                                                          larger companies and enjoy greater exposure, thus
+pact of sentiment factor on different Book-to-Market
+                                                          attracting more stock review information.
+(B/M) ratios, with the results detailed in Table 6. The
+                                                             Drawing from the insights garnered in this study,
+findings indicate that stocks categorized within the
+                                                          investors and analysts looking to leverage time se-
+High B/M ratio group exhibited the most accurate
+                                                          ries models for forecasting stock prices in the Chi-
+predictions, with an RMSE around 3.8, showcasing
+                                                          nese market might benefit from focusing on stocks
+their robustness in predictive accuracy. In contrast,
+                                                          characterized by high Book-to-Market (B/M) ratios
+stocks within the Low B/M ratio group displayed the
+                                                          and exceptionally large market values, specifically
+least favorable performance. It also reveals a trend
+                                                          those within the CSI 100 category. These seg-
+where the overall RMSE progressively increases
+                                                          ments have shown to yield more accurate predictive
+as the B/M ratio shifts from High to Low.
+                                                          outcomes. Additionally, for models that incorporate
+                                                          sentiment analysis into the stock price forecast-
+4.3.   Ablation Study                                     ing process, the Bi-Long Short-Term Memory (Bi-
+Influence of B/M ratio To assess the influence            LSTM) model emerges as a more effective option
+of the Book-to-Market (B/M) ratio and the effect of       compared to the Long Short-Term Memory (LSTM)
+integrating sentiment analysis on the models’ over-       model. This recommendation is based on the Bi-
+all efficacy, we embarked on a detailed ablation          LSTM model’s superior performance, especially
+study. Specifically, we investigated the relationship     when analyzing stocks with high B/M ratios, where
+between daily sentiment values and actual closing         the integration of sentiment factors enhances pre-
+prices for stocks grouped by their B/M ratios. For        diction accuracy.
+this purpose, we employed the Pearson correla-
+tion coefficient (Asuero et al., 2006) as our primary         5.    Conclusion and Future Work
+metric. This coefficient is determined by:
+                                                          This study introduces a novel hybrid model for stock
+                            6 d2i
+                              P                           price prediction, alongside the creation of a com-
+                  ρ=1−                            (7)     prehensive Chinese stock sentiment classification
+                          n(n2 − 1)
+                                                          dataset. Experimental results show that the perfor-
+   Table 7 demonstrates the Pearson correlation           mance of machine learning models on stock predic-
+coefficients between sentiment scores and clos-           tion varies on different market index groups , with
+ing prices within different B/M ratio groups. It is       best performance on high market values (CSI 100).
+observed that the highest correlation is observed         It also suggest that the integration of sentiment
+within the high B/M ratio group, suggesting a pro-        analysis into stock price prediction models gener-
+nounced link between sentiment scores and closing         ally leads to improved accuracy, although the extent
+prices in this group. This finding aligns with the su-    of this improvement varies. The impact of incorpo-
+perior performance of our predictive model within         rating sentiment analysis is not uniform across all
+the high B/M ratio group.                                 stocks, with noticeable differences based on mar-
+                                                          ket value and Book-to-Market (B/M) ratio segments
+Influence of market index We noted that the pro-          and different market index groups. Intriguingly, for
+posed model combination performed best in the             some stocks, the addition of sentiment data has
+CSI 100 portfolio, consistent with the characteristics    been observed to diminish predictive performance,
+of large-cap companies, which typically possess           with such effects being especially marked within
+advantages such as high stability, high liquidity,        the low B/M ratio category.
+
+                                                      173
+                                                    LSTM                         Bi-LSTM
+             Market Ind.        eval.
+                                             without   with senti          without    with senti
+                            Total RMSE        6.1054    6.1112              6.1156      6.0800
+               CSI 100
+                            Total MAPE       25.4933    25.5460            25.8655     25.4900
+                            Total RMSE       18.8044    18.2662            18.2409     18.5133
+               CSI 200
+                            Total MAPE       35.8019    35.1904            35.7643     35.9698
+                            Total RMSE        9.5629     9.3874            9.5060       9.4294
+               CSI 500
+                            Total MAPE       39.5894    38.9313            39.3167     39.1492
+                            Total RMSE        7.3246     7.3893             7.3096      7.0375
+              CSI 1000
+                            Total MAPE       48.7534    47.5120            46.1122     44.4132
+
+  Table 3: Aggregated performance for stocks from each market index group using different models.
+
+       Combination  LSTM                 LSTM with senti          Bi-LSTM          Bi-LSTM with senti
+       Total RMSE  41.3073                   41.1638               41.2541              41.1603
+       Total MAPE  148.6382                 147.1796              147.0567              145.5350
+
+          Table 4: The total RMSE and MAPE aggregated by the combined predictive model.
+
+              Market value          CSI 100          CSI 200           CSI 500         CSI 1000
+              Total RMSE            24.4222          73.8258           37.8857          28.0510
+              Total MAPE           102.4448         142.7264          157.9866         186.7908
+
+                      Table 5: Total RMSE and MAPE aggregated by market value.
+
+                                         LSTM                           LSTM with senti
+               B/M
+                        High            Medium      Low            High    Medium       Low
+            Total RMSE 3.8537           13.3996    24.0540        3.8124   12.8506    24.4802
+            Total MAPE 48.2670          43.9803    56.3907       47.2058   43.2707    56.7031
+
+                                        Bi-LSTM                        Bi-LSTM with senti
+               B/M
+                        High            Medium      Low            High     Medium      Low
+            Total RMSE 3.8493           13.4192    23.9037        3.7799    13.1928   24.2056
+            Total MAPE 46.5322          43.4357    57.0888       45.3580    43.9159   56.4611
+
+      Table 6: RMSE and MAPE for different models across different Book-to-Market ratio groups.
+
+
+ B/M ratio        High       Medium        Low             expansion aims to enhance the robustness and
+ Pearson         0.7104      0.4705       0.1259           generalizability of our results, ensuring that our con-
+                                                           clusions hold weight across varying global market
+Table 7: The correlation coefficients between senti-       dynamics.
+ment values and stock closing prices across differ-
+ent B/M ratio groups.
+
+
+                                                                     6.    Acknowledgements
+   This research, while providing valuable insights,
+is subject to certain limitations. The predictive out-
+comes detailed in this study are derived solely from     We would like to acknowledge the support pro-
+the context of the Chinese stock market and have         vided by the XJTLU AI University Research Cen-
+not been tested across diverse market environ-           tre, Jiangsu Province Engineering Research Cen-
+ments. The specific attributes of China’s market,        tre of Data Science and Cognitive Computation
+such as the absence of same-day buying and sell-         at XJTLU and SIP AI innovation platform (No.
+ing (T+0 trading), could potentially skew the appli-     YZCXPT2022103) and is also supported by the
+cability of our findings to other financial contexts.    Research Development Funding (RDF) (No. RDF-
+In our forthcoming efforts, we plan to broaden the       21-02-044) at Xi’an Jiaotong-Liverpool University.
+scope of our investigation by integrating a wider        Additionally, this research has received partial fund-
+array of sentiment analysis methodologies and in-        ing from the Jiangsu Science and Technology Pro-
+cluding additional external market variables. This       gramme (contract number BK20221260).
+
+                                                     174
+     7.   Bibliographical References                      Weiwei Jiang. 2021. Applications of deep learn-
+                                                           ing in stock market prediction: recent progress.
+                                                           Expert Systems with Applications, 184:115537.
+
+Agustin Garcia Asuero, Ana Sayago, and                    Nan Jing, Zhao Wu, and Hefei Wang. 2021. A hy-
+  AG González. 2006. The correlation coefficient:          brid model integrating deep learning with investor
+  An overview. Critical reviews in analytical              sentiment analysis for stock price prediction. Ex-
+  chemistry, 36(1):41–59.                                  pert Systems with Applications, 178:115019.
+
+Yiming Cui, Wanxiang Che, Ting Liu, Bing Qin, and         Yoon Kim. 2014. Convolutional neural networks
+  Ziqing Yang. 2021. Pre-training with whole word           for sentence classification. In Proceedings of
+  masking for chinese bert. IEEE/ACM Transac-               the 2014 Conference on Empirical Methods in
+  tions on Audio, Speech, and Language Process-             Natural Language Processing (EMNLP), pages
+  ing, 29:3504–3514.                                        1746–1751, Doha, Qatar. Association for Com-
+                                                            putational Linguistics.
+Damares CO de Resende, Ádamo Lima de San-
+ tana, and Fábio Manoel França Lobato. 2016.              Jiexi Liu and Songcan Chen. 2019. Non-stationary
+ Time series imputation using genetic program-               multivariate time series prediction with selective
+ ming and lagrange interpolation.        In 2016             recurrent neural networks. In Pacific rim interna-
+ 5th Brazilian conference on intelligent systems             tional conference on artificial intelligence, pages
+ (BRACIS), pages 169–174. IEEE.                              636–649. Springer.
+
+                                                          Yuandong Luan and Shaofu Lin. 2019. Research
+Jacob Devlin, Ming-Wei Chang, Kenton Lee, and
+                                                            on text classification based on cnn and lstm. In
+  Kristina Toutanova. 2019. BERT: Pre-training
+                                                            2019 IEEE international conference on artificial
+  of deep bidirectional transformers for language
+                                                            intelligence and computer applications (ICAICA),
+  understanding. In Proceedings of the 2019 Con-
+                                                            pages 352–355. IEEE.
+  ference of the North American Chapter of the As-
+  sociation for Computational Linguistics: Human          Fabian Pedregosa, Gaël Varoquaux, Alexandre
+  Language Technologies, Volume 1 (Long and                 Gramfort, Vincent Michel, Bertrand Thirion,
+  Short Papers), pages 4171–4186, Minneapolis,              Olivier Grisel, Mathieu Blondel, Peter Pretten-
+  Minnesota. Association for Computational Lin-             hofer, Ron Weiss, Vincent Dubourg, et al. 2011.
+  guistics.                                                 Scikit-learn: Machine learning in python. the
+                                                            Journal of machine Learning research, 12:2825–
+Michael Dewally. 2003. Internet investment advice:
+                                                            2830.
+  Investing with a rock of salt. Financial Analysts
+  Journal, 59(4):65–77.                                   Jeffrey Pontiff and Lawrence D Schall. 1998. Book-
+                                                            to-market ratios as predictors of market returns.
+Joseph L. Fleiss. 1971. Measuring nominal scale             Journal of financial economics, 49(2):141–160.
+  agreement among many raters. Psychological
+  Bulletin, 76(5):378–382.                                Thendo Sidogi, Rendani Mbuvha, and Tshilidzi Mar-
+                                                            wala. 2021. Stock price prediction using senti-
+Alex Graves and Jürgen Schmidhuber. 2005.                   ment analysis. In 2021 IEEE International Confer-
+  Framewise phoneme classification with bidirec-            ence on Systems, Man, and Cybernetics (SMC),
+  tional lstm and other neural network architectures.       pages 46–51. IEEE.
+  Neural networks, 18(5-6):602–610.
+                                                          Justin Sirignano and Rama Cont. 2021. Universal
+Joshua Zoen Git Hiew, Xin Huang, Hao Mou, Duan              features of price formation in financial markets:
+  Li, Qi Wu, and Yabo Xu. 2019. Bert-based finan-           perspectives from deep learning. In Machine
+  cial sentiment index and lstm-based stock return          Learning and AI in Finance, pages 5–15. Rout-
+  predictability. arXiv preprint arXiv:1906.09024.          ledge.
+Sepp Hochreiter and Jürgen Schmidhuber. 1997.             Md Arif Istiake Sunny, Mirza Mohd Shahriar Mas-
+  Long short-term memory. Neural computation,              wood, and Abdullah G Alharbi. 2020. Deep
+  9(8):1735–1780.                                          learning-based stock price prediction using lstm
+                                                           and bi-directional lstm model. In 2020 2nd novel
+Jieyun Huang, Yunjia Zhang, Jialai Zhang, and              intelligent and leading emerging sciences con-
+  Xi Zhang. 2018. A tensor-based sub-mode coor-            ference (NILES), pages 87–92. IEEE.
+  dinate algorithm for stock prediction. In 2018
+  IEEE Third International Conference on Data             Daigo Tashiro, Hiroyasu Matsushima, Kiyoshi
+  Science in Cyberspace (DSC), pages 716–721.              Izumi, and Hiroki Sakaji. 2019. Encoding of high-
+  IEEE.                                                    frequency order information and prediction of
+
+                                                    175
+  short-term stock price by deep learning. Quanti-
+  tative Finance, 19(9):1499–1506.
+
+Ashish Vaswani, Noam Shazeer, Niki Parmar,
+  Jakob Uszkoreit, Llion Jones, Aidan N Gomez,
+  Łukasz Kaiser, and Illia Polosukhin. 2017. Atten-
+  tion is all you need. Advances in neural informa-
+  tion processing systems, 30.
+Qili Wang, Wei Xu, and Han Zheng. 2018. Com-
+  bining the wisdom of crowds and technical anal-
+  ysis for financial market prediction using deep
+  random subspace ensembles. Neurocomputing,
+  299:51–61.
+Huizhe Wu, Wei Zhang, Weiwei Shen, and Jun
+ Wang. 2018. Hybrid deep sequential modeling
+ for social text-driven stock prediction. In Proceed-
+ ings of the 27th ACM international conference on
+ information and knowledge management, pages
+ 1627–1630.
+
+Jiaxing Zhang, Ruyi Gan, Junjie Wang, Yuxiang
+  Zhang, Lin Zhang, Ping Yang, Xinyu Gao, Zi-
+  wei Wu, Xiaoqun Dong, Junqing He, Jianheng
+  Zhuo, Qi Yang, Yongfeng Huang, Xiayu Li, Yang-
+  han Wu, Junyu Lu, Xinyu Zhu, Weifeng Chen,
+  Ting Han, Kunhao Pan, Rui Wang, Hao Wang,
+  Xiaojun Wu, Zhongshen Zeng, and Chongpei
+  Chen. 2022. Fengshenbang 1.0: Being the foun-
+  dation of chinese cognitive intelligence. CoRR,
+  abs/2209.02970.
+Liheng Zhang, Charu Aggarwal, and Guo-Jun Qi.
+  2017. Stock price prediction via discovering multi-
+  frequency trading patterns. In Proceedings of
+  the 23rd ACM SIGKDD international conference
+  on knowledge discovery and data mining, pages
+  2141–2149.
+
+
+                A.    Appendix
+
+
+
+
+                                                    176
+                    LSTM           LSTM with senti         Bi-LSTM         Bi-LSTM with senti
+ Stock ID
+               RMSE    MAPE        RMSE    MAPE        RMSE     MAPE       RMSE     MAPE
+601818.SH      0.0723  2.0003      0.0644  1.7618      0.0717   1.9621     0.0597   1.6164
+601998.SH      0.1733  3.1535      0.2213  3.5069      0.1948   3.4679     0.2287   3.6645
+600999.SH      0.4904  3.0828      0.4966  3.1254      0.5142   3.2260     0.5008   3.1497
+002736.SH      0.3146  2.8587      0.3118  2.8250      0.3113   2.8343     0.3041   2.7722
+600585.SH      3.0708  8.6040      3.0450  8.5696      2.9508   8.3421     2.9175   8.2399
+601336.SH      1.9840  5.7940      1.9721  5.7572      2.0728   6.0331     2.0792   6.0473
+
+        Table 8: RMSE and MAPE of the predicted results for stocks selected in CSI 100.
+
+
+
+                    LSTM           LSTM with senti          Bi-LSTM          Bi-LSTM with senti
+ Stock ID
+               RMSE    MAPE        RMSE    MAPE         RMSE     MAPE        RMSE     MAPE
+000783.SH      0.2051  3.0481      0.2018  3.0007       0.2098   3.1069      0.1990   2.9555
+600741.SH      1.7092  7.5582      1.6745  7.3673       1.7176   7.5955      1.7031   7.5349
+600085.SH      3.5355  5.8289      3.4708  5.7213       3.4208   5.4714      3.3259   5.6429
+601021.SH      3.2210  5.0601      2.8503  4.5878       3.4136   5.3472      3.3309   5.2134
+300144.SH      0.9565  6.2332      0.9268  6.0339       0.9763   6.3349      0.9507   6.1798
+300033.SH      8.6771  8.0734      9.1420  8.4794       8.5029   7.9084      9.0037   8.4033
+
+        Table 9: RMSE and MAPE of the predicted results for stocks selected in CSI 200.
+
+
+
+                    LSTM           LSTM with senti          Bi-LSTM          Bi-LSTM with senti
+ Stock ID
+               RMSE    MAPE        RMSE    MAPE         RMSE     MAPE        RMSE     MAPE
+000488.SH      0.3031  4.9292      0.2988  4.8500       0.2899   4.7048      0.2989   4.8091
+600657.SH      0.7743 12.3015      0.7668 12.1422       0.7774 12.3377       0.7628 12.0320
+000685.SH      0.4096  4.8377      0.4098  4.8191       0.4163   4.8653      0.4263   5.0726
+300244.SH      1.7188  4.6935      1.6800  4.5999       1.7034   4.6744      1.7232   4.6904
+603355.SH      1.8167  4.4031      1.7429  4.2319       1.8246   4.4261      1.7819   4.3314
+600259.SH      4.5404  8.4244      4.4691  8.2882       4.4944   8.3084      4.4364   8.2137
+
+       Table 10: RMSE and MAPE of the predicted results for stocks selected in CSI 500.
+
+
+
+                    LSTM           LSTM with senti          Bi-LSTM          Bi-LSTM with senti
+ Stock ID
+               RMSE    MAPE        RMSE    MAPE         RMSE     MAPE        RMSE     MAPE
+000797.SH      0.4968 10.7736      0.4784 10.4666       0.4758   9.0313      0.4157   8.6981
+601588.SH      0.1196  4.5026      0.1064  4.1103       0.1123   4.3260      0.1040   3.8075
+002138.SH      3.4924 12.1558      3.4245 11.9604       3.4415 12.0183       3.3665 11.7765
+002542.SH      0.2173  5.4628      0.2274  5.6318       0.1981   4.9988      0.2051   5.0834
+603989.SH      2.1708  6.5909      2.3174  7.0524       2.1710   6.6277      2.2018   6.6794
+300377.SH      0.8377  8.2677      0.8352  8.2905       0.9109   9.1081      0.8344   8.3663
+
+       Table 11: RMSE and MAPE of the predicted results for stocks selected in CSI 1000.
+
+
+
+                                  LSTM                             Bi-LSTM
+            B/M
+                    High         Medium       Low        High      Medium        Low
+        Total RMSE 7.7366        26.2708    48.5342     7.6661     26.6120     48.1093
+        Total MAPE 95.4728       87.2510    113.0938    91.8902    87.3516     113.5499
+
+Table 12: Total RMSE and MAPE for different models across different Book-to-Market ratio groups.
+
+
+                                              177
+

@@ -1,0 +1,13 @@
+﻿File_Name,Role,Editable,Initial_Rows,Notes
+B2_study_index_PHASEA_READONLY_51.csv,Immutable Phase A reference,NO,485,Read only; 51 original columns; never change
+B2_field_decisions_INITIAL_UNCODED_21825.csv,Study-field initial workflow slots,YES,21825,Do not copy historical Phase A codes into new Phase B decisions
+B2_approved_field_dictionary_45.csv,B1 author-ratified field thresholds,NO,45,Read only; check YES/EXPLICIT_NO/N/A threshold per field
+B2_PhaseA_51_column_mapping.csv,Exact Phase A source mapping,NO,51,Read only
+B2_experiment_index.csv,Empty schema for future evidence collection,YES,0,"Use verified primary source assertions, not handover claims"
+B2_evidence_assertions.csv,Empty schema for future evidence collection,YES,0,"Use verified primary source assertions, not handover claims"
+B2_source_registry.csv,Empty schema for future evidence collection,YES,0,"Use verified primary source assertions, not handover claims"
+B2_negative_search_log.csv,Empty schema for future evidence collection,YES,0,"Use verified primary source assertions, not handover claims"
+B2_change_manifest.csv,Empty schema for future evidence collection,YES,0,"Use verified primary source assertions, not handover claims"
+B2_unresolved.csv,Empty schema for future evidence collection,YES,0,"Use verified primary source assertions, not handover claims"
+B2_protocol_amendments.csv,Empty schema for future evidence collection,YES,0,"Use verified primary source assertions, not handover claims"
+B2_study_level_derived_summaries.csv,Empty schema for future evidence collection,YES,0,"Use verified primary source assertions, not handover claims"

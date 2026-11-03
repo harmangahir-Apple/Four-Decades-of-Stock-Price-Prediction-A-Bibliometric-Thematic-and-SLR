@@ -1,0 +1,54 @@
+\begin{landscape}
+\begin{table}[!p]
+\centering
+\caption{Method-family profile of evidence-supported reliability practices in the \(493\)-study technical-synthesis subset.}
+\label{tab:family-reliability}
+
+\footnotesize
+\setlength{\tabcolsep}{3.2pt}
+\renewcommand{\arraystretch}{1.14}
+
+\begin{tabularx}{\linewidth}{
+@{}
+>{\RaggedRight\arraybackslash}p{3.4cm}
+>{\centering\arraybackslash}p{1.0cm}
+*{6}{>{\centering\arraybackslash}X}
+@{}
+}
+\toprule
+\textbf{Method family} & \textbf{Studies} & \textbf{Temporally ordered} & \textbf{Training-only preprocessing} & \textbf{Explicit high leakage risk} & \textbf{Economic evaluation} & \textbf{Formal statistical testing} & \textbf{Code available} \\
+\midrule
+Deep-learning models & 117 & 11 (9.4\%) & 3 (2.6\%) & 5 (4.3\%) & 5 (4.3\%) & 7 (6.0\%) & 1 (0.9\%) \\
+Hybrid deep-learning models & 110 & 13 (11.8\%) & 3 (2.7\%) & 8 (7.3\%) & 10 (9.1\%) & 13 (11.8\%) & 2 (1.8\%) \\
+Sentiment/NLP-driven models & 81 & 15 (18.5\%) & 6 (7.4\%) & 5 (6.2\%) & 7 (8.6\%) & 7 (8.6\%) & 0 \\
+Transformer/attention-based models & 68 & 18 (26.5\%) & 5 (7.4\%) & 5 (7.4\%) & 8 (11.8\%) & 7 (10.3\%) & 3 (4.4\%) \\
+Metaheuristic-optimized models & 51 & 8 (15.7\%) & 2 (3.9\%) & 2 (3.9\%) & 2 (3.9\%) & 5 (9.8\%) & 0 \\
+Ensemble/tree-based machine learning & 34 & 8 (23.5\%) & 0 & 4 (11.8\%) & 2 (5.9\%) & 5 (14.7\%) & 1 (2.9\%) \\
+Graph-based models & 16 & 4 (25.0\%) & 2 (12.5\%) & 1 (6.2\%) & 2 (12.5\%) & 3 (18.8\%) & 0 \\
+Multimodal-fusion models & 13 & 0 & 0 & 1 (7.7\%) & 2 (15.4\%) & 1 (7.7\%) & 0 \\
+ANN/neuro-fuzzy/other & 3 & 1 (33.3\%) & 0 & 0 & 0 & 0 & 0 \\
+\midrule
+\textbf{Total} & 493 & 78 (15.8\%) & 21 (4.3\%) & 31 (6.3\%) & 38 (7.7\%) & 48 (9.7\%) & 7 (1.4\%) \\
+\bottomrule
+\end{tabularx}
+
+\vspace{1.5mm}
+\begin{minipage}{\linewidth}
+\footnotesize
+\textit{Notes.}
+Values are \(n\) (row percentage), except in the total row, where percentages use all \(493\) studies as the denominator.
+
+Temporally ordered validation comprises chronological holdout, walk-forward, rolling-window, expanding-window, and blocked temporal cross-validation.
+
+Training-only preprocessing was counted only when the preprocessing boundary was explicitly classified as \texttt{Training\_Only} in the reconciled audit.
+
+Explicit high leakage risk denotes studies classified as \texttt{High} in the final study-level leakage-risk assessment. It is not the complement of low leakage risk because most studies retained an \texttt{Unclear} classification.
+
+The indicators are not mutually exclusive. A study may contribute to more than one reliability column.
+
+Zero indicates that no study in the corresponding method family had the practice explicitly established in the available evidence; it should not be interpreted as definitive proof that the practice was absent.
+
+The ANN/neuro-fuzzy/other group contains three studies and should not be compared directly with larger method families.
+\end{minipage}
+\end{table}
+\end{landscape}

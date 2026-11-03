@@ -1,0 +1,9 @@
+﻿Paper_ID,Category,Final_Supplement_Value,Legacy_Modality_Value,Action
+P00057,Financial_News_Text,No,1,Investigate evidence scope and adjudication; no automatic category override
+P00909,Historical_Market_Data,Yes,0,Investigate evidence scope and adjudication; no automatic category override
+P00909,Technical_Indicators,Yes,0,Investigate evidence scope and adjudication; no automatic category override
+P00909,Social_Media_Public_Opinion,No,1,Investigate evidence scope and adjudication; no automatic category override
+P00909,Relational_Cross_Market,No,1,Investigate evidence scope and adjudication; no automatic category override
+P03446,Fundamental_Accounting,Yes,0,Investigate evidence scope and adjudication; no automatic category override
+P03446,Macroeconomic_Systemic,Yes,0,Investigate evidence scope and adjudication; no automatic category override
+P03446,Relational_Cross_Market,Yes,0,Investigate evidence scope and adjudication; no automatic category override

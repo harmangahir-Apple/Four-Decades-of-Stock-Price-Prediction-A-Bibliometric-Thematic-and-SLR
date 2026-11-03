@@ -1,0 +1,13 @@
+Case_ID,Field_ID,Evidence_Scope,Synthetic_Scenario,Direct_Yes,Direct_No,Ambiguous,Task_NA,Task_NA_Reason,Fulltext_Search_Complete,Negative_Search_Log,Critical_Material_Missing,Primary_Material_Leak_Verified,Primary_All_Paths_Protected,Secondary_Material_Leak_Verified,Repository_Link_Reported,Repository_Artifact_Verified,Guard_Reject_Nominal_Ordinal
+CAL01,ST01,Full_Text,"Published full-text methods report a named formal hypothesis test, test statistic, and p-value linked to compared forecasting methods.",1,0,0,0,,0,,0,0,0,0,0,0,0
+CAL02,EC02,Full_Text,Full text explicitly states simulated trades assumed zero transaction fees.,0,1,0,0,,0,,0,0,0,0,0,0,0
+CAL03,ST01,Full_Text,Accessible full text and linked available supplementary methods searched for statistical tests; none documented.,0,0,0,0,,1,Methods; Results; Statistical appendix; publisher supplement; term-search log recorded (synthetic),0,0,0,0,0,0,0
+CAL04,TV02,Full_Text,Methods say the evaluation was chronological while experiment description describes shuffled samples; temporal ordering cannot be resolved.,0,0,1,0,,0,,0,0,0,0,0,0,0
+CAL05,PL01,Full_Text,Preprocessing timing is specified only in a cited appendix that could not be retrieved; accessible main paper does not resolve the field.,0,0,0,0,,1,Main paper and repository searched; cited appendix inaccessible (synthetic),1,0,0,0,0,0,0
+CAL06,ST01,Abstract_Only,"Abstract explicitly names a paired performance test, reports p-value and identifies the forecasting-model comparison.",1,0,0,0,,0,,0,0,0,0,0,0,0
+CAL07,TV02,Abstract_Only,Only abstract accessible; it reports an 80/20 split but does not establish chronological order.,0,0,0,0,,0,,0,0,0,0,0,0,0
+CAL08,EC01,Metadata_Only,"Only title, year and DOI available; no source evidence of trading/economic evaluation.",0,0,0,0,,0,,0,0,0,0,0,0,0
+CAL09,EC02,Full_Text,Study only predicts numerical prices and explicitly performs no trading or decision backtest: transaction-cost criterion is inapplicable.,0,0,0,1,No trading or decision backtest is included in the stated experimental task.,1,Methods and experiments checked (synthetic),0,0,0,0,0,0,0
+CAL10,PL11,Full_Text,"Primary forecasting experiment shows positive safeguards on all applicable material pathways, but a separate secondary experiment has verified leakage.",0,0,0,0,,0,,0,0,1,1,0,0,0
+CAL11,RP01,Full_Text,"Paper reports a code repository URL, but archive and repository cannot be accessed on verification date; no authenticated code obtained.",0,0,0,0,,0,,1,0,0,0,1,0,0
+CAL12,PL11,Full_Text,Attempt to aggregate ordinal leakage-risk judgment into the generic YES/NO four-column publication crosswalk must be rejected.,0,0,0,0,,0,,0,0,0,0,0,0,1

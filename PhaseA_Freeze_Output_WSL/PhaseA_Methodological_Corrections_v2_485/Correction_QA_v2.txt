@@ -1,0 +1,26 @@
+PHASE A — CONSOLIDATED METHODOLOGICAL CORRECTION v2
+Original eligibility corpus: 485
+Applied field corrections: 27
+Held field proposals: 17
+Unchanged verified values: 2
+Canonical source modified: No
+Eligibility-only register modified: No
+Cross-draft P00826 conflict: mapped draft prioritized
+Statistical/econometric taxonomy: PROVISIONAL
+P00425 comparative family: PROVISIONAL
+P00401 technical-indicator uncertainty: HELD
+Other unresolved identity cases: NOT CLOSED
+Final corpus freeze: NOT DECLARED
+
+METHOD-FAMILY DISTRIBUTION
+ANN/neuro-fuzzy models: 1
+Deep-learning models: 115
+Ensemble/tree-based machine learning: 33
+Graph-based models: 16
+Hybrid deep-learning models: 109
+Metaheuristic-optimized models: 51
+Multimodal-fusion models: 12
+Other/unclear: 2
+Sentiment/NLP-driven models: 77
+Statistical/econometric models: 1
+Transformer/attention-based models: 68

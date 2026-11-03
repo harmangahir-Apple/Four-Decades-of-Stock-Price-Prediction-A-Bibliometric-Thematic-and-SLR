@@ -1,0 +1,35 @@
+# SHA-256 authenticated, all ribbons reconstructed from frozen study rows.
+STAGE1_LINKS = {
+    ('Cross Market', 'Horizon not reported'): 8,
+    ('Cross Market', 'Multiple horizons'): 1,
+    ('Cross Market', 'Single reported horizon'): 3,
+    ('Multiple Indices', 'Horizon not reported'): 8,
+    ('Multiple Indices', 'Multiple horizons'): 2,
+    ('Multiple Indices', 'Single reported horizon'): 9,
+    ('Multiple Stocks', 'Horizon not reported'): 84,
+    ('Multiple Stocks', 'Multiple horizons'): 22,
+    ('Multiple Stocks', 'Single reported horizon'): 47,
+    ('Not Reported', 'Horizon not reported'): 106,
+    ('Not Reported', 'Multiple horizons'): 8,
+    ('Not Reported', 'Single reported horizon'): 21,
+    ('Portfolio', 'Horizon not reported'): 1,
+    ('Single Stock', 'Horizon not reported'): 68,
+    ('Single Stock', 'Multiple horizons'): 7,
+    ('Single Stock', 'Single reported horizon'): 28,
+    ('Stock Index', 'Horizon not reported'): 42,
+    ('Stock Index', 'Multiple horizons'): 4,
+    ('Stock Index', 'Single reported horizon'): 16,
+}
+
+STAGE2_LINKS = {
+    ('Horizon not reported', 'Economic only'): 21,
+    ('Horizon not reported', 'Neither established'): 287,
+    ('Horizon not reported', 'Robustness only'): 9,
+    ('Multiple horizons', 'Economic only'): 6,
+    ('Multiple horizons', 'Neither established'): 34,
+    ('Multiple horizons', 'Robustness only'): 4,
+    ('Single reported horizon', 'Economic + robustness'): 1,
+    ('Single reported horizon', 'Economic only'): 9,
+    ('Single reported horizon', 'Neither established'): 108,
+    ('Single reported horizon', 'Robustness only'): 6,
+}

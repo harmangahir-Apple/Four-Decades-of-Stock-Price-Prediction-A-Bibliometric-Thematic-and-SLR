@@ -1,0 +1,26 @@
+PHASE A TECHNICAL CORPUS — DATASET RELEASE QA
+Established Target_Primary=Not_Reported category activated (previous frequency 0)
+Author-approved study denominator: 485 of 492; seven exclusions
+v1-v4 hashes: PASS; source workbook unchanged: PASS
+27+9 prior amendment operations validated; v4 net differences: 35
+Additional source-sensitive repair operations: 15
+Final net changes from eligibility-only baseline: 50
+Known mismatched original PDFs: P00663/P00841 (not treated as correct full texts)
+Both corresponding publication abstracts authenticated; Evidence_Scope=Abstract_Only
+Methodological positive claims without matching full text reset to uncertainty where supported
+Technical_Indicators is binary and does not encode uncertainty; limitations ledger supplied
+Primary_Metric: 485/485 genuinely blank in compiled workbook
+v4 audit Not_Reported tokens are PLACEHOLDERS, not specified metrics
+Target/Formulation/Primary-Metric Sankey: omitted from release
+Raw_Evaluation_Metrics not treated as coded primary metrics
+Missing DOIs in compiled workbook do not invalidate canonical record identities
+All category distributions and figure source cross-tabs re-derived from frozen records
+Current source data/earlier versions preserved as immutable audit trail
+Manuscript text and rendered figures still require synchronization
+Legacy register/source evidence must not be re-used as full-text evidence after identity flags
+Dataset release QA status: PASS
+
+Evidence scopes:
+Abstract_Only: 85
+Full_Text: 375
+Metadata_Only: 25

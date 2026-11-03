@@ -1,0 +1,14 @@
+﻿Study_ID,Field,Existing_Value,Proposed_Value,Disposition,Source_Status,Evidence_Location,Source_SHA256,Applied
+P00401,Evidence_Scope,Abstract_Only,Full_Text,READY_PENDING_BATCH_APPLICATION,SOURCE_VERIFIED,PDF pp.1-7,c61fbead7506f6609c064ae53bdb4e7e66f142a284ecd3b6f30d545c63788080,No
+P00401,Principal_Method_Family,Deep-learning models,Hybrid deep-learning models,HOLD_FOR_ADJUDICATION,SOURCE_VERIFIED_PROPOSED,PDF pp.5-6,c61fbead7506f6609c064ae53bdb4e7e66f142a284ecd3b6f30d545c63788080,No
+P00401,Forecast_Horizon,Not_Reported,Not_Reported,HOLD_FOR_ADJUDICATION,HOLD: next-day target and 30-day outputs; evaluation lead not established,PDF p.6,c61fbead7506f6609c064ae53bdb4e7e66f142a284ecd3b6f30d545c63788080,No
+P00401,Asset_Scope,Multiple_Stocks,Not_Reported,HOLD_FOR_ADJUDICATION,PROPOSED: evaluated asset universe unspecified,PDF pp.4-6,c61fbead7506f6609c064ae53bdb4e7e66f142a284ecd3b6f30d545c63788080,No
+P00401,Market_Country,"HDFC Bank and ICICI Bank; National Stock Exchange (NSE), India",Not stated (experimental market/country unreported),HOLD_FOR_ADJUDICATION,SOURCE_VERIFIED_PROPOSED,PDF pp.4-6,c61fbead7506f6609c064ae53bdb4e7e66f142a284ecd3b6f30d545c63788080,No
+P00401,Dataset_Source,"HDFC Bank and ICICI Bank; National Stock Exchange (NSE), India",Yahoo Finance via yfinance; evaluated tickers unspecified,READY_PENDING_BATCH_APPLICATION,SOURCE_VERIFIED_PROPOSED,PDF p.6,c61fbead7506f6609c064ae53bdb4e7e66f142a284ecd3b6f30d545c63788080,No
+P00401,Sampling_Frequency,Not_Reported,Daily,HOLD_FOR_ADJUDICATION,SOURCE_VERIFIED_PROPOSED,PDF p.6,c61fbead7506f6609c064ae53bdb4e7e66f142a284ecd3b6f30d545c63788080,No
+P00401,Raw_Input_Features,Not stated,Historical closing prices; 60-day input windows; technical indicators mentioned but implementation not demonstrated,HOLD_FOR_ADJUDICATION,SOURCE_SUPPORTED_WITH_LIMITATIONS,"PDF pp.4,6",c61fbead7506f6609c064ae53bdb4e7e66f142a284ecd3b6f30d545c63788080,No
+P00401,Technical_Indicators,No,Unclear,HOLD_FOR_ADJUDICATION,HOLD: stated as inputs; actual use not demonstrated,"PDF pp.4,6",c61fbead7506f6609c064ae53bdb4e7e66f142a284ecd3b6f30d545c63788080,No
+P00401,Chronological_Split,Unclear,Unclear,PRESERVE_UNCHANGED,RETAIN: ordering not demonstrated,PDF p.6,c61fbead7506f6609c064ae53bdb4e7e66f142a284ecd3b6f30d545c63788080,No
+P00401,Preprocessing_Boundary,Unclear,Unclear,PRESERVE_UNCHANGED,RETAIN: training-only scaler fitting not established,PDF p.6,c61fbead7506f6609c064ae53bdb4e7e66f142a284ecd3b6f30d545c63788080,No
+P00401,Evidence_Location,Abstract_Only; page/section: Abstract,"Full_Text; SCITEPRESS publication 139424, pp.1-7; DOI 10.5220/0013942400004919",READY_PENDING_BATCH_APPLICATION,SOURCE_VERIFIED_PROPOSED,PDF pp.1-7,c61fbead7506f6609c064ae53bdb4e7e66f142a284ecd3b6f30d545c63788080,No
+P00401,Manual_Review_Required,No,Yes,READY_PENDING_BATCH_APPLICATION,SOURCE_VERIFIED_PROPOSED,PDF pp.4-6,c61fbead7506f6609c064ae53bdb4e7e66f142a284ecd3b6f30d545c63788080,No
